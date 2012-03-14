@@ -3,6 +3,7 @@ package com.xebialabs.deployit.plugins.tests;
 import com.xebialabs.deployit.plugin.api.boot.PluginBooter;
 import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
 import com.xebialabs.deployit.plugin.api.deployment.planning.DeploymentPlanningContext;
+import com.xebialabs.deployit.plugin.api.deployment.planning.ReadOnlyRepository;
 import com.xebialabs.deployit.plugin.api.udm.*;
 import org.junit.BeforeClass;
 
@@ -90,5 +91,10 @@ public abstract class TestBase {
         public DeployedApplication getDeployedApplication() {
             throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
+
+	    @Override
+	    public ReadOnlyRepository getRepository() {
+		    throw new UnsupportedOperationException("TODO Auto-generated method stub");
+	    }
     }
 }

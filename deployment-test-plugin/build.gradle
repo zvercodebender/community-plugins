@@ -1,75 +1,21 @@
 commonBuildPath = hasProperty("localCommonBuildRepo") ? file(localCommonBuildRepo).toURL().toString() : 'https://github.com/xebialabs/deployit-common-build/raw/master'
+
 apply from: "$commonBuildPath/repositories.gradle"
 apply from: "$commonBuildPath/plugin-build.gradle"
 
-repositories {
-	org.apache.ivy.util.url.CredentialsStore.INSTANCE.addCredentials("Sonatype Nexus Repository Manager", nexusHost, nexusUserName, nexusPassword);
-}
+version = '3.7.0-beta-2-SNAPSHOT'
 
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'eclipse'
-
-group = 'com.xebialabs.deployit.plugins'
-version = '3.6.0'
-apiVersion = '3.6.0'
-
-sourceCompatibility = 1.6
-sourceEncoding = 'UTF-8'
 
 dependencies {
-  compile deps.overthere
-  compile "com.xebialabs.deployit:udm-plugin-api:$apiVersion"
-  compile "com.xebialabs.deployit.plugins:generic-plugin:$apiVersion"
-  compile "com.xebialabs.deployit.plugins:overthere-plugin:$apiVersion"
-  compile deps.commons_httpclient
-  compile deps.guava
-  compile 'org.freemarker:freemarker:2.3.18'
-    
-  runtime "com.xebialabs.deployit:doc-generator:$apiVersion"
-  testCompile 'junit:junit:4.8.2'
-  testCompile 'com.xebialabs.deployit:udm-test-support:$apiVersion'
-  testCompile 'ch.qos.logback:logback-classic:0.9.24'
+	compile deps.deployit_jee_plugin
+	compile deps.deployit_generic_plugin
+	compile deps.deployit_remoting_plugin
+	compile deps.overthere
+	compile deps.commons_httpclient
+
+	testCompile deps.commons_io
+	testCompile deps.commons_lang
+
 }
 
-afterEvaluate { eachProject ->
-  Set testTasks = eachProject.tasks.withType(Test).all
-  
-  testTasks.each { testTask ->
-    testTask.onlyIf { !project.hasProperty('skipTests') }
-    testTask.afterSuite { descriptor, result ->
-      if (descriptor.className != null) {
-        println "${descriptor.className}: ${result.testCount} tests; failed: ${result.failedTestCount}; skipped: ${result.skippedTestCount}"
-      } else if (descriptor.className == null && descriptor.parent == null) {
-        println "Total: ${result.testCount} tests; failed: ${result.failedTestCount}; skipped: ${result.skippedTestCount}"
-      }
-    }
-  }
-}
 
-task generatePom << {
-  pom {
-    project { 
-      build { 
-        plugins {
-          plugin {
-            artifactId 'maven-compiler-plugin'
-            version '2.3'
-            configuration {
-              encoding = sourceEncoding 
-              source = "${sourceCompatibility}".toString()
-              target = "${sourceCompatibility}".toString()
-            }
-          }
-          plugin {
-            artifactId 'maven-resources-plugin'
-            version '2.3'
-            configuration {
-              encoding = sourceEncoding
-            }
-          }
-        }
-      }
-    }
-  }.writeTo('pom.xml')
-}
