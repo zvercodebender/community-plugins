@@ -121,8 +121,7 @@ public class ApacheWeblogicTest {
 		final DeployedApplication deployedApplication = TestUtils.createDeployedApplication(deploymentPackageOne, environment);
 
 
-		DeltaSpecification spec = new DeltaSpecificationBuilder().initial(deployedApplication.getVersion(), deployedApplication.getEnvironment()).create(deployed)
-				.build();
+		DeltaSpecification spec = new DeltaSpecificationBuilder().initial(deployedApplication).create(deployed).build();
 		Plan resolvedPlan = tester.resolvePlan(spec);
 		List<DeploymentStep> resolvedSteps = resolvedPlan.getSteps();
 		assertThat(resolvedSteps.size(), is(3));
