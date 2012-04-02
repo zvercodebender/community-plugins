@@ -23,7 +23,8 @@ public class CheckAndCreateLockStep implements DeploymentStep {
 	@Override
 	public Result execute(DeploymentExecutionContext context) throws Exception {
 		Result executionResult = Result.Success;
-		configureLockCleaner(context, cisToBeLocked);
+        //TODO: Cleanup locks can only be implemented when pre-flight and post-flight is supported.
+		//configureLockCleaner(context, cisToBeLocked);
 		for (ConfigurationItem each : cisToBeLocked) {
 			String targetType = (each instanceof Environment) ? "Environment " : "Container ";
 			if (LockFileHelper.isLocked(each)) {
