@@ -60,11 +60,8 @@ public class Manager extends BaseContainer {
 					}
 				}
 				
-				ctx.logOutput("\n");
-				ctx.logOutput("Note: this control task is expected to fail.");
-				
 				// Needed so the logging is shown in the GUI
-				return Result.Fail;
+				return Result.Success;
 			}
 		};
 		
