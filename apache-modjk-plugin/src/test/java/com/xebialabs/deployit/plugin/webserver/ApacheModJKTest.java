@@ -135,7 +135,7 @@ public class ApacheModJKTest {
 
 
 		DeltaSpecification spec = new DeltaSpecificationBuilder()
-				.initial(deployedApplication.getVersion(), deployedApplication.getEnvironment())
+				.initial(deployedApplication)
 				.create(workerSettting)
 				.create(modjkSettting)
 				.create(modjkVHSettting)

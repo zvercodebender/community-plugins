@@ -10,17 +10,33 @@ sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
 repositories {
-	mavenLocal()
-	if (!rootProject.hasProperty('offline')) {
-		mavenRepo urls: "${nexusBaseUrl}/groups/public/"
-		mavenRepo urls: "${nexusBaseUrl}/repositories/thirdparty/"
-		mavenRepo urls: "${nexusBaseUrl}/repositories/hidden-thirdparty/"
-		mavenRepo urls: "${nexusBaseUrl}/repositories/snapshots"
-		mavenRepo urls: "${nexusBaseUrl}/repositories/releases"
-		org.apache.ivy.util.url.CredentialsStore.INSTANCE.addCredentials("Sonatype Nexus Repository Manager", nexusHost, nexusUserName, nexusPassword);
-		mavenCentral()
-		mavenRepo urls: 'https://oss.sonatype.org/service/local/repositories/nljavadude-593/content/'
-	}
+    if (!rootProject.hasProperty('offline')) {
+        maven {
+            url "${nexusBaseUrl}/groups/public"
+        }
+        maven {
+            credentials {
+                username nexusUserName
+                password nexusPassword
+            }
+            url "${nexusBaseUrl}/repositories/releases"
+        }
+        maven {
+            credentials {
+                username nexusUserName
+                password nexusPassword
+            }
+            url "${nexusBaseUrl}/repositories/thirdparty"
+        }
+        maven {
+            credentials {
+                username nexusUserName
+                password nexusPassword
+            }
+            url "${nexusBaseUrl}/repositories/hidden-thirdparty"
+        }
+        mavenCentral()
+    }
 }
 
 configurations {
@@ -29,20 +45,20 @@ configurations {
 	}
 }
 
-version = '3.7-SNAPSHOT'
-apiVersion = '3.6.0'
+version = '3.7.0'
+apiVersion = '3.7.0'
 
 dependencies {
 	compile "com.xebialabs.deployit:udm-plugin-api:$apiVersion"
 	compile "com.google.guava:guava:10.0.1"
 
 	testCompile 'junit:junit:4.8.2'
-	testCompile "com.xebialabs.deployit:udm-test-support:${apiVersion}"
+	testCompile "com.xebialabs.deployit:udm-test-support:$apiVersion"
 	testCompile 'ch.qos.logback:logback-classic:0.9.24'
-	testCompile 'com.xebialabs.deployit.plugins:webserver-plugin:3.6.0'
-	testCompile 'com.xebialabs.deployit.plugins:overthere-plugin:3.6.0'
-	testCompile "com.xebialabs.overthere:overthere:1.0.11"
-	testCompile 'com.xebialabs.deployit.plugins:jbossas-plugin:3.6.0'
+	testCompile "com.xebialabs.deployit.plugins:webserver-plugin:${apiVersion}"
+	testCompile "com.xebialabs.deployit.plugins:remoting-plugin:${apiVersion}"
+    testCompile "com.xebialabs.deployit.plugins:jbossas-plugin:${apiVersion}"
+	testCompile "com.xebialabs.overthere:overthere:2.0.0-beta-3"
 	testCompile 'org.jmock:jmock-junit4:2.5.1'
 }
 
