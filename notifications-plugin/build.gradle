@@ -4,8 +4,8 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 
 group = 'com.xebialabs.deployit.community'
-apiVersion = '3.6.0'
-version = "${apiVersion}_3-SNAPSHOT"
+apiVersion = '3.7.0'
+version = "${apiVersion}_1"
 
 sourceCompatibility = 1.6
 sourceEncoding = 'UTF-8'
@@ -22,9 +22,13 @@ repositories {
 	mavenLocal()
 	if (!rootProject.hasProperty('offline')) {
 		mavenCentral()
-		mavenRepo urls: "${nexusBaseUrl}/repositories/snapshots"
-		mavenRepo urls: "${nexusBaseUrl}/repositories/releases"
-		org.apache.ivy.util.url.CredentialsStore.INSTANCE.addCredentials("Sonatype Nexus Repository Manager", nexusHost, nexusUserName, nexusPassword);
+		maven {
+			credentials {
+				username nexusUserName
+				password nexusPassword
+			}
+			url "${nexusBaseUrl}/repositories/releases"
+		}
 	}
 }
 
@@ -43,7 +47,7 @@ artifacts {
 }
 
 afterEvaluate { eachProject ->
-  Set testTasks = eachProject.tasks.withType(Test).all
+  Set testTasks = eachProject.tasks.withType(Test)
   
   testTasks.each { testTask ->
     testTask.onlyIf { !project.hasProperty('skipTests') }

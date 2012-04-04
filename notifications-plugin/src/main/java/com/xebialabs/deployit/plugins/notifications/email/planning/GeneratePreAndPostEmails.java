@@ -38,6 +38,7 @@ import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
 import com.xebialabs.deployit.plugin.api.deployment.planning.DeploymentPlanningContext;
 import com.xebialabs.deployit.plugin.api.deployment.planning.PostPlanProcessor;
 import com.xebialabs.deployit.plugin.api.deployment.planning.PrePlanProcessor;
+import com.xebialabs.deployit.plugin.api.deployment.planning.ReadOnlyRepository;
 import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecification;
 import com.xebialabs.deployit.plugin.api.reflect.Type;
 import com.xebialabs.deployit.plugin.api.udm.Container;
@@ -126,10 +127,15 @@ public class GeneratePreAndPostEmails {
             throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
 
-		@Override
-		public DeployedApplication getDeployedApplication() {
-			throw new UnsupportedOperationException("TODO Auto-generated method stub");
-		}
+        @Override
+	public DeployedApplication getDeployedApplication() {
+                throw new UnsupportedOperationException("TODO Auto-generated method stub");
+        }
+
+        @Override
+        public ReadOnlyRepository getRepository() {
+                throw new UnsupportedOperationException("TODO Auto-generated method stub");
+        }
         
     }
 }

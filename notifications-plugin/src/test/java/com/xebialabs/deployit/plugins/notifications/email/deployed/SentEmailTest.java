@@ -35,6 +35,7 @@ import org.junit.Test;
 
 import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
 import com.xebialabs.deployit.plugin.api.deployment.planning.DeploymentPlanningContext;
+import com.xebialabs.deployit.plugin.api.deployment.planning.ReadOnlyRepository;
 import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
 import com.xebialabs.deployit.plugins.notifications.email.TestBase;
 import com.xebialabs.deployit.plugins.notifications.email.step.EmailSendStep;
@@ -120,5 +121,11 @@ public class SentEmailTest extends TestBase {
 		public DeployedApplication getDeployedApplication() {
 			throw new UnsupportedOperationException("TODO Auto-generated method stub");
 		}
+
+		@Override
+		public ReadOnlyRepository getRepository() {
+			throw new UnsupportedOperationException("TODO Auto-generated method stub");
+		}
+
     }
 }

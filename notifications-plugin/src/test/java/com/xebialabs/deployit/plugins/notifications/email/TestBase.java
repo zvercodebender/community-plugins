@@ -20,6 +20,7 @@
  */
 package com.xebialabs.deployit.plugins.notifications.email;
 
+import static com.xebialabs.deployit.test.support.TestUtils.createDeployedApplication;
 import static com.xebialabs.deployit.test.support.TestUtils.createDeploymentPackage;
 import static com.xebialabs.deployit.test.support.TestUtils.createEnvironment;
 import static com.xebialabs.deployit.test.support.TestUtils.newInstance;
@@ -46,7 +47,7 @@ public abstract class TestBase {
     protected static DeltaSpecificationBuilder newDeltaSpec(Environment env,
             Deployed<?, ?>... newDeployeds) {
         DeltaSpecificationBuilder builder = DeltaSpecificationBuilder.newSpecification();
-        builder.initial(createDeploymentPackage(), env);
+        builder.initial(createDeployedApplication(createDeploymentPackage(), env));
         for (Deployed<?, ?> newDeployed : newDeployeds) {
             builder.create(newDeployed);
         }
