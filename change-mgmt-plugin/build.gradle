@@ -1,20 +1,36 @@
 apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'maven'
 
 group = 'com.xebialabs.deployit.community'
-apiVersion = '3.6.0'
-version = "${apiVersion}_1"
+apiVersion = '3.7.0'
+version = "${apiVersion}-1-SNAPSHOT"
 
 sourceCompatibility = 1.6
 sourceEncoding = 'UTF-8'
 
 dependencies {
-  compile "${group}:release-auth-plugin:${apiVersion}_1"
+  compile "${group}:release-auth-plugin:${apiVersion}-1"
   compile "com.xebialabs.deployit.plugins:generic-plugin:${apiVersion}"
   testCompile 'junit:junit:4.8.2'
   testCompile "com.xebialabs.deployit:udm-test-support:${apiVersion}"
   testCompile "com.xebialabs.deployit:yak-plugin:${apiVersion}"
   testCompile 'ch.qos.logback:logback-classic:0.9.24'
+}
+
+repositories {
+  mavenLocal()
+  if (!rootProject.hasProperty('offline')) {
+    mavenCentral()
+    maven {
+      credentials {
+        username nexusUserName
+        password nexusPassword
+      }
+      url "${nexusBaseUrl}/repositories/releases"
+    }
+  }
 }
 
 task sourcesJar(type: Jar) {
@@ -32,7 +48,7 @@ artifacts {
 }
 
 afterEvaluate { eachProject ->
-  Set testTasks = eachProject.tasks.withType(Test).all
+  Set testTasks = eachProject.tasks.withType(Test)
   
   testTasks.each { testTask ->
     testTask.onlyIf { !project.hasProperty('skipTests') }

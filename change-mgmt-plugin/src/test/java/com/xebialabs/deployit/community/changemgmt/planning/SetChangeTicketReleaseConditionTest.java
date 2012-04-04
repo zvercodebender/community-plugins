@@ -39,7 +39,6 @@ import org.junit.Test;
 
 import com.xebialabs.deployit.community.changemgmt.OverrideTestSynthetics;
 import com.xebialabs.deployit.community.changemgmt.deployed.ChangeTicket;
-import com.xebialabs.deployit.community.changemgmt.planning.SetChangeTicketReleaseCondition;
 import com.xebialabs.deployit.deployment.planner.DeltaSpecificationBuilder;
 import com.xebialabs.deployit.plugin.api.boot.PluginBooter;
 import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecification;
@@ -54,7 +53,7 @@ import com.xebialabs.deployit.test.support.TestUtils;
  */
 public class SetChangeTicketReleaseConditionTest {
     private static String changeTicketReleaseCondition;
-    
+
     @Rule
     public OverrideTestSynthetics syntheticOverride = new OverrideTestSynthetics("src/test/resources");
     
@@ -147,7 +146,7 @@ public class SetChangeTicketReleaseConditionTest {
     private static DeltaSpecificationBuilder newDeltaSpec(Environment env,
             Deployed<?, ?>... newDeployeds) {
         DeltaSpecificationBuilder deltaSpec = 
-            newSpecification().initial(createDeploymentPackage(), env);
+            newSpecification().initial(createDeployedApplication(createDeploymentPackage(), env));
         deltaSpec.create((Deployed<?, ?>) newInstance("yak.DeployedYakFile"));
         for (Deployed<?, ?> newDeployed : newDeployeds) {
             deltaSpec.create(newDeployed);
