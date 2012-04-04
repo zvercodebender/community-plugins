@@ -22,6 +22,7 @@ package com.xebialabs.deployit.community.releaseauth.planning;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static com.xebialabs.deployit.deployment.planner.DeltaSpecificationBuilder.newSpecification;
+import static com.xebialabs.deployit.test.support.TestUtils.createDeployedApplication;
 import static com.xebialabs.deployit.test.support.TestUtils.createDeploymentPackage;
 import static com.xebialabs.deployit.test.support.TestUtils.createEnvironment;
 import static com.xebialabs.deployit.test.support.TestUtils.newInstance;
@@ -35,7 +36,6 @@ import java.util.List;
 import org.junit.Test;
 
 import com.xebialabs.deployit.community.releaseauth.TestBase;
-import com.xebialabs.deployit.community.releaseauth.planning.CheckReleaseConditionsAreMet;
 import com.xebialabs.deployit.community.releaseauth.step.CheckReleaseConditionsStep;
 import com.xebialabs.deployit.deployment.planner.DeltaSpecificationBuilder;
 import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
@@ -111,7 +111,7 @@ public class CheckReleaseConditionsAreMetTest extends TestBase {
     private static DeltaSpecificationBuilder newDeltaSpec(Environment env,
             Deployed<?, ?>... newDeployeds) {
         DeltaSpecificationBuilder deltaSpec = 
-            newSpecification().initial(createDeploymentPackage(), env);
+            newSpecification().initial(createDeployedApplication(createDeploymentPackage(), env));
         for (Deployed<?, ?> newDeployed : newDeployeds) {
             deltaSpec.create(newDeployed);
         }

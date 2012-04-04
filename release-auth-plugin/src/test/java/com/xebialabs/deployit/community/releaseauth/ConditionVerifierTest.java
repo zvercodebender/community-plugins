@@ -12,7 +12,6 @@ import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableSet;
-import com.xebialabs.deployit.community.releaseauth.ConditionVerifier;
 import com.xebialabs.deployit.community.releaseauth.ConditionVerifier.VerificationResult;
 import com.xebialabs.deployit.community.releaseauth.ConditionVerifier.ViolatedCondition;
 import com.xebialabs.deployit.plugin.api.udm.Version;
@@ -93,7 +92,7 @@ public class ConditionVerifierTest extends TestBase {
 		assertThat(violatedCondition.name, is("signingOffManager"));
 		assertThat(violatedCondition.expectedValue, Is.<Object>is("non-empty value"));
 		// 'getProperty' returns Java's default value for that type
-		assertThat(violatedCondition.actualValue, is(nullValue()));
+		assertThat(violatedCondition.actualValue, Is.<Object>is(""));
 	}
 	
 	@Test
