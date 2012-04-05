@@ -44,4 +44,4 @@ determine the manifest attributes that should be read to determine the name (res
 Examples
 --------
 
-See https://github.com/demobox/jee-archive-importer/blob/master/src/test/resources/jee-archive-importer.properties for examples.
+See https://github.com/xebialabs/community-plugins/blob/master/importers/jee-archive-importer/src/test/resources/jee-archive-importer.properties for examples.
