@@ -15,7 +15,10 @@ dependencies {
 	compile "com.xebialabs.deployit:server-plugin-api:$apiVersion"
 	compile "com.xebialabs.deployit:server-core:$apiVersion"
 
-	compile "com.xebialabs.deployit.community:plain-archive-converter:$version"
+	// cli is not available when running in the server
+	compile("com.xebialabs.deployit.community:plain-archive-converter:$version") {
+	  exclude group: 'com.xebialabs.deployit', module: 'cli'
+	}
 	compile "com.google.guava:guava:10.0.1"
 
 	testCompile 'junit:junit:4.8.2'
