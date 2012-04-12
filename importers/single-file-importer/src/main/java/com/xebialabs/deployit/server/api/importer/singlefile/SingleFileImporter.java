@@ -71,7 +71,8 @@ public abstract class SingleFileImporter implements ListableImporter {
         ImmutableList<String> supportedFiles = copyOf(directory.list(new FilenameFilter() {
                     @Override
                     public boolean accept(File dir, String name) {
-                        return isSupportedFile(new File(dir, name));
+                        File file = new File(dir, name);
+                        return file.isFile() && isSupportedFile(file);
                     }
                 }));
         LOGGER.debug("Found supported files in package directory: {}", supportedFiles);
