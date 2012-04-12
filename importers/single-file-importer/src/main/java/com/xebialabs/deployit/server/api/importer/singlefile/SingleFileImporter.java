@@ -21,21 +21,27 @@
 package com.xebialabs.deployit.server.api.importer.singlefile;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.collect.ImmutableList.copyOf;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Lists.newArrayList;
 import static com.xebialabs.deployit.plugin.api.reflect.DescriptorRegistry.getDescriptor;
 import static com.xebialabs.deployit.server.api.importer.singlefile.io.Dirs.listRecursively;
+import static java.lang.Boolean.parseBoolean;
 import static java.lang.String.format;
+import static java.util.Collections.sort;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 import com.xebialabs.deployit.plugin.api.reflect.Type;
 import com.xebialabs.deployit.plugin.api.udm.Deployable;
 import com.xebialabs.deployit.plugin.api.udm.base.BaseDeployableFileArtifact;
@@ -47,6 +53,7 @@ import com.xebialabs.deployit.server.api.importer.ListableImporter;
 import com.xebialabs.deployit.server.api.importer.PackageInfo;
 import com.xebialabs.deployit.server.api.importer.singlefile.base.NameAndVersion;
 import com.xebialabs.deployit.server.api.importer.singlefile.base.NameAndVersion.NameVersionParser;
+import com.xebialabs.deployit.server.api.importer.singlefile.config.PrefixStripper;
 import com.xebialabs.overthere.local.LocalFile;
 
 public abstract class SingleFileImporter implements ListableImporter {
@@ -55,28 +62,56 @@ public abstract class SingleFileImporter implements ListableImporter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SingleFileImporter.class);
     
+    private static final String CONFIG_FILE_NAME = "single-file-importer.properties";
+    private static final String CONFIG_PROPERTY_PREFIX = "single-file-importer.";
+    private static final String SCAN_SUBDIRECTORIES_PROPERTY = "scanSubdirectories";
+    private static final Map<String, String> CONFIG;
+
+    static {
+        Properties configProperties = new Properties();
+        try {
+            configProperties.load(checkNotNull(Thread.currentThread().getContextClassLoader()
+                    .getResourceAsStream(CONFIG_FILE_NAME), CONFIG_FILE_NAME));
+        } catch (Exception exception) {
+            LOGGER.error(format("Unable to load configuration file '%s' from classpath", 
+                    CONFIG_FILE_NAME), exception);
+        }
+        CONFIG = new PrefixStripper(CONFIG_PROPERTY_PREFIX)
+                 .apply(Maps.fromProperties(configProperties));
+    }
+
     protected final Type type;
+    private final boolean scanSubdirectories;
     
     protected SingleFileImporter(Type type) {
+        this(type, parseBoolean(CONFIG.get(SCAN_SUBDIRECTORIES_PROPERTY))); 
+    }
+
+    @VisibleForTesting
+    protected SingleFileImporter(Type type, boolean scanSubdirectories) {
         checkArgument(isBaseDeployableFileType(type), "'%s' must be a subtype of %s", 
                 type, BaseDeployableFileArtifact.class);
-        this.type = type; 
+        this.type = type;
+        this.scanSubdirectories = scanSubdirectories;
     }
-    
+
     private static boolean isBaseDeployableFileType(Type type) {
         return Predicates.subtypeOf(Type.valueOf(BaseDeployableFileArtifact.class)).apply(type);
     }
     
     @Override
     public List<String> list(File directory) {
-        ImmutableList<String> supportedFiles = copyOf(listRecursively(directory, 
-                new FilenameFilter() {
+        FilenameFilter supportedFileFilter = new FilenameFilter() {
                     @Override
                     public boolean accept(File dir, String name) {
                         File file = new File(dir, name);
                         return file.isFile() && isSupportedFile(file);
                     }
-                }));
+                };
+        List<String> supportedFiles = 
+            scanSubdirectories ? listRecursively(directory, supportedFileFilter)
+                               : newArrayList(directory.list(supportedFileFilter));
+        sort(supportedFiles);
         LOGGER.debug("Found supported files in package directory: {}", supportedFiles);
         return supportedFiles;
     }

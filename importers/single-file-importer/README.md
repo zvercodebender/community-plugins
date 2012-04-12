@@ -8,6 +8,8 @@ Installation
 
 Place the 'single-file-importer-<version>.jar' file into your SERVER_HOME/lib directory. 
 
+The configuration file 'single-file-importer.properties' should be created/placed in SERVER_HOME/conf.
+
 Examples
 ========
 

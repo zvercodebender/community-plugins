@@ -63,8 +63,8 @@ public class SingleFileImporterTest {
     
     private static class FilesWithVeImporter extends SingleFileImporter {
 
-        private FilesWithVeImporter() {
-            super(Type.valueOf(Ear.class));
+        private FilesWithVeImporter(boolean scanSubdirectories) {
+            super(Type.valueOf(Ear.class), scanSubdirectories);
         }
 
         @Override
@@ -76,7 +76,7 @@ public class SingleFileImporterTest {
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
     
-    private final SingleFileImporter importer = new FilesWithVeImporter();
+    private final SingleFileImporter importer = new FilesWithVeImporter(true);
     private FileSource earSource;
     
     @BeforeClass
@@ -88,15 +88,21 @@ public class SingleFileImporterTest {
     public void populateImportDir() throws IOException {
         earSource = new FileSource(tempFolder.newFile("name-version.ear"));
         tempFolder.newFile("name.war");
-        new File(tempFolder.newFolder("subfolder"), "name-version2.ear").createNewFile();
+        new File(tempFolder.newFolder("child"), "name-version2.ear").createNewFile();
     }
     
     @Test
     public void listsSupportedFiles() {
-        assertEquals(ImmutableList.of("name-version.ear", "subfolder/name-version2.ear"), 
+        assertEquals(ImmutableList.of("child/name-version2.ear", "name-version.ear"), 
                 importer.list(tempFolder.getRoot()));
     }
-    
+
+    @Test
+    public void scansOnlyRootDirectoryIfRequested() {
+        assertEquals(ImmutableList.of("name-version.ear"), 
+                new FilesWithVeImporter(false).list(tempFolder.getRoot()));
+    }
+
     @Test
     public void handlesSupportedFiles() {
         assertTrue(format("Expected importer to handle '%s'", earSource.file),
