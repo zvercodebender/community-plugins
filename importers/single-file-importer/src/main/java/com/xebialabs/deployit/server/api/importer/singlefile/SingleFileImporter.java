@@ -126,7 +126,7 @@ public abstract class SingleFileImporter implements ListableImporter {
         File importedFile = importedPackage.getPackageInfo().getSource().getFile();
         BaseDeployableFileArtifact fileArtifact = 
             getDescriptor(getDeployableType(importedFile)).newInstance();
-        fileArtifact.setId(format("%s/%s", importedPackage.getDeploymentPackage().getId(),
+        fileArtifact.setId(format("%s/%s", importedPackage.getVersion().getId(),
                 importedPackage.getApplication().getName()));
         fileArtifact.setFile(LocalFile.valueOf(importedFile));
         LOGGER.debug("Created file artifact with ID '{}'", fileArtifact.getId());
