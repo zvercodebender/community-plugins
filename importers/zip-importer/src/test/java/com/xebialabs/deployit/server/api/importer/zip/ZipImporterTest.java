@@ -24,11 +24,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -44,33 +44,39 @@ import com.xebialabs.deployit.service.importer.source.UrlSource;
  * Unit tests for the {@link ZipImporter}
  */
 public class ZipImporterTest {
-    public static final String PLAIN_ARCHIVE = "src/test/resources/plain-archive.zip";
   
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
-  
+
+    private final ZipImporter importer = new ZipImporter();
+    private FileSource zipSource;
+    private FileSource darSource;
+
+    @Before
+    public void populateImportDir() throws IOException {
+        zipSource = new FileSource(tempFolder.newFile("plain-archive.zip"), false);
+        darSource = new FileSource(tempFolder.newFile("myApp.dar"), false);
+    }
+
     @Test
     public void listsZips() {
         assertEquals(ImmutableList.of("plain-archive.zip"), 
-                new ZipImporter().list(new File("src/test/resources")));
+                importer.list(tempFolder.getRoot()));
     }
-    
+
     @Test
     public void handlesZips() {
-        assertTrue("Expected ZIPs to be handled", 
-                new ZipImporter().canHandle(new FileSource(PLAIN_ARCHIVE, false)));
+        assertTrue("Expected ZIPs to be handled", importer.canHandle(zipSource));
     }
     
     @Test
     public void ignoresDars() throws IOException {
-        assertFalse("Expected DARs to be ignored", 
-                new ZipImporter().canHandle(new FileSource(tempFolder.newFile("myApp.dar"), true)));
+        assertFalse("Expected DARs to be ignored", importer.canHandle(darSource));
     }
     
     @Test
     public void extractsAppNameAndVersionFromFilename() {
-        VersionedFilename nameAndVersion = 
-            ZipImporter.getNameAndVersion(new FileSource(PLAIN_ARCHIVE, false));
+        VersionedFilename nameAndVersion = ZipImporter.getNameAndVersion(zipSource);
         assertEquals("plain", nameAndVersion.name);
         assertEquals("archive", nameAndVersion.version);
     }
