@@ -8,8 +8,6 @@ Installation
 
 Place the 'jee-archive-importer-<version>.jar' file into your SERVER_HOME/lib directory. 
 
-If you are running a version of the Deployit server that does not yet address [DEPLOYITPB-2635](http://tech.xebialabs.com/jira/browse/DEPLOYITPB-2635), you will also need to copy the hotfix-DEPLOYITPB-2635-1.0.jar to your SERVER_HOME/hotfix directory. Create the JAR by running 'gradle build' from this project's 'hotfix-DEPLOYITPB-2635' directory.
-
 The configuration file 'jee-archive-importer.properties' should be created/placed in SERVER_HOME/conf.
 
 Configuration
