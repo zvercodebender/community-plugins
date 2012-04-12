@@ -59,8 +59,6 @@ public class ZipImporter extends ManifestBasedDarImporter {
     public static final String ZIP_EXTENSION = "zip";
     
     private static final PlainArchiveConverter CONVERTER = new PlainArchiveConverter(null);
-    // make configurable?
-    private static final String DEFAULT_APP_VERSION = "1.0";
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ZipImporter.class);
 
@@ -82,18 +80,20 @@ public class ZipImporter extends ManifestBasedDarImporter {
     }
 
     private final boolean scanSubdirectories;
+    private final String defaultAppVersion;
     
     public ZipImporter() {
         this(new ConfigParser(CONFIG)); 
     }
     
     private ZipImporter(ConfigParser configParser) {
-        this(configParser.subdirectoryScanningEnabled);
+        this(configParser.subdirectoryScanningEnabled, configParser.defaultAppVersion);
     }
 
     @VisibleForTesting
-    ZipImporter(boolean scanSubdirectories) {
+    ZipImporter(boolean scanSubdirectories, String defaultAppVersion) {
         this.scanSubdirectories = scanSubdirectories;
+        this.defaultAppVersion = defaultAppVersion;
     }
 
     @Override
@@ -135,7 +135,7 @@ public class ZipImporter extends ManifestBasedDarImporter {
         String sourceFilename = getBaseName((source instanceof UrlSource)
                  ? getLocationAsUri((UrlSource) source).toString()
                  : source.getFile().getName());
-        return VersionedFilename.from(sourceFilename, DEFAULT_APP_VERSION);
+        return VersionedFilename.from(sourceFilename, defaultAppVersion);
     }
 
     @Override

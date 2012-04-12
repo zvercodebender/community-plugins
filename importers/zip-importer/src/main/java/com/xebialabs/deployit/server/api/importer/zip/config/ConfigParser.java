@@ -20,6 +20,7 @@
  */
 package com.xebialabs.deployit.server.api.importer.zip.config;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.Boolean.parseBoolean;
 
 import java.util.Map;
@@ -28,10 +29,13 @@ import javax.annotation.Nonnull;
 
 public class ConfigParser {
     private static final String SCAN_SUBDIRECTORIES_PROPERTY = "scanSubdirectories";
+    private static final String DEFAULT_APP_VERSION_PROPERTY = "defaultAppVersion";
 
     public final boolean subdirectoryScanningEnabled;
+    public final String defaultAppVersion;
     
     public ConfigParser(@Nonnull Map<String, String> config) {
         subdirectoryScanningEnabled = parseBoolean(config.get(SCAN_SUBDIRECTORIES_PROPERTY));
+        defaultAppVersion = checkNotNull(config.get(DEFAULT_APP_VERSION_PROPERTY), DEFAULT_APP_VERSION_PROPERTY);
     }
 }

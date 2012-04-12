@@ -69,7 +69,7 @@ public class ZipImporterTest {
     @Test
     public void scansOnlyRootDirectoryIfRequested() {
         assertEquals(ImmutableList.of("plain-archive.zip"), 
-                new ZipImporter(false).list(tempFolder.getRoot()));
+                new ZipImporter(false, "1.0").list(tempFolder.getRoot()));
     }
 
     @Test
@@ -95,5 +95,13 @@ public class ZipImporterTest {
                 new UrlSource(new URL("http://localhost/hosted-plain-archive.zip")));
         assertEquals("hosted-plain", nameAndVersion.name);
         assertEquals("archive", nameAndVersion.version);
+    }
+
+    @Test
+    public void usesSuppliedDefaultAppVersion() throws MalformedURLException {
+        VersionedFilename nameAndVersion = new ZipImporter(true, "1.3").getNameAndVersion(
+                new UrlSource(new URL("http://localhost/archive.zip")));
+        assertEquals("archive", nameAndVersion.name);
+        assertEquals("1.3", nameAndVersion.version);
     }
 }
