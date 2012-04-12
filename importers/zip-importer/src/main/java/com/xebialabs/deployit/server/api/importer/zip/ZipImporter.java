@@ -20,22 +20,27 @@
  */
 package com.xebialabs.deployit.server.api.importer.zip;
 
-import static com.google.common.collect.ImmutableList.copyOf;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Lists.newArrayList;
 import static com.xebialabs.deployit.server.api.importer.util.UrlSources.getLocationAsUri;
+import static com.xebialabs.deployit.server.api.importer.zip.io.Dirs.listRecursively;
 import static com.xebialabs.deployit.server.api.importer.zip.io.Zips.isZip;
 import static java.lang.String.format;
+import static java.util.Collections.sort;
 import static org.apache.commons.io.FilenameUtils.getBaseName;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
 import com.xebialabs.deployit.cli.ext.plainarchive.PlainArchiveConverter;
 import com.xebialabs.deployit.cli.ext.plainarchive.io.Filenames.VersionedFilename;
 import com.xebialabs.deployit.exception.RuntimeIOException;
@@ -43,6 +48,8 @@ import com.xebialabs.deployit.server.api.importer.ImportSource;
 import com.xebialabs.deployit.server.api.importer.ImportedPackage;
 import com.xebialabs.deployit.server.api.importer.ImportingContext;
 import com.xebialabs.deployit.server.api.importer.PackageInfo;
+import com.xebialabs.deployit.server.api.importer.zip.config.ConfigParser;
+import com.xebialabs.deployit.server.api.importer.zip.config.PrefixStripper;
 import com.xebialabs.deployit.service.importer.ManifestBasedDarImporter;
 import com.xebialabs.deployit.service.importer.source.FileSource;
 import com.xebialabs.deployit.service.importer.source.UrlSource;
@@ -57,14 +64,50 @@ public class ZipImporter extends ManifestBasedDarImporter {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ZipImporter.class);
 
+    private static final String CONFIG_FILE_NAME = "zip-importer.properties";
+    private static final String CONFIG_PROPERTY_PREFIX = "zip-importer.";
+    private static final Map<String, String> CONFIG;
+
+    static {
+        Properties configProperties = new Properties();
+        try {
+            configProperties.load(checkNotNull(Thread.currentThread().getContextClassLoader()
+                    .getResourceAsStream(CONFIG_FILE_NAME), CONFIG_FILE_NAME));
+        } catch (Exception exception) {
+            LOGGER.error(format("Unable to load configuration file '%s' from classpath", 
+                    CONFIG_FILE_NAME), exception);
+        }
+        CONFIG = new PrefixStripper(CONFIG_PROPERTY_PREFIX)
+                 .apply(Maps.fromProperties(configProperties));
+    }
+
+    private final boolean scanSubdirectories;
+    
+    public ZipImporter() {
+        this(new ConfigParser(CONFIG)); 
+    }
+    
+    private ZipImporter(ConfigParser configParser) {
+        this(configParser.subdirectoryScanningEnabled);
+    }
+
+    @VisibleForTesting
+    ZipImporter(boolean scanSubdirectories) {
+        this.scanSubdirectories = scanSubdirectories;
+    }
+
     @Override
     public List<String> list(File directory) {
-        ImmutableList<String> zipFiles = copyOf(directory.list(new FilenameFilter() {
+        FilenameFilter zipFileFilter = new FilenameFilter() {
                     @Override
                     public boolean accept(File dir, String name) {
                         return isZip(name);
                     }
-                }));
+                };
+        List<String> zipFiles = 
+            scanSubdirectories ? listRecursively(directory, zipFileFilter)
+                               : newArrayList(directory.list(zipFileFilter));
+        sort(zipFiles);
         LOGGER.debug("Found ZIP files in package directory: {}", zipFiles);
         return zipFiles;
     }
@@ -88,7 +131,7 @@ public class ZipImporter extends ManifestBasedDarImporter {
     }
     
     @VisibleForTesting
-    protected static VersionedFilename getNameAndVersion(ImportSource source) {
+    protected VersionedFilename getNameAndVersion(ImportSource source) {
         String sourceFilename = getBaseName((source instanceof UrlSource)
                  ? getLocationAsUri((UrlSource) source).toString()
                  : source.getFile().getName());

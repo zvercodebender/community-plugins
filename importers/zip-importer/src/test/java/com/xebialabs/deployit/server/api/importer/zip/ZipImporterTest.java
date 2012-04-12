@@ -24,6 +24,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -56,12 +57,19 @@ public class ZipImporterTest {
     public void populateImportDir() throws IOException {
         zipSource = new FileSource(tempFolder.newFile("plain-archive.zip"), false);
         darSource = new FileSource(tempFolder.newFile("myApp.dar"), false);
+        new File(tempFolder.newFolder("child"), "plain-archive2.zip").createNewFile();
     }
 
     @Test
     public void listsZips() {
-        assertEquals(ImmutableList.of("plain-archive.zip"), 
+        assertEquals(ImmutableList.of("child/plain-archive2.zip", "plain-archive.zip"), 
                 importer.list(tempFolder.getRoot()));
+    }
+
+    @Test
+    public void scansOnlyRootDirectoryIfRequested() {
+        assertEquals(ImmutableList.of("plain-archive.zip"), 
+                new ZipImporter(false).list(tempFolder.getRoot()));
     }
 
     @Test
@@ -76,17 +84,16 @@ public class ZipImporterTest {
     
     @Test
     public void extractsAppNameAndVersionFromFilename() {
-        VersionedFilename nameAndVersion = ZipImporter.getNameAndVersion(zipSource);
+        VersionedFilename nameAndVersion = importer.getNameAndVersion(zipSource);
         assertEquals("plain", nameAndVersion.name);
         assertEquals("archive", nameAndVersion.version);
     }
     
     @Test
     public void extractsAppNameAndVersionFromUri() throws MalformedURLException {
-        VersionedFilename nameAndVersion = ZipImporter.getNameAndVersion(
+        VersionedFilename nameAndVersion = importer.getNameAndVersion(
                 new UrlSource(new URL("http://localhost/hosted-plain-archive.zip")));
         assertEquals("hosted-plain", nameAndVersion.name);
         assertEquals("archive", nameAndVersion.version);
     }
-
 }
