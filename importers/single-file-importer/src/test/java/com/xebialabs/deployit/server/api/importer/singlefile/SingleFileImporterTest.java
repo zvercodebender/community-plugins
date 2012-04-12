@@ -88,11 +88,12 @@ public class SingleFileImporterTest {
     public void populateImportDir() throws IOException {
         earSource = new FileSource(tempFolder.newFile("name-version.ear"));
         tempFolder.newFile("name.war");
+        new File(tempFolder.newFolder("subfolder"), "name-version2.ear").createNewFile();
     }
     
     @Test
     public void listsSupportedFiles() {
-        assertEquals(ImmutableList.of("name-version.ear"), 
+        assertEquals(ImmutableList.of("name-version.ear", "subfolder/name-version2.ear"), 
                 importer.list(tempFolder.getRoot()));
     }
     

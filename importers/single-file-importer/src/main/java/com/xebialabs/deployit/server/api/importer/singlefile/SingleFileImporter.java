@@ -23,6 +23,7 @@ package com.xebialabs.deployit.server.api.importer.singlefile;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.copyOf;
 import static com.xebialabs.deployit.plugin.api.reflect.DescriptorRegistry.getDescriptor;
+import static com.xebialabs.deployit.server.api.importer.singlefile.io.Dirs.listRecursively;
 import static java.lang.String.format;
 
 import java.io.File;
@@ -68,7 +69,8 @@ public abstract class SingleFileImporter implements ListableImporter {
     
     @Override
     public List<String> list(File directory) {
-        ImmutableList<String> supportedFiles = copyOf(directory.list(new FilenameFilter() {
+        ImmutableList<String> supportedFiles = copyOf(listRecursively(directory, 
+                new FilenameFilter() {
                     @Override
                     public boolean accept(File dir, String name) {
                         File file = new File(dir, name);
