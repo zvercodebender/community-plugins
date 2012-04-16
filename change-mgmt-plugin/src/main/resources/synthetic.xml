@@ -23,8 +23,8 @@
         deployable-type="chg.ChangeRequest" container-type="chg.ChangeManager" />
     
     <type type="chg.ChangeManager" extends="generic.Container" description="A Change Management system">
-        <!-- The name of the calculated release condition to use for change ticket validation.
-          Should be hidden and not match the name of any visible release condition administered by users -->
-        <property name="changeTicketReleaseConditionName" hidden="true" default="requiresChangeTicket" />
+        <!-- The suffix of the calculated checklist item to use for change ticket validation.
+          Should be hidden and not match the name of any visible deployment checklist item administered by users -->
+        <property name="changeTicketChecklistItemSuffix" default="ChangeTicket" />
     </type>
 </synthetic>

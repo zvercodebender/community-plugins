@@ -11,7 +11,7 @@ sourceCompatibility = 1.6
 sourceEncoding = 'UTF-8'
 
 dependencies {
-  compile "${group}:release-auth-plugin:${apiVersion}-1"
+  compile "com.xebialabs.deployit.plugins:deployment-checklist-plugin:${apiVersion}"
   compile "com.xebialabs.deployit.plugins:generic-plugin:${apiVersion}"
   testCompile 'junit:junit:4.8.2'
   testCompile "com.xebialabs.deployit:udm-test-support:${apiVersion}"

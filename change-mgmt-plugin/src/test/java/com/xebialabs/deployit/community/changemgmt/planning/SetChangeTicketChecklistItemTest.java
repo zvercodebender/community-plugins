@@ -1,28 +1,6 @@
-/*
- * @(#)CheckRequiredChangeRequestsTest.java     26 Aug 2011
- *
- * Copyright © 2010 Andrew Phillips.
- *
- * ====================================================================
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ====================================================================
- */
 package com.xebialabs.deployit.community.changemgmt.planning;
 
-import static com.google.common.collect.Sets.newHashSet;
-import static com.xebialabs.deployit.community.changemgmt.planning.SetChangeTicketReleaseCondition.CHANGE_TICKET_CONDITION_NAME_PROPERTY;
-import static com.xebialabs.deployit.community.releaseauth.planning.CheckReleaseConditionsAreMet.ENV_RELEASE_CONDITIONS_PROPERTY;
+import static com.xebialabs.deployit.community.changemgmt.planning.SetChangeTicketChecklistItem.CHANGE_TICKET_CHECKLIST_ITEM_NAME_PROPERTY;
 import static com.xebialabs.deployit.deployment.planner.DeltaSpecificationBuilder.newSpecification;
 import static com.xebialabs.deployit.test.support.TestUtils.createDeployedApplication;
 import static com.xebialabs.deployit.test.support.TestUtils.createDeploymentPackage;
@@ -30,6 +8,7 @@ import static com.xebialabs.deployit.test.support.TestUtils.createEnvironment;
 import static com.xebialabs.deployit.test.support.TestUtils.newInstance;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static java.lang.String.format;
 import static org.junit.Assert.assertThat;
 
 import org.hamcrest.core.Is;
@@ -49,100 +28,100 @@ import com.xebialabs.deployit.plugin.test.yak.ci.YakServer;
 import com.xebialabs.deployit.test.support.TestUtils;
 
 /**
- * Unit tests for {@link SetChangeTicketReleaseCondition}
+ * Unit tests for {@link SetChangeTicketChecklistItem}
  */
-public class SetChangeTicketReleaseConditionTest {
-    private static String changeTicketReleaseCondition;
+public class SetChangeTicketChecklistItemTest {
+    private static String changeTicketChecklistItemSuffix;
 
     @Rule
     public OverrideTestSynthetics syntheticOverride = new OverrideTestSynthetics("src/test/resources");
-    
+
     @Before
     public void boot() {
         PluginBooter.bootWithoutGlobalContext();
-        changeTicketReleaseCondition = TestUtils.<Container>newInstance("chg.ChangeManager")
-            .getProperty(CHANGE_TICKET_CONDITION_NAME_PROPERTY);
-    }
-    
-    @Test(expected = IllegalStateException.class)
-    public void failsIfReleaseConditionIsNotDefined() {
-        Environment env = newEnvironment();
-        env.setProperty(ENV_RELEASE_CONDITIONS_PROPERTY, newHashSet(changeTicketReleaseCondition));
-        SetChangeTicketReleaseCondition.setReleaseCondition(newDeltaSpec(env).build());
+        changeTicketChecklistItemSuffix = TestUtils.<Container>newInstance("chg.ChangeManager")
+            .getProperty(CHANGE_TICKET_CHECKLIST_ITEM_NAME_PROPERTY);
     }
 
     @Test(expected = IllegalStateException.class)
-    public void failsIfReleaseConditionIsNotHidden() {
+    public void failsIfChecklistPropertyIsNotDefined() {
         Environment env = newEnvironment();
-        env.setProperty(ENV_RELEASE_CONDITIONS_PROPERTY, newHashSet(changeTicketReleaseCondition));
-        SetChangeTicketReleaseCondition.setReleaseCondition(newDeltaSpec(env).build());
+        env.setProperty(format("requires%s", changeTicketChecklistItemSuffix), TRUE);        
+        SetChangeTicketChecklistItem.setChecklistItem(newDeltaSpec(env).build());
     }
-    
-    @Test
-    public void ignoresEnvironmentsWithoutReleaseCondition() {
-        SetChangeTicketReleaseCondition.setReleaseCondition(newDeltaSpec(newEnvironment()).build());
+
+    @Test(expected = IllegalStateException.class)
+    public void failsIfChecklistPropertyIsNotHidden() {
+        Environment env = newEnvironment();
+        env.setProperty(format("requires%s", changeTicketChecklistItemSuffix), TRUE);        
+        SetChangeTicketChecklistItem.setChecklistItem(newDeltaSpec(env).build());
     }
 
     @Test
-    public void unsetsConditionIfNoChangeTicketIsCreatedOrModified() {
+    public void ignoresEnvironmentsWithoutChangeTicketChecklistItem() {
+        SetChangeTicketChecklistItem.setChecklistItem(newDeltaSpec(newEnvironment()).build());
+    }
+
+    @Test
+    public void unsetsItemIfNoChangeTicketIsCreatedOrModified() {
         Environment env = newEnvironment();
         env.addMember((Container) newInstance("chg.ChangeManager"));
-        env.setProperty(ENV_RELEASE_CONDITIONS_PROPERTY, 
-                newHashSet(changeTicketReleaseCondition));
+        env.setProperty(format("requires%s", changeTicketChecklistItemSuffix), TRUE);
         DeltaSpecification deltaSpec = newDeltaSpec(env).build();
-        SetChangeTicketReleaseCondition.setReleaseCondition(deltaSpec);
+        SetChangeTicketChecklistItem.setChecklistItem(deltaSpec);
         assertThat(deltaSpec.getDeployedApplication().getVersion()
-            .getProperty(changeTicketReleaseCondition), Is.<Object>is(FALSE));
+            .getProperty(format("satisfies%s", changeTicketChecklistItemSuffix)), 
+            Is.<Object>is(FALSE));
     }    
-    
+
     @Test
-    public void setsConditionIfChangeTicketIsCreated() {
+    public void setsItemIfChangeTicketIsCreated() {
         Environment env = newEnvironment();
         env.addMember((Container) newInstance("chg.ChangeManager"));
-        env.setProperty(ENV_RELEASE_CONDITIONS_PROPERTY, 
-                newHashSet(changeTicketReleaseCondition));
+        env.setProperty(format("requires%s", changeTicketChecklistItemSuffix), TRUE);
         DeltaSpecification deltaSpec = newDeltaSpec(env, 
                 TestUtils.<ChangeTicket>newInstance("chg.ChangeTicket2")).build();
-        SetChangeTicketReleaseCondition.setReleaseCondition(deltaSpec);
+        SetChangeTicketChecklistItem.setChecklistItem(deltaSpec);
         assertThat(deltaSpec.getDeployedApplication().getVersion()
-            .getProperty(changeTicketReleaseCondition), Is.<Object>is(TRUE));
+                .getProperty(format("satisfies%s", changeTicketChecklistItemSuffix)), 
+                Is.<Object>is(TRUE));
     }
 
     @Test
-    public void setsConditionIfChangeTicketIsOrModified() {
+    public void setsItemIfChangeTicketIsOrModified() {
         Environment env = newEnvironment();
         env.addMember((Container) newInstance("chg.ChangeManager"));
-        env.setProperty(ENV_RELEASE_CONDITIONS_PROPERTY, 
-                newHashSet(changeTicketReleaseCondition));
+        env.setProperty(format("requires%s", changeTicketChecklistItemSuffix), TRUE);        
         DeltaSpecificationBuilder specBuilder = newDeltaSpec(env);
         specBuilder.modify(TestUtils.<ChangeTicket>newInstance("chg.ChangeTicket2"),
             TestUtils.<ChangeTicket>newInstance("chg.ChangeTicket2"));
         DeltaSpecification deltaSpec = specBuilder.build();
-        SetChangeTicketReleaseCondition.setReleaseCondition(deltaSpec);
+        SetChangeTicketChecklistItem.setChecklistItem(deltaSpec);
         assertThat(deltaSpec.getDeployedApplication().getVersion()
-            .getProperty(changeTicketReleaseCondition), Is.<Object>is(TRUE));
+                .getProperty(format("satisfies%s", changeTicketChecklistItemSuffix)), 
+                Is.<Object>is(TRUE));
     }
-    
+
     // not great, but where would a user put the change ticket for undeployment?
     @Test
-    public void setsConditionForUndeployment() {
+    public void setsItemForUndeployment() {
         Environment env = newEnvironment();
         env.addMember((Container) newInstance("chg.ChangeManager"));
-        env.setProperty(ENV_RELEASE_CONDITIONS_PROPERTY, 
-                newHashSet(changeTicketReleaseCondition));
+        env.setProperty(format("requires%s", changeTicketChecklistItemSuffix), TRUE);        
         DeltaSpecificationBuilder specBuilder = newSpecification().undeploy(
                 createDeployedApplication(createDeploymentPackage(), env));
         specBuilder.destroy(TestUtils.<ChangeTicket>newInstance("chg.ChangeTicket2"));
         DeltaSpecification deltaSpec = specBuilder.build();
-        SetChangeTicketReleaseCondition.setReleaseCondition(deltaSpec);
+        SetChangeTicketChecklistItem.setChecklistItem(deltaSpec);
         assertThat(deltaSpec.getDeployedApplication().getVersion()
-            .getProperty(changeTicketReleaseCondition), Is.<Object>is(TRUE));
+                .getProperty(format("satisfies%s", changeTicketChecklistItemSuffix)), 
+                Is.<Object>is(TRUE));
     }
-    
+
     private static Environment newEnvironment() {
         return createEnvironment((YakServer) newInstance("yak.YakServer"));
     }
-    
+
     private static DeltaSpecificationBuilder newDeltaSpec(Environment env,
             Deployed<?, ?>... newDeployeds) {
         DeltaSpecificationBuilder deltaSpec = 

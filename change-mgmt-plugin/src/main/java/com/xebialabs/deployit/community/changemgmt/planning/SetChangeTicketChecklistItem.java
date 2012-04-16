@@ -1,30 +1,10 @@
-/*
- * @(#)CheckRequiredChangeRequest.java     26 Aug 2011
- *
- * Copyright © 2010 Andrew Phillips.
- *
- * ====================================================================
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
- * implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ====================================================================
- */
 package com.xebialabs.deployit.community.changemgmt.planning;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.xebialabs.deployit.community.releaseauth.planning.CheckReleaseConditionsAreMet.ENV_RELEASE_CONDITIONS_PROPERTY;
+import static java.lang.Boolean.TRUE;
+import static java.lang.String.format;
 
 import java.util.List;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,43 +26,43 @@ import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
 import com.xebialabs.deployit.plugin.api.udm.DeploymentPackage;
 import com.xebialabs.deployit.plugin.api.udm.Version;
 
-public class SetChangeTicketReleaseCondition {
+public class SetChangeTicketChecklistItem {
     @VisibleForTesting
-    static final String CHANGE_TICKET_CONDITION_NAME_PROPERTY = "changeTicketReleaseConditionName";
+    static final String CHANGE_TICKET_CHECKLIST_ITEM_NAME_PROPERTY = "changeTicketChecklistItemSuffix";
     private static final Type DEPLOYMENT_PACKAGE_TYPE = Type.valueOf(DeploymentPackage.class);
     private static final Type CHANGE_MANAGER_TYPE = Type.valueOf("chg.ChangeManager");
     private static final List<DeploymentStep> NO_STEPS = ImmutableList.of();
-    
-    private static final Logger LOGGER = LoggerFactory.getLogger(SetChangeTicketReleaseCondition.class);
-    
-    @PrePlanProcessor
-    public static List<DeploymentStep> setReleaseCondition(DeltaSpecification spec) {
-        setChangeTicketCondition(spec);
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SetChangeTicketChecklistItem.class);
+
+    @PrePlanProcessor(order = 95)
+    public static List<DeploymentStep> setChecklistItem(DeltaSpecification spec) {
+        setChangeTicketChecklistItem(spec);
         return NO_STEPS;
     }
 
-    protected static void setChangeTicketCondition(DeltaSpecification spec) {
+    protected static void setChangeTicketChecklistItem(DeltaSpecification spec) {
         DeployedApplication deployedApplication = spec.getDeployedApplication();
-        Set<String> releaseConditions = deployedApplication.getEnvironment()
-            .getProperty(ENV_RELEASE_CONDITIONS_PROPERTY);
-        if ((releaseConditions == null) || releaseConditions.isEmpty()) {
-            LOGGER.debug("No release conditions defined for target environment '{}'",
+        String checklistItemSuffix = getChecklistName();
+        if (!TRUE.equals(deployedApplication.getEnvironment().getProperty(
+                format("requires%s", checklistItemSuffix)))) {
+            LOGGER.debug("No change ticket checklist item required for target environment '{}'",
                     deployedApplication.getEnvironment());
             return;
         }
-        
+
         Version deploymentPackage = deployedApplication.getVersion();
-        String changeTicketCondition = getChangeTicketCondition();
-        checkState(deploymentPackage.hasProperty(changeTicketCondition),
-                "No release condition '%s' defined for %s. Define a boolean, hidden property of this name on %s or change the value of property '%s' of %s.",
-                changeTicketCondition, DEPLOYMENT_PACKAGE_TYPE, DEPLOYMENT_PACKAGE_TYPE, CHANGE_TICKET_CONDITION_NAME_PROPERTY, CHANGE_MANAGER_TYPE);
+        String checklistPropertyName = format("satisfies%s", checklistItemSuffix);
+        checkState(deploymentPackage.hasProperty(checklistPropertyName),
+                "No checklist property '%s' defined for %s. Define a boolean, hidden property of this name on %s or change the value of property '%s' of %s.",
+                checklistPropertyName, DEPLOYMENT_PACKAGE_TYPE, DEPLOYMENT_PACKAGE_TYPE, CHANGE_TICKET_CHECKLIST_ITEM_NAME_PROPERTY, CHANGE_MANAGER_TYPE);
         // can't use a constant in case the descriptor registry is refreshed
         checkState(DescriptorRegistry.getDescriptor(DEPLOYMENT_PACKAGE_TYPE)
-        		   .getPropertyDescriptor(changeTicketCondition).isHidden(),
-                "Release condition '%s' is not defined as 'hidden' on '%s'. Hide it or change the value of property '%s' of %s.",
-                changeTicketCondition, DEPLOYMENT_PACKAGE_TYPE, CHANGE_TICKET_CONDITION_NAME_PROPERTY, CHANGE_MANAGER_TYPE);
-        LOGGER.debug("Calculating value of hidden change ticket release condition '{}'",
-        		changeTicketCondition);
+        		   .getPropertyDescriptor(checklistPropertyName).isHidden(),
+                "Checklist property '%s' is not defined as 'hidden' on '%s'. Hide it or change the value of property '%s' of %s.",
+                checklistPropertyName, DEPLOYMENT_PACKAGE_TYPE, CHANGE_TICKET_CHECKLIST_ITEM_NAME_PROPERTY, CHANGE_MANAGER_TYPE);
+        LOGGER.debug("Calculating value of hidden change ticket checklist property '{}'",
+                checklistPropertyName);
 
         /*
          * Always allow undeployments. Not great, but where would a user put the
@@ -100,12 +80,12 @@ public class SetChangeTicketReleaseCondition {
                                             input.getDeployed().getType()));
                         }
                     }));
-        deploymentPackage.setProperty(changeTicketCondition, hasChangeTicket);
+        deploymentPackage.setProperty(checklistPropertyName, hasChangeTicket);
     }
 
     // not a constant because the class may (?) be loaded before the registry is initialized
-    private static String getChangeTicketCondition() {
+    private static String getChecklistName() {
         return DescriptorRegistry.getDescriptor(CHANGE_MANAGER_TYPE).newInstance()
-               .getProperty(CHANGE_TICKET_CONDITION_NAME_PROPERTY);
+               .getProperty(CHANGE_TICKET_CHECKLIST_ITEM_NAME_PROPERTY);
     }
 }

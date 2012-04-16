@@ -9,6 +9,6 @@
         
     <type-modification type="udm.DeploymentPackage">
         <!-- will be set automatically during deployment planning, not by users -->
-        <property name="satisfiesChangeTicket" kind="boolean" hidden="true" required="false" default="false" category="Deployment Checklist" />
+        <property name="satisfiesChangeTicket" kind="boolean" required="false" default="false" category="Deployment Checklist" />
     </type-modification>
 </synthetic>

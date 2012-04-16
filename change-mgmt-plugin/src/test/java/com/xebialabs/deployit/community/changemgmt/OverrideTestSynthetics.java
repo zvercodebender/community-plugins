@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -15,21 +16,23 @@ import org.junit.rules.MethodRule;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
+import com.google.common.collect.Multimap;
 import com.xebialabs.deployit.plugin.api.boot.PluginBooter;
-
-
+import com.xebialabs.deployit.plugin.api.reflect.Descriptor;
+import com.xebialabs.deployit.plugin.api.reflect.DescriptorRegistry;
+import com.xebialabs.deployit.plugin.api.reflect.Type;
 
 public class OverrideTestSynthetics implements MethodRule {
 	// format strings for String.format
 	private static final String SYNTHETIC_OVERRIDE_FILENAME_FORMAT = "synthetic-%s.xml";
 	private final String syntheticOverridePathFormat;
-	
+
 	public OverrideTestSynthetics(String testSyntheticOverridesDir) {
 		this.syntheticOverridePathFormat = testSyntheticOverridesDir 
 			+ (!testSyntheticOverridesDir.endsWith(File.separator) ? File.separator : "")
 			+ SYNTHETIC_OVERRIDE_FILENAME_FORMAT; 
 	}
-	
+
 	@Override
 	public Statement apply(final Statement base, final FrameworkMethod method, Object target) {
 		final ClassLoader originalContextClassLoader = 
@@ -50,7 +53,7 @@ public class OverrideTestSynthetics implements MethodRule {
 			}
 		};
 	}
-	
+
 	private boolean overrideTestSynthetic(String testName, ClassLoader originalContextClassLoader) {
 		File testSyntheticOverride = new File(format(syntheticOverridePathFormat, testName));
 		if (!testSyntheticOverride.exists()) {
@@ -63,16 +66,27 @@ public class OverrideTestSynthetics implements MethodRule {
 		return true;
 	}
 
-	private static void forcePluginReboot() throws IllegalArgumentException {
+        @SuppressWarnings("unchecked")
+        private static void forcePluginReboot() throws IllegalArgumentException {
 		try {
-			Field isBooted = PluginBooter.class.getDeclaredField("isBooted");
-			// private static field
-			isBooted.setAccessible(true);
+		        // private static fields
+			Field isBooted = getAccessibleField(PluginBooter.class, "isBooted");
 			((AtomicBoolean) isBooted.get(null)).set(false);
+			Field descriptors = getAccessibleField(DescriptorRegistry.class, "descriptors");
+			((Map<Type, Descriptor>) descriptors.get(null)).clear();
+                        Field subtypes = getAccessibleField(DescriptorRegistry.class, "subtypes");
+                        ((Multimap<Type, Type>) subtypes.get(null)).clear();
 		} catch (Exception exception) {
 			throw new IllegalArgumentException("Unable to reset plugin booter", exception);
 		}
 	}
+
+	private static Field getAccessibleField(Class<?> clazz, String fieldName) throws SecurityException, NoSuchFieldException {
+	    Field field = clazz.getDeclaredField(fieldName);
+	    field.setAccessible(true);
+	    return field;
+	}
+
 	private static class TestSyntheticsOverrideClassloader extends ClassLoader {
 		private static final String TEST_SYNTHETIC_RESOURCE_NAME = "synthetic-test.xml";
 		private final Enumeration<URL> testSynthetics;
@@ -81,7 +95,7 @@ public class OverrideTestSynthetics implements MethodRule {
 			super(parent);
 			testSynthetics = toUrlEnumeration(syntheticsFiles);
 		}
-		
+
 		private static Enumeration<URL> toUrlEnumeration(File[] syntheticsFiles) {
 			// don't you just love Enumerations...
 			Vector<URL> synthetics = new Vector<URL>(syntheticsFiles.length);
