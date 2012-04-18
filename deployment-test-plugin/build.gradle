@@ -3,7 +3,7 @@ commonBuildPath = hasProperty("localCommonBuildRepo") ? file(localCommonBuildRep
 apply from: "$commonBuildPath/repositories.gradle"
 apply from: "$commonBuildPath/plugin-build.gradle"
 
-version = '3.7.0-1'
+version = '3.7.0-2-SNAPSHOT'
 
 
 dependencies {

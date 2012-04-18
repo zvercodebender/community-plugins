@@ -29,7 +29,7 @@ configurations {
 	}
 }
 
-version = '3.7.0-1'
+version = '3.7.0-2-SNAPSHOT'
 apiVersion = '3.7.0'
 
 dependencies {
