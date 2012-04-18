@@ -1,9 +1,9 @@
-commonBuildPath = hasProperty("localCommonBuildRepo") ? file(localCommonBuildRepo).toURL().toString() : 'https://github.com/xebialabs/deployit-common-build/raw/master'
+commonBuildPath = hasProperty("localCommonBuildRepo") ? file(localCommonBuildRepo).toURL().toString() : 'https://github.com/xebialabs/deployit-common-build/raw/3.7.x-maintenance'
 
 apply from: "$commonBuildPath/repositories.gradle"
 apply from: "$commonBuildPath/plugin-build.gradle"
 
-version = '3.7.0-beta-2-SNAPSHOT'
+version = '3.7.0-1'
 
 
 dependencies {
