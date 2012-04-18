@@ -1,9 +1,9 @@
-commonBuildPath = hasProperty("localCommonBuildRepo") ? file(localCommonBuildRepo).toURL().toString() : 'https://github.com/xebialabs/deployit-common-build/raw/master'
+commonBuildPath = hasProperty("localCommonBuildRepo") ? file(localCommonBuildRepo).toURL().toString() : 'https://github.com/xebialabs/deployit-common-build/raw/3.7.x-maintenance'
 
 apply from: "$commonBuildPath/repositories.gradle"
 apply from: "$commonBuildPath/plugin-build.gradle"
 
-version = '3.7.0-beta-2-SNAPSHOT'
+version = '3.7.0-1'
 
 dependencies {
 	compile deps.deployit_udm_plugin_api
@@ -24,7 +24,7 @@ dependencies {
 	testCompile deps.commons_lang
 
 
-	testCompile 'com.xebialabs.deployit.plugins:wls-plugin:3.7.0-beta-1'
+	testCompile 'com.xebialabs.deployit.plugins:wls-plugin:3.7.0'
 
 }
 
