@@ -15,7 +15,7 @@ the list of plugins and navigate into a plugin directory to find the plugin's do
 
 ## deployit-udm-plugins
 
-This directory contains Deployit middleware plugins that add the ability to deploy to new middleware.
+This directory contains Deployit plugins that are based on the Unified Deployment Model.
 
 ## deployit-server-plugins
 
