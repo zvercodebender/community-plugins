@@ -13,6 +13,18 @@ XebiaLabs' professional services department._
 All plugins are located in directories inside the main community-plugins repository. Browse the main directory to find
 the list of plugins and navigate into a plugin directory to find the plugin's documentation and source code.
 
+## deployit-udm-plugins
+
+This directory contains Deployit middleware plugins that add the ability to deploy to new middleware.
+
+## deployit-server-plugins
+
+This directory contains Deployit server plugins that influence server behavior.
+
+## tool-deployit-plugins
+
+This directory contains plugins for external tools that interact with Deployit.
+
 # Downloading a plugin
 
 You can find compiled, ready-to-install binaries in the _Downloads_ section of the repository. If you want, you can clone
