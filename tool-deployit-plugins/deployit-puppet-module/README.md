@@ -49,21 +49,3 @@ This Puppet module is used to interact with Deployit from Puppet. It supports:
 	  cis => [ 'Environments/env1' ],
 	  ensure => present,
 	}
-
-	# See options supported by Maven plugin: http://tech.xebialabs.com/deployit-maven-plugin/3.6.0/deploy-mojo.html
-	deployit::deployment { 'Deploy PetClinic/1.0 to Environment/env1':
-	  package => 'Applications/PetClinic/1.0',
-	  environment => 'Environments/env1',
-	  deployeds => [ '???' ], # How to configure the deployment???
-	  ensure => present / absent / latest, # Leave out PetClinic exact version, take the latest one
-	}
-
-## Improvements ##
-
-* improve encoding when passing parameters to CLI scripts
-* implement other 'ensure' options (present is implemented, absent not everywhere)
-* use curl and HTTP POST to register CIs in Deployit so the target machine doesn't need Java or the Deployit CLI.
-* starting discovery and storing the result in the repository
-* starting a deployment (but this is a deployment against an ENVIRONMENT, while Puppet knows about a HOST)
-* implement ensure => latest in deployments to get the latest version of a package there
-* registering plugin-specific CIs (e.g. sshhost, tomcat-server, etc)
