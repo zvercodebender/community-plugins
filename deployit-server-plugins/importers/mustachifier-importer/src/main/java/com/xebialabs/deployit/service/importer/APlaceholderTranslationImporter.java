@@ -11,7 +11,8 @@ import java.util.List;
 public class APlaceholderTranslationImporter implements ListableImporter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(APlaceholderTranslationImportSource.class);
-	static final String DELEGATED_SERVICE = "com.xebialabs.deployit.server.api.importer.ManifestBasedDarImporter";
+
+	static final String DELEGATED_SERVICE = "com.xebialabs.deployit.service.importer.ManifestBasedDarImporter";
 
 	private ListableImporter service;
 	private APlaceholderTranslationImportSource translationImportSource;
@@ -26,6 +27,7 @@ public class APlaceholderTranslationImporter implements ListableImporter {
 	public boolean canHandle(ImportSource source) {
 		//only dar file are supported.
 		File file = source.getFile();
+		LOGGER.debug("can handle ? "+file);
 		return isDarPackage(file);
 	}
 
