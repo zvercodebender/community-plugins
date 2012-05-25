@@ -41,6 +41,9 @@ repositories {
       }
       url "${nexusBaseUrl}/repositories/releases"
     }
+    maven {
+      url "https://repository.jboss.org/nexus/content/repositories/thirdparty-releases"
+    }
   }
 }
 
