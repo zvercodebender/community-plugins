@@ -6,7 +6,7 @@ apply plugin: 'maven'
 group = 'com.xebialabs.deployit.community'
 apiVersion = '3.7.0'
 cliVersion = '3.7.0'
-version = "${apiVersion}-2-SNAPSHOT"
+version = "${apiVersion}-2"
 metaInfServicesVersion = '1.1'
 trueZipVersion = '7.3.4'
 
