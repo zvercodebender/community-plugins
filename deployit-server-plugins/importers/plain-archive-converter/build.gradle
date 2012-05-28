@@ -15,16 +15,16 @@ sourceEncoding = 'UTF-8'
 
 dependencies {
 	compile("com.xebialabs.deployit:cli:${cliVersion}") {
-    	exclude group: 'com.google.collections', module: 'google-collections'
-    	exclude group: 'com.sun.xml.bind', module: 'jaxb-impl'
-  	}
+		exclude group: 'com.google.collections', module: 'google-collections'
+		exclude group: 'com.sun.xml.bind', module: 'jaxb-impl'
+	}
 	compile "com.google.guava:guava:10.0.1"
 	compile "de.schlichtherle.truezip:truezip-file:${trueZipVersion}"
-  	compile "de.schlichtherle.truezip:truezip-driver-zip:${trueZipVersion}"
-  	compile "org.kohsuke.metainf-services:metainf-services:${metaInfServicesVersion}"
+	compile "de.schlichtherle.truezip:truezip-driver-zip:${trueZipVersion}"
+	compile "org.kohsuke.metainf-services:metainf-services:${metaInfServicesVersion}"
 	compile 'commons-io:commons-io:1.4'
 	compile 'commons-lang:commons-lang:2.5'
-  	compile 'com.google.code.findbugs:jsr305:1.3.9'
+	compile 'com.google.code.findbugs:jsr305:1.3.9'
 
 	testCompile 'junit:junit:4.8.2'
 	testCompile 'com.qrmedia.commons:commons-lang:1.0.2'
@@ -127,20 +127,6 @@ private def mergeFiles(targetDir, fileTrees, relativePath) {
 		mergedFile << it.bytes
 	}
 }
-
-afterEvaluate { eachProject ->
-  eachProject.tasks.withType(Test).each { testTask ->
-    testTask.onlyIf { !project.hasProperty('skipTests') }
-    testTask.afterSuite { descriptor, result ->
-      if (descriptor.className != null) {
-        println "${descriptor.className}: ${result.testCount} tests; failed: ${result.failedTestCount}; skipped: ${result.skippedTestCount}"
-      } else if (descriptor.className == null && descriptor.parent == null) {
-        println "Total: ${result.testCount} tests; failed: ${result.failedTestCount}; skipped: ${result.skippedTestCount}"
-      }
-    }
-  }
-}
-
 
 // see http://gradle.1045684.n5.nabble.com/Classloader-issues-in-my-pom-configuration-td4576879.html
 private def newDeploymentRepository(model) {
