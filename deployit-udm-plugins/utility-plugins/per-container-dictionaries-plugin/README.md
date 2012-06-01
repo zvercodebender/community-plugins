@@ -12,7 +12,7 @@ In order to be able to store values for a container, the container type must def
 
 ```xml
 <type-modification type="...">
-    <property name="dictionary" kind="ci" referenced-type="udm.Dictionary" required="false" label="Entries" category="Dictionary" />
+    <property name="dictionary" kind="ci" referenced-type="udm.Dictionary" required="false" category="Dictionary" />
 </type-modification>
 ```
 
