@@ -20,4 +20,4 @@ In order to be able to store values for a container, the container type must def
 
 The per-container dictionaries plugin supports replacement of placeholders in deployed items with values defined on the target container, as opposed to coming from a dictionary (or the user)
 
-In order to retrieve a value from the deployed's container, the container must define a "dictionaryEntries" property (see [Configuration](#configuration)). If the placeholder's value is set to `&lt;per-container&gt`, the value will be retrieved from the container's dictionary by looking for an entry with the matching key, as for regular environment dictionaries.
+In order to retrieve a value from the deployed's container, the container must define a "dictionaryEntries" property (see [Configuration](#configuration)). If the placeholder's value is set to `<per-container>`, the value will be retrieved from the container's dictionary by looking for an entry with the matching key, as for regular environment dictionaries.
