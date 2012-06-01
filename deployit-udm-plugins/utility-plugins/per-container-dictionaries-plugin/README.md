@@ -6,7 +6,7 @@ A Deployit 3.7 plugin that supports per-container placeholder values
 
 Place the 'per-container-dictionaries-plugin-&lt;version&gt;.jar' file into your SERVER_HOME/plugins directory.
 
-<a name="configuration" />## Configuration
+## Configuration<a name="configuration" />
 
 In order to be able to store values for a container, the container type must define a `map_string_string` property called "dictionaryEntries". The plugin pre-defines these for `overthere.Host` and `generic.Container`, to add this property to additional containers add the following type modification for the desired containers to SERVER_HOME/ext/synthetic.xml:
 
