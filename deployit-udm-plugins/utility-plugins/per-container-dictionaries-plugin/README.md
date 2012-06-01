@@ -8,11 +8,11 @@ Place the 'per-container-dictionaries-plugin-&lt;version&gt;.jar' file into your
 
 ## Configuration<a name="configuration" />
 
-In order to be able to store values for a container, the container type must define a `map_string_string` property called "dictionaryEntries". The plugin pre-defines these for `overthere.Host` and `generic.Container`, to add this property to additional containers add the following type modification for the desired containers to SERVER_HOME/ext/synthetic.xml:
+In order to be able to store values for a container, the container type must define a property "dictionary" that refers to a `udm.Dictionary`. The plugin pre-defines these for `overthere.Host` and `generic.Container`, to add this property to additional containers add the following type modification for the desired containers to SERVER_HOME/ext/synthetic.xml:
 
 ```xml
 <type-modification type="...">
-    <property name="dictionaryEntries" kind="map_string_string" required="false" label="Entries" category="Dictionary" />
+    <property name="dictionary" kind="ci" referenced-type="udm.Dictionary" required="false" label="Entries" category="Dictionary" />
 </type-modification>
 ```
 

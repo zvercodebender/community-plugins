@@ -28,10 +28,11 @@ import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecifica
 import com.xebialabs.deployit.plugin.api.udm.Container;
 import com.xebialabs.deployit.plugin.api.udm.Deployed;
 import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
+import com.xebialabs.deployit.plugin.api.udm.Dictionary;
 import com.xebialabs.deployit.plugin.api.udm.artifact.DerivedArtifact;
 
 public class InjectPerContainerPlaceholderValues {
-    protected static final String CONTAINER_DICTIONARY_PROPERTY = "dictionaryEntries";
+    protected static final String CONTAINER_DICTIONARY_PROPERTY = "dictionary";
     // workaround for http://tech.xebialabs.com/jira/browse/DEPLOYITPB-3414
     protected static final Set<String> PER_CONTAINER_PLACEHOLDER_TOKENS = 
         ImmutableSet.of("<per-container>", "&lt;per-container&gt;");
@@ -98,7 +99,7 @@ public class InjectPerContainerPlaceholderValues {
 
     private static Map<String, String> getContainerPlaceholders(Container value) {
         return (value.hasProperty(CONTAINER_DICTIONARY_PROPERTY) 
-                ? value.<Map<String, String>>getProperty(CONTAINER_DICTIONARY_PROPERTY)
+                ? value.<Dictionary>getProperty(CONTAINER_DICTIONARY_PROPERTY).getEntries()
                 : null);
     }
 

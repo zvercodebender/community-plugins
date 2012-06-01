@@ -4,10 +4,10 @@
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
   <type-modification type="overthere.Host">
-      <property name="dictionaryEntries" kind="map_string_string" required="false" label="Entries" category="Dictionary" />
+      <property name="dictionary" kind="ci" referenced-type="udm.Dictionary"  required="false" label="Entries" category="Dictionary" />
   </type-modification>
 
 	<type-modification type="generic.Container">
-		  <property name="dictionaryEntries" kind="map_string_string" required="false" label="Entries" category="Dictionary" />
+		  <property name="dictionary" kind="ci" referenced-type="udm.Dictionary"  required="false" label="Entries" category="Dictionary" />
 	</type-modification>
 </synthetic>
