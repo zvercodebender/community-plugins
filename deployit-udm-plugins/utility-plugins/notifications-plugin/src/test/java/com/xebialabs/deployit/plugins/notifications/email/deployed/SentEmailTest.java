@@ -37,6 +37,8 @@ import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
 import com.xebialabs.deployit.plugin.api.deployment.planning.DeploymentPlanningContext;
 import com.xebialabs.deployit.plugin.api.deployment.planning.ReadOnlyRepository;
 import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
+import com.xebialabs.deployit.plugin.api.udm.DeploymentPackage;
+import com.xebialabs.deployit.plugin.api.udm.Version;
 import com.xebialabs.deployit.plugins.notifications.email.TestBase;
 import com.xebialabs.deployit.plugins.notifications.email.step.EmailSendStep;
 
@@ -64,6 +66,20 @@ public class SentEmailTest extends TestBase {
         // just to be sure
         newDeployed.setProperty("bcc", null);
         assertThat(newDeployed.getBccAddresses().size(), is(0));
+    }
+    
+    @Test
+    public void supportPlaceholdersInSubject() {
+    	SentEmail newDeployed = newInstance("notify.BasicSentEmail");
+    	
+    	DeployedApplication deployedApplication = newInstance(DeployedApplication.class);
+    	Version version = newInstance(DeploymentPackage.class);
+    	version.setId("/Applications/PetClinic-ear/1.0");
+		deployedApplication.setVersion(version);
+		newDeployed.setDeployedApplication(deployedApplication);
+		
+        newDeployed.setProperty("subject", "Deployment of ${deployed.app.version.name} started!");
+		assertThat(newDeployed.getSubject(), is("Deployment of 1.0 started!"));
     }
 
     @Test

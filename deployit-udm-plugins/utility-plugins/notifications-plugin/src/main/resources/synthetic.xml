@@ -9,7 +9,7 @@
         <property name="to" description="Comma-separated list of email addresses (format 'user@domain' or 'Name &lt;user@domain&gt;')" />
         <property name="cc" required="false" description="Comma-separated list of email addresses (format 'user@domain' or 'Name &lt;user@domain&gt;')" />
         <property name="bcc" required="false" description="Comma-separated list of email addresses (format 'user@domain' or 'Name &lt;user@domain&gt;')" />
-        <property name="subject" />
+        <property name="subject" description="Subject of the mail. Use ${deployed.app.&lt;prop&gt;} to refer to property 'prop' of the deployed application" />
         <property name="body" size="large" description="Use ${deployed.app.&lt;prop&gt;} to refer to property 'prop' of the deployed application" />
         <property name="awaitConfirmation" kind="boolean" required="false" description="If set, a pause will be inserted after the email, allowing the deployment to be interrupted until a work item related to the email has been completed" />
         <!-- unhide so users can choose -->

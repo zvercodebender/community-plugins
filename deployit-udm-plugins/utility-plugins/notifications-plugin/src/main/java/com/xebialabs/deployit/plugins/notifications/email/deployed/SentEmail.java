@@ -89,7 +89,7 @@ public class SentEmail extends ProcessedTemplate<Resource> {
     }
     
     protected String getSubject() {
-        return nullToEmpty(this.<String>getProperty(SUBJECT_PROPERTY));
+    	return resolveExpression(this.<String>getProperty(SUBJECT_PROPERTY));
     }
     
     protected String getFromAddress() {
