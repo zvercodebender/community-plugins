@@ -98,9 +98,11 @@ public class InjectPerContainerPlaceholderValues {
     }
 
     private static Map<String, String> getContainerPlaceholders(Container value) {
-        return (value.hasProperty(CONTAINER_DICTIONARY_PROPERTY) 
-                ? value.<Dictionary>getProperty(CONTAINER_DICTIONARY_PROPERTY).getEntries()
-                : null);
+        if (!value.hasProperty(CONTAINER_DICTIONARY_PROPERTY)) {
+            return null;
+        }
+        Dictionary dictionary = value.<Dictionary>getProperty(CONTAINER_DICTIONARY_PROPERTY);
+        return (dictionary != null ? dictionary.getEntries() : null);
     }
 
     private static String buildErrorMessage(DeployedApplication deployedApplication,
