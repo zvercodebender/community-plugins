@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.xebialabs.deployit</groupId>
+  <artifactId>importers</artifactId>
+  <version>3.7.0</version>
+  <packaging>pom</packaging>
+  <parent>
+    <groupId>org.xebialabs.deployit</groupId>
+    <artifactId>server-plugins</artifactId>
+    <version>3.7.0</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+  <scm>
+    <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
+    <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
+  </scm>
+  <modules>
+    <module>composite-application-importer</module>
+    <module>mustachifier</module>
+    <module>plain-archive-converter</module>
+    <module>single-file-importer</module>
+    <module>jee-archive-importer</module>
+    <module>mustachifier-importer</module>
+    <module>zip-importer</module>
+  </modules>
+</project>
