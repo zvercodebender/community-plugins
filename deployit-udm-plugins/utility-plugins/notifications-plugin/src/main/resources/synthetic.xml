@@ -34,8 +34,7 @@
     </type-modification>
 
     <!-- workaround for http://tech.xebialabs.com/jira/browse/DEPLOYITPB-2236 -->
-    <type type="notify.SentTemplateEmail2" extends="notify.SentTemplateEmail" deployable-type="notify.TemplateEmailDraft"
-            container-type="notify.MailServer">
+    <type type="notify.SentTemplateEmail2" extends="notify.SentTemplateEmail" deployable-type="notify.TemplateEmailDraft" container-type="notify.MailServer">
         <generate-deployable type="notify.TemplateEmailDraft" extends="generic.Resource" />
     </type>
     
@@ -66,6 +65,8 @@
         <property name="protocol" hidden="true" default="UNUSED" />
         <property name="os" kind="enum" enum-class="com.xebialabs.overthere.OperatingSystemFamily" hidden="true" default="UNIX" />
         <property name="temporaryDirectoryPath" hidden="true" default="UNUSED" />
+        <property name="deploymentGroup" kind="integer" required="false" hidden="true" default="0" />
+        <property name="jumpstation" kind="ci" referenced-type="overthere.Jumpstation" required="false" hidden="true" />
     </type-modification>
 
     <type-modification type="udm.Environment">
