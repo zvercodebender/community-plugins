@@ -11,8 +11,6 @@ out/
 target/
 bin/
 src/main/resources/web/help/onlinehelp
-# Maven
-pom.xml
 
 # Eclipse
 .metadata/
