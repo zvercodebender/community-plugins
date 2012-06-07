@@ -1,6 +1,6 @@
 package com.xebialabs.deployit.service.importer;
 
-import com.xebialabs.deployit.cli.ext.mustachify.Mustachifier;
+import ext.deployit.community.cli.mustachify.Mustachifier;
 import com.xebialabs.deployit.server.api.importer.ImportSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

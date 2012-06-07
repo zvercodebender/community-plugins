@@ -28,7 +28,7 @@
 	<logger name="com.xebialabs.deployit.jetty.HttpHeaderOverrideServletRequest" level="info" />
 	<logger name="com.xebialabs.deployit.jetty.HttpMethodOverrideServletRequest" level="info" />
 	<logger name="net.schmizz.sshj" level="error" /> 
-	<logger name="com.xebialabs.deployit.cli.ext.mustachify" level="debug" /> 
+	<logger name="ext.deployit.community.cli.mustachify" level="debug" /> 
 	<logger name="com.xebialabs.deployit.service.importer" level="debug" /> 
 
 	<root level="info">

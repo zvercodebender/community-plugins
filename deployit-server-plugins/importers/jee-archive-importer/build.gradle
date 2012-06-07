@@ -15,7 +15,7 @@ dependencies {
 	compile "com.google.guava:guava:10.0.1"
 	compile "com.xebialabs.deployit:server-plugin-api:$apiVersion"
 	compile "com.xebialabs.deployit.plugins:jee-plugin:$apiVersion"
-	compile "com.xebialabs.deployit.community:single-file-importer:$version"
+	compile "ext.deployit.community:single-file-importer:$version"
 
 	testCompile 'com.qrmedia.commons:commons-lang:1.0.2'
 	testCompile 'junit:junit:4.8.2'

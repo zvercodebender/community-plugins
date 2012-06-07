@@ -3,7 +3,7 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'maven'
 
-group = 'com.xebialabs.deployit.community'
+group = 'ext.deployit.community'
 apiVersion = '3.7.0'
 version = "${apiVersion}-3-SNAPSHOT"
 
@@ -12,12 +12,12 @@ sourceEncoding = 'UTF-8'
 
 dependencies {
     compile "com.xebialabs.deployit:udm-plugin-api:$apiVersion"
-	compile "com.google.guava:guava:10.0.1"
-	compile "com.xebialabs.deployit:server-plugin-api:$apiVersion"
-	compile "com.xebialabs.deployit.plugins:jee-plugin:$apiVersion"
+    compile "com.google.guava:guava:10.0.1"
+    compile "com.xebialabs.deployit:server-plugin-api:$apiVersion"
+    compile "com.xebialabs.deployit.plugins:jee-plugin:$apiVersion"
 
-	testCompile 'junit:junit:4.8.2'
-	testCompile "com.xebialabs.deployit:udm-test-support:$apiVersion"
+    testCompile 'junit:junit:4.8.2'
+    testCompile "com.xebialabs.deployit:udm-test-support:$apiVersion"
 }
 
 repositories {
