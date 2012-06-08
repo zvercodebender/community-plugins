@@ -1,5 +1,7 @@
 commonBuildPath = hasProperty("localCommonBuildRepo") ? file(localCommonBuildRepo).toURL().toString() : 'https://github.com/xebialabs/deployit-common-build/raw/3.7.x-maintenance'
 
+apply plugin: 'maven'
+
 apply from: "$commonBuildPath/repositories.gradle"
 apply from: "$commonBuildPath/plugin-build.gradle"
 
@@ -27,5 +29,4 @@ dependencies {
 	testCompile 'com.xebialabs.deployit.plugins:wls-plugin:3.7.0'
 
 }
-
 

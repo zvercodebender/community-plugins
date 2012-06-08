@@ -15,5 +15,3 @@ dependencies {
 	testCompile 'com.xebialabs.deployit:test-support:3.0.4'
 }
 
-apply from: 'https://github.com/xebialabs/deployit-common-build/raw/master/plugin-documentation.gradle'
-

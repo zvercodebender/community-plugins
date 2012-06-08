@@ -24,7 +24,7 @@ The Apache modjk plugin is a Deployit plugin that is used to manage the configur
 The plugin works with the standard deployment package of DAR format. Please see the _Packaging Manual_ for more details about the DAR format and the ways to 
 compose one. 
 
-The following is a sample MANIFEST.MF file that can be used to create a WebLogic specific deployment package. 
+The following is a sample MANIFEST.MF file that can be used to create a deployment package. 
 It contain declarations for an Ear, a specification for a modjk worker, main configuration and the associated virtual host.
 
     Manifest-Version: 1.0
