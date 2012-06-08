@@ -1,6 +1,7 @@
 package com.xebialabs.deployit.community.changemgmt.planning;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.xebialabs.deployit.plugin.api.util.Predicates2.deltaOf;
 import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
 
@@ -10,18 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.xebialabs.deployit.community.changemgmt.deployed.ChangeTicket;
 import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
 import com.xebialabs.deployit.plugin.api.deployment.planning.PrePlanProcessor;
-import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
 import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecification;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Operation;
 import com.xebialabs.deployit.plugin.api.reflect.DescriptorRegistry;
 import com.xebialabs.deployit.plugin.api.reflect.Type;
-import com.xebialabs.deployit.plugin.api.reflect.Types;
 import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
 import com.xebialabs.deployit.plugin.api.udm.DeploymentPackage;
 import com.xebialabs.deployit.plugin.api.udm.Version;
@@ -31,6 +28,7 @@ public class SetChangeTicketChecklistItem {
     static final String CHANGE_TICKET_CHECKLIST_ITEM_NAME_PROPERTY = "changeTicketChecklistItemSuffix";
     private static final Type DEPLOYMENT_PACKAGE_TYPE = Type.valueOf(DeploymentPackage.class);
     private static final Type CHANGE_MANAGER_TYPE = Type.valueOf("chg.ChangeManager");
+    private static final Type CHANGE_TICKET_TYPE = Type.valueOf("chg.ChangeTicket");
     private static final List<DeploymentStep> NO_STEPS = ImmutableList.of();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SetChangeTicketChecklistItem.class);
@@ -69,17 +67,8 @@ public class SetChangeTicketChecklistItem {
          * change ticket number? For initial/upgrade installations, looks for 
          * a creation or modification of a Change Ticket.
          */
-        Boolean hasChangeTicket = spec.getOperation().equals(Operation.DESTROY)
-                || Boolean.valueOf(Iterables.any(spec.getDeltas(), new Predicate<Delta>() {
-                        @Override
-                        public boolean apply(Delta input) {
-                            // operation check first to avoid NPEs
-                            return ((input.getOperation().equals(Operation.CREATE)
-                                     || input.getOperation().equals(Operation.MODIFY))
-                                    && Types.isSubtypeOf(Type.valueOf(ChangeTicket.class), 
-                                            input.getDeployed().getType()));
-                        }
-                    }));
+        boolean hasChangeTicket = spec.getOperation().equals(Operation.DESTROY)
+                || Iterables.any(spec.getDeltas(), deltaOf(CHANGE_TICKET_TYPE));
         deploymentPackage.setProperty(checklistPropertyName, hasChangeTicket);
     }
 
