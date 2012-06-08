@@ -32,18 +32,4 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>com.github.github</groupId>
-        <artifactId>downloads-maven-plugin</artifactId>
-        <version>0.5</version>
-        <configuration>
-          <description>${project.version} release of ${project.name}</description>
-          <override>true</override>
-          <includeAttached>true</includeAttached>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
