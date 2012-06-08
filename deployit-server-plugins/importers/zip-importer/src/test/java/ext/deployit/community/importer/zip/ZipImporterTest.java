@@ -35,11 +35,10 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import com.google.common.collect.ImmutableList;
-import com.xebialabs.deployit.cli.ext.plainarchive.io.Filenames.VersionedFilename;
 import com.xebialabs.deployit.service.importer.source.FileSource;
 import com.xebialabs.deployit.service.importer.source.UrlSource;
 
-import ext.deployit.community.importer.zip.ZipImporter;
+import ext.deployit.community.cli.plainarchive.io.Filenames.VersionedFilename;
 
 
 

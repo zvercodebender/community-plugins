@@ -41,8 +41,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps;
-import com.xebialabs.deployit.cli.ext.plainarchive.PlainArchiveConverter;
-import com.xebialabs.deployit.cli.ext.plainarchive.io.Filenames.VersionedFilename;
 import com.xebialabs.deployit.exception.RuntimeIOException;
 import com.xebialabs.deployit.server.api.importer.ImportSource;
 import com.xebialabs.deployit.server.api.importer.ImportedPackage;
@@ -52,6 +50,8 @@ import com.xebialabs.deployit.service.importer.ManifestBasedDarImporter;
 import com.xebialabs.deployit.service.importer.source.FileSource;
 import com.xebialabs.deployit.service.importer.source.UrlSource;
 
+import ext.deployit.community.cli.plainarchive.PlainArchiveConverter;
+import ext.deployit.community.cli.plainarchive.io.Filenames.VersionedFilename;
 import ext.deployit.community.importer.zip.config.ConfigParser;
 import ext.deployit.community.importer.zip.config.PrefixStripper;
 
