@@ -1,3 +1,23 @@
+/*
+ * @(#)Predicates.java     2 Oct 2011
+ *
+ * Copyright © 2010 Andrew Phillips.
+ *
+ * ====================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or 
+ * implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ====================================================================
+ */
 package com.xebialabs.deployit.plugin.api.util;
 
 import static com.xebialabs.deployit.plugin.api.deployment.specification.Operation.DESTROY;
@@ -7,6 +27,8 @@ import java.util.Collection;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSet.Builder;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Operation;
 import com.xebialabs.deployit.plugin.api.reflect.Type;
@@ -15,12 +37,16 @@ import com.xebialabs.deployit.plugin.api.udm.Deployed;
 
 public class Predicates2 {
 
-    public static Predicate<Type> subtypeOf(Type type) {
-        return new IsSubtypeOf(type);
+    public static Predicate<Type> subtypeOfAny(Type... types) {
+        return new IsSubtypeOfAny(types);
     }
 
-    public static Predicate<ConfigurationItem> instanceOf(Type type) {
-        return com.google.common.base.Predicates.compose(subtypeOf(type),
+    public static Predicate<Type> subtypeOf(Type type) {
+        return subtypeOfAny(type);
+    }
+
+    public static Predicate<ConfigurationItem> instanceOfAny(Type... types) {
+        return com.google.common.base.Predicates.compose(subtypeOfAny(types), 
                 new Function<ConfigurationItem, Type>() {
                     @Override
                     public Type apply(ConfigurationItem input) {
@@ -29,42 +55,58 @@ public class Predicates2 {
                 });
     }
 
-    public static Predicate<Delta> deltaOf(Type type) {
-        return com.google.common.base.Predicates.compose(instanceOf(type),
+    public static Predicate<ConfigurationItem> instanceOf(Type type) {
+        return instanceOfAny(type);
+    }
+
+    public static Predicate<Delta> deltaOfAny(Type... types) {
+        return com.google.common.base.Predicates.compose(instanceOfAny(types), 
                 extractDeployed());
     }
 
-    public static Function<Delta, Deployed<?, ?>> extractDeployed() {
-        return new ExtractDeployed();
+    public static Predicate<Delta> deltaOf(Type type) {
+        return deltaOfAny(type);
+    }
+
+    public static <D extends Deployed<?, ?>> Function<Delta, D> extractDeployed() {
+        return new ExtractDeployed<D>();
+    }
+
+    public static Predicate<Delta> operationIn(Operation... operationsToMatch) {
+        return new OperationIn(operationsToMatch);
     }
 
     public static Predicate<Delta> operationIs(Operation operationToMatch) {
-        return new OperationEquals(operationToMatch);
+        return operationIn(operationToMatch);
     }
 
     public static Predicate<Object> equalToAny(Collection<?> items) {
         return new EqualToAny(items);
     }
 
-    private static class OperationEquals implements Predicate<Delta> {
-        private final Operation operationToMatch;
+    private static class OperationIn implements Predicate<Delta> {
+        private final Collection<Operation> operationsToMatch;
 
-        protected OperationEquals(Operation operationToMatch) {
-            this.operationToMatch = operationToMatch;
+        protected OperationIn(Operation... operationsToMatch) {
+            this.operationsToMatch = ImmutableSet.copyOf(operationsToMatch);
         }
 
         @Override
         public boolean apply(Delta input) {
-            return input.getOperation().equals(operationToMatch);
+            return operationsToMatch.contains(input.getOperation());
         }
     }
 
-    private static class IsSubtypeOf implements Predicate<Type> {
+    private static class IsSubtypeOfAny implements Predicate<Type> {
         private final Collection<Type> subtypes;
 
-        public IsSubtypeOf(Type typeToMatch) {
-            subtypes = getSubtypes(typeToMatch);
-            subtypes.add(typeToMatch);
+        public IsSubtypeOfAny(Type... typesToMatch) {
+            Builder<Type> subtypes = ImmutableSet.builder();
+            for (Type typeToMatch : typesToMatch) {
+                subtypes.addAll(getSubtypes(typeToMatch));
+                subtypes.add(typeToMatch);
+            }
+            this.subtypes = subtypes.build();
         }
 
         @Override
@@ -73,13 +115,13 @@ public class Predicates2 {
         }
     }
 
-    private static class ExtractDeployed implements
-            Function<Delta, Deployed<?, ?>> {
+    private static class ExtractDeployed<D extends Deployed<?, ?>> implements Function<Delta, D> {
+        @SuppressWarnings("unchecked")
         @Override
-        public Deployed<?, ?> apply(Delta input) {
-            return (input.getOperation().equals(DESTROY) 
-                    ? input.getPrevious()
-                    : input.getDeployed());
+        public D apply(Delta input) {
+            return (D) (input.getOperation().equals(DESTROY) 
+                       ? input.getPrevious() 
+                       : input.getDeployed());
         }
     }
 
@@ -94,6 +136,5 @@ public class Predicates2 {
         public boolean apply(Object input) {
             return items.contains(input);
         }
-
     }
 }
