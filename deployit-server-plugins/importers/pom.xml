@@ -9,7 +9,7 @@
     <groupId>org.xebialabs.deployit</groupId>
     <artifactId>server-plugins</artifactId>
     <version>3.7.0</version>
-    <relativePath>../../pom.xml</relativePath>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
