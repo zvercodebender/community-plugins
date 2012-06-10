@@ -15,6 +15,7 @@
 
   <modules>
     <module>middleware-plugins</module>
+    <module>utility-plugins</module>
   </modules>
 
   <dependencies>

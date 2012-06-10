@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.xebialabs.deployit</groupId>
+  <artifactId>rpm-plugin</artifactId>
+  <version>${deployit.api.version}-2-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  <properties>
+    <maven.test.skip>true</maven.test.skip>
+  </properties>
+  <parent>
+    <groupId>org.xebialabs.deployit</groupId>
+    <artifactId>utility-plugins</artifactId>
+    <version>3.7.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <scm>
+    <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
+    <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>com.xebialabs.overthere</groupId>
+      <artifactId>overthere</artifactId>
+      <version>${overthere.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>0.9.24</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock-junit4</artifactId>
+      <version>2.5.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.xebialabs.deployit.plugins</groupId>
+      <artifactId>generic-plugin</artifactId>
+      <version>${deployit.api.version}</version>
+      <scope>system</scope>
+      <systemPath>${deployit.server.home}/lib/generic-plugin-${deployit.api.version}.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>com.xebialabs.deployit.plugins</groupId>
+      <artifactId>remoting-plugin</artifactId>
+      <version>${deployit.api.version}</version>
+      <scope>system</scope>
+      <systemPath>${deployit.server.home}/lib/remoting-plugin-${deployit.api.version}.jar</systemPath>
+    </dependency>
+    <!-- dependency>
+      <groupId>com.xebialabs.deployit.plugins</groupId>
+      <artifactId>jbossas-plugin</artifactId>
+      <version>3.6.0</version>
+      <scope>test</scope>
+    </dependency -->
+  </dependencies>
+</project>

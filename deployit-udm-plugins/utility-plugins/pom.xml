@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.xebialabs.deployit</groupId>
-  <artifactId>middleware-plugins</artifactId>
+  <artifactId>utility-plugins</artifactId>
   <version>3.7.0</version>
   <packaging>pom</packaging>
   <parent>
@@ -12,7 +12,16 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <modules>
-    <module>apache-modjk-plugin</module>
-    <module>apache-weblogic-plugin</module>
+    <module>change-mgmt-plugin</module>
+    <module>command2-plugin</module>
+    <module>demo-plugin</module>
+    <module>deployment-test-plugin</module>
+    <module>deployment-test2-plugin</module>
+    <module>lock-plugin</module>
+    <module>notifications-plugin</module>
+    <module>per-container-dictionaries-plugin</module>
+    <module>precheck-plugin</module>
+    <module>release-auth-plugin</module>
+    <module>rpm-plugin</module>
   </modules>
 </project>
