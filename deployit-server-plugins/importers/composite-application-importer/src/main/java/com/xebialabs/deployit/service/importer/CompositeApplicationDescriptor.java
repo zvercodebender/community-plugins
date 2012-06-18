@@ -1,12 +1,15 @@
 package com.xebialabs.deployit.service.importer;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.io.Closeables;
 import com.xebialabs.deployit.plugin.api.udm.DeploymentPackage;
 import com.xebialabs.deployit.plugin.api.udm.Version;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,9 +18,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import static com.google.common.collect.Maps.filterKeys;
 import static java.lang.String.format;
 
 public class CompositeApplicationDescriptor {
+
+	private static final Predicate<String> IS_CI_PROPERTTY = new Predicate<String>() {
+		@Override
+		public boolean apply(@Nullable String key) {
+			return key.startsWith("CI-");
+		}
+	};
 	private final Map<String, String> descriptor;
 
 	public CompositeApplicationDescriptor(File source) {
@@ -44,6 +55,15 @@ public class CompositeApplicationDescriptor {
 				break;
 			}
 			builder.add(deploymentPackage);
+		}
+		return builder.build();
+	}
+
+	public Map<String, String> getProperties() {
+		final ImmutableMap.Builder<String,String> builder = ImmutableMap.builder();
+
+		for (Map.Entry<String, String> entry : filterKeys(descriptor, IS_CI_PROPERTTY).entrySet()) {
+			builder.put(entry.getKey().substring("CI-".length()),entry.getValue());
 		}
 		return builder.build();
 	}

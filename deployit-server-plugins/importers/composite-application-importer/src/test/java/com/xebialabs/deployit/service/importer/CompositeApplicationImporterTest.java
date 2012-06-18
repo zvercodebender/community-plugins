@@ -13,8 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 import static com.google.common.io.Resources.getResource;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
 
 public class CompositeApplicationImporterTest {
 
@@ -39,9 +40,15 @@ public class CompositeApplicationImporterTest {
 
 		final ImportedPackage importedPackage = importer.importEntities(packageInfo, context);
 
+		assertThat(importedPackage.getVersion(), instanceOf(CompositePackage.class));
+		CompositePackage cp = (CompositePackage) importedPackage.getVersion();
+		assertThat(cp.<String>getProperty("prop1"), is("value1"));
+		assertThat(cp.<String>getProperty("prop2"), is("value2"));
+
+
 		assertEquals("Applications/PetCompositeApp", importedPackage.getApplication().getId());
-		assertEquals("Applications/PetCompositeApp/3.4", importedPackage.getVersion().getId());
-		final List<Version> versions = ((CompositePackage) importedPackage.getVersion()).getPackages();
+		assertEquals("Applications/PetCompositeApp/3.4", cp.getId());
+		final List<Version> versions = cp.getPackages();
 		assertEquals(2, versions.size());
 		assertEquals("[Applications/PetClinic-Ear/1.0, Applications/PetClinic-Ear/2.0]", versions.toString());
 	}

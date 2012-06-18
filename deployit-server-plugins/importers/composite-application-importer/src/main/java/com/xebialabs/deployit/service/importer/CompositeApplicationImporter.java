@@ -9,6 +9,7 @@ import com.xebialabs.deployit.server.api.importer.*;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.List;
+import java.util.Map;
 
 import static com.xebialabs.deployit.server.api.util.IdGenerator.generateId;
 
@@ -44,6 +45,9 @@ public class CompositeApplicationImporter implements ListableImporter {
 		version.getPackages().addAll(descriptor.getVersions());
 		version.setApplication(application);
 
+		for (Map.Entry<String, String> entry : descriptor.getProperties().entrySet()) {
+			version.setProperty(entry.getKey(), entry.getValue());
+		}
 
 		ImportedPackage importedPackage = new ImportedPackage(packageInfo, application, version);
 		return importedPackage;
