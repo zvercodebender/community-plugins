@@ -2,32 +2,22 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.xebialabs.deployit</groupId>
-  <artifactId>lock-plugin</artifactId>
-  <version>${deployit.api.version}-2-SNAPSHOT</version>
-  <packaging>jar</packaging>
   <parent>
     <groupId>org.xebialabs.deployit</groupId>
     <artifactId>utility-plugins</artifactId>
     <version>3.7.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
+  <artifactId>lock-plugin</artifactId>
+  <version>${deployit.api.version}-2-SNAPSHOT</version>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
   </scm>
   <dependencies>
     <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-library</artifactId>
-      <version>1.2.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-core</artifactId>
-      <version>1.2.1</version>
-      <scope>test</scope>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
     </dependency>
   </dependencies>
 </project>

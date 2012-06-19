@@ -2,16 +2,14 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.xebialabs.deployit</groupId>
-  <artifactId>command2-plugin</artifactId>
-  <version>${deployit.api.version}-2-SNAPSHOT</version>
-  <packaging>jar</packaging>
   <parent>
     <groupId>org.xebialabs.deployit</groupId>
     <artifactId>utility-plugins</artifactId>
     <version>3.7.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
+  <artifactId>command2-plugin</artifactId>
+  <version>${deployit.api.version}-2-SNAPSHOT</version>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
@@ -20,9 +18,6 @@
     <dependency>
       <groupId>com.xebialabs.deployit.plugins</groupId>
       <artifactId>generic-plugin</artifactId>
-      <version>${deployit.api.version}</version>
-      <scope>system</scope>
-      <systemPath>${deployit.server.home}/lib/generic-plugin-${deployit.api.version}.jar</systemPath>
     </dependency>
   </dependencies>
 </project>
