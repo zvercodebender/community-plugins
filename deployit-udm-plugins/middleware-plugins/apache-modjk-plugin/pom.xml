@@ -51,7 +51,7 @@
       <artifactId>webserver-plugin</artifactId>
       <version>${deployit.api.version}</version>
       <scope>system</scope>
-      <systemPath>${deployit.server.home}/available-plugins/webserver-plugin-${deployit.api.version}.jar</systemPath>
+      <systemPath>${deployit.server.home}/plugins/webserver-plugin-${deployit.api.version}.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.xebialabs.deployit.plugins</groupId>

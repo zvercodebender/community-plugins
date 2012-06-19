@@ -8,7 +8,7 @@
   <packaging>jar</packaging>
   <parent>
     <groupId>org.xebialabs.deployit</groupId>
-    <artifactId>middleware-plugins</artifactId>
+    <artifactId>utility-plugins</artifactId>
     <version>3.7.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
