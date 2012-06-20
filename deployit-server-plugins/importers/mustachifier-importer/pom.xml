@@ -1,68 +1,23 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-        <modelVersion>4.0.0</modelVersion>
-        <groupId>org.xebialabs.deployit</groupId>
-        <artifactId>mustachifier-importer</artifactId>
-        <version>${deployit.api.version}-2-SNAPSHOT</version>
-        <packaging>jar</packaging>
+  <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.xebialabs.deployit</groupId>
-    <artifactId>importers</artifactId>
+    <artifactId>server-plugins</artifactId>
     <version>3.7.0</version>
-    <relativePath>../pom.xml</relativePath>
+    <relativePath>../../pom.xml</relativePath>
   </parent>
+  <artifactId>mustachifier-importer</artifactId>
+  <version>${deployit.api.version}-2-SNAPSHOT</version>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
   </scm>
-        <repositories>
-            <repository>
-              <id>qrmedia-releases</id>
-              <url>http://aphillips.googlecode.com/svn/maven-repository/releases</url>
-              <snapshots>
-                <enabled>false</enabled>
-              </snapshots>
-            </repository>
-        </repositories>
-                <dependencies>
-                        <dependency>
-                            <groupId>com.xebialabs.deployit</groupId>
-                            <artifactId>udm-plugin-api</artifactId>
-                            <version>${deployit.api.version}</version>
-                            <scope>system</scope>
-                            <systemPath>${deployit.server.home}/lib/udm-plugin-api-${deployit.api.version}.jar</systemPath>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.xebialabs.deployit</groupId>
-                            <artifactId>single-file-importer</artifactId>
-                            <version>3.7.0-3-SNAPSHOT</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.xebialabs.deployit</groupId>
-                            <artifactId>mustachifier</artifactId>
-                            <version>3.7.0-2-SNAPSHOT</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>com.google.guava</groupId>
-                            <artifactId>guava</artifactId>
-                            <version>10.0.1</version>
-                            <scope>compile</scope>
-                        </dependency>
-                        <dependency>
-                            <groupId>com.xebialabs.overthere</groupId>
-                            <artifactId>overthere</artifactId>
-                            <version>${overthere.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>commons-io</groupId>
-                            <artifactId>commons-io</artifactId>
-                            <version>1.4</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>commons-lang</groupId>
-                            <artifactId>commons-lang</artifactId>
-                            <version>2.5</version>
-                        </dependency>
-                </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>org.xebialabs.deployit</groupId>
+      <artifactId>mustachifier</artifactId>
+      <version>${deployit.api.version}-2-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
 </project>
-

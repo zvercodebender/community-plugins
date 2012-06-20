@@ -65,9 +65,9 @@ public class RPMItest {
 		final Deployable rpm1 = (Deployable) TestUtils.createArtifact("toto", "1.0", "rpm/toto-0.1-1.i386.rpm", deployableType, workingFolder);
 		final DeploymentPackage deploymentPackageOne = TestUtils.createDeploymentPackage("1.0", rpm1);
 		final DeployedApplication deployedApplication = TestUtils.createDeployedApplication(deploymentPackageOne, environment);
-		final Deployed rpm1Deployed = tester.generateDeployed(rpm1, target, Type.valueOf(deployedType));
+		final Deployed<?, ?> rpm1Deployed = tester.generateDeployed(rpm1, target, Type.valueOf(deployedType));
 		DeltaSpecification spec = new DeltaSpecificationBuilder()
-				.initial(deployedApplication.getVersion(), deployedApplication.getEnvironment())
+				.initial(deployedApplication)
 				.create(rpm1Deployed)
 				.build();
 		assertTrue(spec, "a=1\n");
@@ -76,9 +76,9 @@ public class RPMItest {
 		//Upgrade
 		final Deployable rpm2 = (Deployable) TestUtils.createArtifact("toto", "1.0", "rpm/toto-0.2-1.i386.rpm", deployableType, workingFolder);
 		final DeploymentPackage deploymentPackageTwo = TestUtils.createDeploymentPackage("1.0", rpm2);
-		final Deployed rpm2Deployed = tester.generateDeployed(rpm2, target, Type.valueOf(deployedType));
+		final Deployed<?, ?> rpm2Deployed = tester.generateDeployed(rpm2, target, Type.valueOf(deployedType));
 		spec = new DeltaSpecificationBuilder()
-				.upgrade(deploymentPackageTwo, deployedApplication)
+				.upgrade(new DeployedApplication(deploymentPackageTwo, environment))
 				.modify(rpm1Deployed, rpm2Deployed)
 				.build();
 		assertTrue(spec, "a=2\n");

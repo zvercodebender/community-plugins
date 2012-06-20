@@ -1,40 +1,16 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.xebialabs.deployit</groupId>
+  <parent>
+    <groupId>org.xebialabs.deployit</groupId>
+    <artifactId>community-plugins-project</artifactId>
+    <version>3.7.0</version>
+    <relativePath>project/pom.xml</relativePath>
+  </parent>
   <artifactId>community-plugins</artifactId>
-  <version>3.7.0</version>
   <packaging>pom</packaging>
   <modules>
     <module>deployit-server-plugins</module>
     <module>deployit-udm-plugins</module>
   </modules>
-  <properties>
-    <deployit.server.home>${DEPLOYIT_HOME}</deployit.server.home>
-    <deployit.cli.home>${DEPLOYIT_CLI_HOME}</deployit.cli.home>
-    <deployit.api.version>3.7.0</deployit.api.version>
-    <overthere.version>2.0.0-beta-3</overthere.version>
-    <github.global.server>github</github.global.server>
-  </properties>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.10</version>
-    </dependency>
-  </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>com.github.github</groupId>
-        <artifactId>downloads-maven-plugin</artifactId>
-        <version>0.5</version>
-        <configuration>
-          <description>${project.version} release of ${project.name}</description>
-          <override>true</override>
-          <includeAttached>true</includeAttached>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>

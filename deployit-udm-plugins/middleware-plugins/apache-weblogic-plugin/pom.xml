@@ -1,28 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-
-    <!--
-      The test cases included with this plugin require udm-test-support (not included with the Deployit delivery) and
-      the JBoss plugin (available depending on the customer configuration).
-
-      If you do have these available, you can uncomment the skip tests flag and test dependencies below and run the test cases.
-    -->
-
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.xebialabs.deployit</groupId>
-  <artifactId>apache-weblogic-plugin</artifactId>
-  <version>${deployit.api.version}-2-SNAPSHOT</version>
-  <packaging>jar</packaging>
-  <properties>
-    <maven.test.skip>true</maven.test.skip>
-  </properties>
   <parent>
     <groupId>org.xebialabs.deployit</groupId>
     <artifactId>middleware-plugins</artifactId>
     <version>3.7.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
+  <artifactId>apache-weblogic-plugin</artifactId>
+  <version>${deployit.api.version}-2-SNAPSHOT</version>
+  <properties>
+    <maven.test.skip>true</maven.test.skip>
+  </properties>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
@@ -30,82 +20,59 @@
   <dependencies>
     <dependency>
       <groupId>com.xebialabs.deployit.plugins</groupId>
-      <artifactId>remoting-plugin</artifactId>
-      <version>${deployit.api.version}</version>
-      <scope>system</scope>
-      <systemPath>${deployit.server.home}/lib/remoting-plugin-${deployit.api.version}.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>com.xebialabs.deployit.plugins</groupId>
       <artifactId>webserver-plugin</artifactId>
-      <version>${deployit.api.version}</version>
-      <scope>system</scope>
-      <systemPath>${deployit.server.home}/available-plugins/webserver-plugin-${deployit.api.version}.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>com.xebialabs.overthere</groupId>
-      <artifactId>overthere</artifactId>
-      <version>${overthere.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>0.9.30</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-library</artifactId>
-      <version>1.2.1</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.xebialabs.deployit.plugins</groupId>
-      <artifactId>python-plugin</artifactId>
-      <version>${deployit.api.version}</version>
-      <scope>system</scope>
-      <systemPath>${deployit.server.home}/lib/python-plugin-${deployit.api.version}.jar</systemPath>
+      <artifactId>remoting-plugin</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.6.3</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.5</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hamcrest</groupId>
-      <artifactId>hamcrest-core</artifactId>
-      <version>1.2.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>1.4</version>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- Disabled test dependencies -->
-
-    <!-- dependency>
-      <groupId>com.xebialabs.deployit.plugins</groupId>
-      <artifactId>wls-plugin</artifactId>
-      <version>${deployit.api.version}</version>
-      <scope>system</scope>
-      <systemPath>${deployit.server.home}/lib/wls-plugin-${deployit.api.version}.jar</systemPath>
-    </dependency -->
-    <!-- dependency>
-      <groupId>com.xebialabs.deployit</groupId>
-      <artifactId>udm-test-support</artifactId>
-      <version>3.7.3</version>
-      <scope>test</scope>
-    </dependency -->
-
   </dependencies>
+  
+  <profiles>
+    <profile>
+      <id>test-with-wls-plugin</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <file>
+          <exists>${deployit.server.home}/plugins/wls-plugin-${deployit.api.version}.jar</exists>
+        </file>
+      </activation>
+      <properties>
+        <maven.test.skip>false</maven.test.skip>
+      </properties>
+      <dependencies>
+        <dependency>
+          <groupId>com.xebialabs.deployit.plugins</groupId>
+          <artifactId>wls-plugin</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>com.xebialabs.deployit.plugins</groupId>
+          <artifactId>python-plugin</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>com.xebialabs.deployit</groupId>
+          <artifactId>udm-test-support</artifactId>
+          <version>${deployit.api.version}</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>com.xebialabs.overthere</groupId>
+          <artifactId>overthere</artifactId>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+          <version>0.9.24</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.jmock</groupId>
+          <artifactId>jmock-junit4</artifactId>
+          <version>2.5.1</version>
+          <scope>test</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 </project>
