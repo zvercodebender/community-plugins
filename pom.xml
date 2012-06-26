@@ -10,6 +10,7 @@
   <artifactId>community-plugins</artifactId>
   <packaging>pom</packaging>
   <modules>
+    <module>deployit-cli-plugins</module>
     <module>deployit-server-plugins</module>
     <module>deployit-udm-plugins</module>
   </modules>

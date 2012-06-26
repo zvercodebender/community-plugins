@@ -18,7 +18,11 @@ The Apache Weblogic plugin is a Deployit plugin that is used to manage the confi
 	* **Deployit**: version 3.6+
 	* **Other Deployit Plugins**: wls-plugin-3.6.x
 
-# Use #
+# Installation
+
+Place the plugin JAR file into your `SERVER_HOME/plugins` directory. 
+
+# Usage #
 
 The plugin works with the standard deployment package of DAR format. Please see the _Packaging Manual_ for more details about the DAR format and the ways to 
 compose one. 
@@ -39,12 +43,7 @@ It contain declarations for an Ear, a specification for a Weblogic configuration
 	CI-Type: www.ApacheWeblogicSettingSpec
 	CI-mountedContexts-EntryValue-1: *.jsp
 
-
 # Oracle documentation #
 
 * [General Parameters for Web Server Plug-In](http://docs.oracle.com/cd/E11035_01/wls100/plugins/plugin_params.html#wp1143055)
 * [Installing and Configuring the Apache HTTP Server Plug-In](http://docs.oracle.com/cd/E15051_01/wls/docs103/plugins/apacheWebServer.html)
-
-
-
-

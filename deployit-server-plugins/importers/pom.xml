@@ -13,8 +13,6 @@
 
   <modules>
     <module>composite-application-importer</module>
-    <module>mustachifier</module>
-    <module>plain-archive-converter</module>
     <module>single-file-importer</module>
     <module>jee-archive-importer</module>
     <module>mustachifier-importer</module>

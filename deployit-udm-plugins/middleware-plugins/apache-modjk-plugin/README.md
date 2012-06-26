@@ -19,7 +19,11 @@ The Apache modjk plugin is a Deployit plugin that is used to manage the configur
 	* **Deployit**: version 3.6+
 	* **Other Deployit Plugins**: webserver-plugin-3.6.x
 
-# Use #
+# Installation
+
+Place the plugin JAR file into your `SERVER_HOME/plugins` directory. 
+
+# Usage #
 
 The plugin works with the standard deployment package of DAR format. Please see the _Packaging Manual_ for more details about the DAR format and the ways to 
 compose one. 
@@ -53,14 +57,8 @@ By default, the plugin targets all the generic Containers. To manage only a spec
 
 Example: to target only the JBoss servers
 
-
-```xml
-<type type="www.ApacheModJKWorkerSetting" extends="www.ApacheConfFragment" deployable-type="www.ApacheModJKWorkerSpec">
-	....
-	<property name="targets" kind="set_of_ci" referenced-type="jbossas.BaseServer" required="true" />
-	...
-</type>
-		 
-```
-
-
+	<type type="www.ApacheModJKWorkerSetting" extends="www.ApacheConfFragment" deployable-type="www.ApacheModJKWorkerSpec">
+		....
+		<property name="targets" kind="set_of_ci" referenced-type="jbossas.BaseServer" required="true" />
+		...
+	</type>

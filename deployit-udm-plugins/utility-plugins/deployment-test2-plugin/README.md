@@ -1,23 +1,24 @@
-Description
-===========
+# Deployment Test 2 plugin #
 
-A custom Deployit 3.6 plugin to support post-deployment tests.
+# Overview #
 
-Installation
-============
+The Deployment Tests 2 plugin is a plugin that supports post-deployment tests.
 
-Place the 'deployment-test2-&lt;version&gt;.jar' file into your `SERVER_HOME/plugins` directory.
+# Requirements #
 
-On Windows hosts, the plugin will by default use a version of `wget` included in the plugin. If your wish to use a _different_ `wget` that is _already present_ on the path of your target systems you can simply prevent the included version from being uploaded by modifying `SERVER_HOME/conf/deployit-defaults.properties` as follows:
+* **Deployit requirements**
+	* **Deployit**: version 3.7
 
-```
-# Classpath Resources
-# tests2.ExecutedHttpRequestTest.classpathResources=tests2/runtime/wget.exe
-```
+# Installation #
+
+Place the plugin JAR file into your `SERVER_HOME/plugins` directory. 
+	
+On Windows hosts, the plugin will by default use a version of `wget` included in the plugin. If you wish to use a _different_ `wget` that is _already present_ on the path of your target systems you can simply prevent the included version from being uploaded by modifying `SERVER_HOME/conf/deployit-defaults.properties` as follows:
+
+	# Classpath Resources
+	# tests2.ExecutedHttpRequestTest.classpathResources=tests2/runtime/wget.exe
 
 to
 
-```
-# Classpath Resources
-tests2.ExecutedHttpRequestTest.classpathResources=
-```
+	# Classpath Resources
+	tests2.ExecutedHttpRequestTest.classpathResources=

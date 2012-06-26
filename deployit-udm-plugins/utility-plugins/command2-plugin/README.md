@@ -1,9 +1,14 @@
-Description
-===========
+# Command 2 plugin #
 
-A replacement for the standard Deployit 3.6.0 command plugin that supports commands and command folders and re-uses generic plugin replacement and templating functionality..
+# Overview #
 
-Installation
-============
+The Command 2 plugin is a replacement for the standard Deployit command plugin that supports commands and command folders and re-uses generic plugin replacement and templating functionality..
 
-Place the 'command2-plugin-&lt;version&gt;.jar' file into your SERVER_HOME/plugins directory.
+# Requirements #
+
+* **Deployit requirements**
+	* **Deployit**: version 3.7
+
+# Installation #
+
+Place the plugin JAR file into your `SERVER_HOME/plugins` directory. 

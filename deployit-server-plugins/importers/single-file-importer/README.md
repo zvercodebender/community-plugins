@@ -1,16 +1,24 @@
-Description
-===========
+# Single File Importer #
 
-A Deployit 3.5.x "abstract" importer that makes it easy to define importers to create packages from single files.
+This document describes the functionality provided by the Single File Importer.
 
-Installation
-============
+See the **Deployit Reference Manual** for background information on Deployit and deployment concepts.
 
-Place the 'single-file-importer-<version>.jar' file into your SERVER_HOME/lib directory. 
+# Overview #
 
-The configuration file 'single-file-importer.properties' should be created/placed in SERVER_HOME/conf.
+The Single File Importer is a Deployit "abstract" importer that makes it easy to define importers to create packages from single files.
 
-Examples
-========
+# Requirements #
 
-See the [jee-archive-importer](https://github.com/demobox/jee-archive-importer) for examples of the usage of this importer.
+* **Deployit requirements**
+	* **Deployit**: version 3.7
+
+# Installation #
+
+Place the plugin JAR file into your `SERVER_HOME/plugins` directory. 
+
+The configuration file 'single-file-importer.properties' should be created/placed in `SERVER_HOME/conf`.
+	
+# Example
+
+See [jee-archive-importer](https://github.com/xebialabs/community-plugins/blob/master/deployit-server-plugins/importers/jee-archive-importer) for examples.

@@ -20,6 +20,10 @@ The demo plugin is a Deployit plugin that is used to demo the Deployit system.
 	* **Deployit**: version 3.6+
 	* **Other Deployit Plugins**: None
 
-# Demo plugin use #
+# Installation
+
+Place the plugin JAR file into your `SERVER_HOME/plugins` directory. 
+
+# Usage #
 
 The demo plugin is used to construct the examples in the CLI manual.

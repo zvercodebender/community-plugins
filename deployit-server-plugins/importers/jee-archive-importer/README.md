@@ -1,17 +1,25 @@
-Description
-===========
+# JEE Archive Importer #
 
-A Deployit Importer plugpoint that allows plain EAR files to be imported as Deployment Packages.
+This document describes the functionality provided by the JEE Archive Importer.
 
-Installation
-============
+See the **Deployit Reference Manual** for background information on Deployit and deployment concepts.
 
-Place the 'jee-archive-importer-<version>.jar' file into your SERVER_HOME/lib directory. 
+# Overview #
+
+The JEE Archive Importer is a Deployit importer allowing to import plain EAR files as deployment packages.
+
+# Requirements #
+
+* **Deployit requirements**
+	* **Deployit**: version 3.7
+	
+# Installation #
+
+Place the plugin JAR file into your `SERVER_HOME/plugins` directory. 
 
 The configuration file 'jee-archive-importer.properties' should be created/placed in SERVER_HOME/conf.
 
-Configuration
-=============
+# Configuration #
 
 The main task of the importer is to derive, on the basis of the EAR or WAR file, the application name and version for the deployment package that will be created.
 
@@ -39,7 +47,10 @@ jee-archive-importer.&lt;ext&gt;.versionManifestAttribute
 
 determine the manifest attributes that should be read to determine the name (resp. version) of the deployment package.
 
-Examples
---------
+# Usage
 
-See https://github.com/xebialabs/community-plugins/blob/master/importers/jee-archive-importer/src/test/resources/jee-archive-importer.properties for examples.
+Place the EAR file in the importable package directory or import it via the CLI.
+
+# Example #
+
+See [the test](https://github.com/xebialabs/community-plugins/blob/master/importers/jee-archive-importer/src/test/resources/jee-archive-importer.properties) for examples.

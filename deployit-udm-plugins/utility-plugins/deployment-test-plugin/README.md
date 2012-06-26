@@ -24,6 +24,10 @@ or whether the created datasource is functioning properly or not. The tests-plug
 	* **User credentials** for accessing the Hosts on which the application accessibility test has to be performed (called the TestStation)
 	* **wget** installed on the Hosts (Unix/Windows) on which the application accessibility test has to be performed if it's not same as the Deployit server Host.
 
+# Installation
+
+Place the plugin JAR file into your `SERVER_HOME/plugins` directory. 
+
 # Usage in Deployment Packages #
 
 The plugin works with the standard deployment package of DAR format. Please see the _Packaging Manual_ for more details about the DAR format and the ways to 
@@ -107,6 +111,7 @@ The following table describes the effect a deployed has on it's container
 </table>
 
 # Test Station #
+
 A test station is a generic.Container type on which a particular test is run. For the httpRequestTest, the type of Host used for creating the test station determines which version of the test should
 be run. There are two kind of tests possible for http request test.
 
@@ -116,6 +121,7 @@ be run. There are two kind of tests possible for http request test.
 			overthere.LocalHost. This expects `wget` to be present on the Host since the script uses `wget` utility to invoke the URL.
 
 # Using a HttpRequestTester #
+
 Let's say if petclinic application is deployed on the server _production-host_, and the http request test has to be tested from host _test-host_ (that has access to the petclinic application), then the 
 following steps can be followed to add this application testing feature as part of the standard deployment:
 

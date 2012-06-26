@@ -21,6 +21,10 @@ This directory contains Deployit plugins that are based on the Unified Deploymen
 
 This directory contains Deployit server plugins that influence server behavior.
 
+## deployit-cli-plugins
+
+This directory contains Deployit CLI plugins that influence CLI behavior.
+
 ## tool-deployit-plugins
 
 This directory contains plugins for external tools that interact with Deployit.
@@ -40,6 +44,10 @@ installation directory. See Deployit's *System Administration Manual* for more i
 If you want to add features to a plugin, fix a bug or otherwise contribute, great! Fork the community-plugins repository,
 make your changes, test them and submit a pull request to us so we can incorporate your changes and make them available
 to other Deployit users.
+
+# Discussing plugins
+
+The [Deployit user forum](http://support.xebialabs.com/forums/20273366-deployit-users) is a place where you can discuss these community plugins (or other Deployit installation and configuration topics) with fellow Deployit users.
 
 # Enjoy!
 

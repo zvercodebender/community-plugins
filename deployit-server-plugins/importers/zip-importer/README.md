@@ -1,16 +1,24 @@
-Description
-===========
+# Zip Importer #
 
-A Deployit Importer plugpoint that allows plain ZIP files to be imported as Deployment Packages.
+This document describes the functionality provided by the Zip Importer.
 
-Installation
-============
+See the **Deployit Reference Manual** for background information on Deployit and deployment concepts.
 
-Place the 'zip-importer-*version*.jar' file into your SERVER_HOME/plugins directory. Requires 'plain-archive-converter-*version*.jar' to be present in SERVER_HOME/plugins - if this is not part of your CLI configuration (see CLI_HOME/plugins) it can be built from [GitHub](https://github.com/demobox/plain-archive-converter).
+# Overview #
+
+The Zip Importer is a Deployit server extension that allows importing of plain ZIP files as Deployment ARchives (DAR files). It uses the `plain-archive-converter` to convert the ZIP file into a DAR.
+
+# Requirements #
+
+* **Deployit requirements**
+	* **Deployit**: version 3.7
+	
+# Installation #
+
+Place the plugin JAR file into your `SERVER_HOME/plugins` directory. You will also need the [plain-archive-converter](https://github.com/xebialabs/community-plugins/blob/master/deployit-cli-plugins/plain-archive-converter) in `SERVER_HOME/plugins`.
 
 The configuration file 'plain-archive-converter.properties' should be created/placed in SERVER_HOME/conf.
 
-Configuration
-=============
+# Configuration #
 
-See the README for the plain-archive-converter at https://github.com/demobox/plain-archive-converter for configuration information and examples.
+See the README for the [plain-archive-converter](https://github.com/xebialabs/community-plugins/blob/master/deployit-cli-plugins/plain-archive-converter) for more information.
