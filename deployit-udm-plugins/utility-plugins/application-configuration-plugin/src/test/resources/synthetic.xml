@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+    <type type="test.DeployedFile" extends="generic.CopiedArtifact" deployable-type="test.File" container-type="overthere.LocalHost">
+        <generate-deployable type="test.File" extends="generic.File"/>
+        <property name="targetDirectory"/>
+    </type>
+
+</synthetic>
