@@ -27,6 +27,7 @@ An error is raised if a entry cannot be found in the package.
 
 Sample Manifest:
 
+```
 Manifest-Version: 1.0
 Deployit-Package-Format-Version: 1.3
 CI-Application: MyApp
@@ -41,6 +42,7 @@ CI-entries-OTHER_KEY: KEY2
 CI-entries-otherValue: value
 
 
+```
 
 
 
