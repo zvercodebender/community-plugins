@@ -1,16 +1,16 @@
-# Dictionary Extensions Plugin #
+# Application Configuration Plugin #
 
-This document describes the functionality provided by the dictionary extensions plugin.
+This document describes the functionality provided by the Application Configuration Plugin.
 
 See the **Deployit Reference Manual** for background information on Deployit and deployment concepts.
 
 # Overview #
 
-The dictionary-extensions-plugin is a Deployit plugin that extends the udm.Dictionary.
+The application-configuration-plugin is a Deployit plugin that defines the udm.ApplicationConfiguration, allowing to define a kind of dictionary in the deployment package.
 
 ##Features##
 
-* ext.HierarchicalDictionary
+* udm.ApplicationConfiguration
 
 # Requirements #
 
@@ -20,10 +20,30 @@ The dictionary-extensions-plugin is a Deployit plugin that extends the udm.Dicti
 
 # Usage #
 
-##  HierarchicalDictionary
-This dictionary contains not only entries, but also other dictionaries. If an entry is not found in the entries, it will be searched in the first dictionaires.
-if the entry is still not found, the entry will be search the next in the list.. until the end of the list.
+##  udm.ApplicationConfiguration
 
-entries > dictionaries[0] >  dictionaries[1] > ......  > dictionaries[n]
+All the placeholders' entries in a deployed whose value is <app-conf> will be replaced by the one provided par the udm.Application packaged in the application.
+An error is raised if a entry cannot be found in the package.
+
+Sample Manifest:
+
+Manifest-Version: 1.0
+Deployit-Package-Format-Version: 1.3
+CI-Application: MyApp
+CI-Version: 1.0
+
+Name: appConfig
+CI-Type: udm.ApplicationConfiguration
+CI-entries-INSTANCE_NAME: ABC
+CI-entries-otherValue: 42
+
+CI-entries-OTHER_KEY: KEY2
+CI-entries-otherValue: value
+
+
+
+
+
+
 
 
