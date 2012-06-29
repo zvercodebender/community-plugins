@@ -44,3 +44,22 @@ The following file defines the `PetCompositeApp/3.4` application based on 2 depl
 
 	package.2.name=PetClinic-ear
 	package.2.version=2.0
+
+Put the file in the importable package directory or import it using the CLI.
+
+# Extended udm.CompositePackage #
+
+If you've extended the udm.CompositePackage by adding 2 new properties (eg prop1 or prop2), you can fill them using the .cad
+
+	application=PetCompositeApp
+	version=3.4
+
+	CI-prop1=value1
+	CI-prop2=value2
+
+	package.1.name=PetClinic-Ear
+	package.1.version=1.0
+
+	package.2.name=PetClinic-Ear
+	package.2.version=2.0
+

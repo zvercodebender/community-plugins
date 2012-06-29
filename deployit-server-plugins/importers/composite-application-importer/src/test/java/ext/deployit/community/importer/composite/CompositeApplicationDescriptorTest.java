@@ -33,8 +33,15 @@ public class CompositeApplicationDescriptorTest {
 	}
 
 	@Test
+	public void testGetCIProperties() throws Exception {
+		assertEquals(2, descriptor.getProperties().size());
+		assertEquals("value1", descriptor.getProperties().get("prop1"));
+		assertEquals("value2", descriptor.getProperties().get("prop2"));
+	}
+
+	@Test
 	public void testGetVersions() throws Exception {
 		final List<Version> versions = descriptor.getVersions();
-		assertEquals("[Applications/PetClinic-Ear/1.0, Applications/PetClinic-Ear/2.0]",versions.toString());
+		assertEquals("[Applications/PetClinic-Ear/1.0, Applications/PetClinic-Ear/2.0]", versions.toString());
 	}
 }

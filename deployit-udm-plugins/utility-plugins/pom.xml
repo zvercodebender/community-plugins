@@ -23,5 +23,6 @@
     <module>release-auth-plugin</module>
     <module>rpm-plugin</module>
     <module>pause-plugin</module>
+    <module>application-configuration-plugin</module>
   </modules>
 </project>

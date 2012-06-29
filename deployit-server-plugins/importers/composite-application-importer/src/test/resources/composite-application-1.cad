@@ -1,6 +1,9 @@
 application=PetCompositeApp
 version=3.4
 
+CI-prop1=value1
+CI-prop2=value2
+
 package.1.name=PetClinic-Ear
 package.1.version=1.0
 
