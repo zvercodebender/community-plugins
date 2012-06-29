@@ -1,0 +1,56 @@
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+  <type type="openshift.Cloud" extends="generic.Container">
+    <property name="username" />
+    <property name="password" password="true" />
+    <!-- admin properties -->
+    <property name="rhcCommand" hidden="true" default="rhc" />
+  </type>
+
+  <type type="openshift.Application" extends="generic.NestedContainer">
+    <property name="cloud" as-containment="true" kind="ci" referenced-type="openshift.Cloud" />
+    <property name="applicationType" default="jbossas-7" />
+    <!-- admin properties -->
+    <property name="createScript" hidden="true" default="openshift/create-application" />
+    <property name="destroyScript" hidden="true" default="openshift/destroy-application" />
+    <method name="create" />
+    <method name="destroy" />
+  </type>
+
+  <type type="openshift.ActionHook" extends="generic.ExecutedScript" container-type="openshift.Application" virtual="true">
+    <property name="command" />
+    <property name="createVerb" hidden="true" default="Install" />
+    <property name="createScript" hidden="true" default="openshift/create-action-hook" />
+    <!-- DefaultOrders.CREATE_RESOURCES -->
+    <property name="createOrder" kind="integer" hidden="true" default="60" />
+    <property name="destroyVerb" hidden="true" default="Remove" />
+    <property name="destroyScript" hidden="true" default="openshift/destroy-action-hook" />
+  </type>
+
+  <type type="openshift.DeployHook" extends="openshift.ActionHook" deployable-type="openshift.DeployHookSpec">
+    <generate-deployable type="openshift.DeployHookSpec" extends="generic.Resource" />
+    <property name="actionHookFile" hidden="true" default="deploy" />
+  </type>
+
+  <type type="openshift.PostDeployHook" extends="openshift.ActionHook" deployable-type="openshift.PostDeployHookSpec">
+    <generate-deployable type="openshift.PostDeployHookSpec" extends="generic.Resource" />      
+    <property name="actionHookFile" hidden="true" default="post_deploy" />
+  </type>
+
+  <type-modification type="openshift.DeployedWar0">
+    <property name="contextRoot" default="${deployed.name}" />
+    <!-- admin properties -->
+    <property name="createVerb" hidden="true" default="Deploy" />
+    <property name="createScript" hidden="true" default="openshift/create-war" />
+    <!-- DefaultOrders.DEPLOY_ARTIFACTS -->
+    <property name="createOrder" kind="integer" hidden="true" default="70" />
+    <property name="modifyVerb" hidden="true" default="Update" />
+    <property name="modifyScript" hidden="true" default="openshift/modify-war" />
+    <property name="destroyVerb" hidden="true" default="Undeploy" />
+    <property name="destroyScript" hidden="true" default="openshift/destroy-war" />
+  </type-modification>
+
+  <type type="openshift.DeployedWar" extends="openshift.DeployedWar0" container-type="openshift.Application" />
+</synthetic>

@@ -13,5 +13,6 @@
   <modules>
     <module>apache-modjk-plugin</module>
     <module>apache-weblogic-plugin</module>
+    <module>openshift-plugin</module>
   </modules>
 </project>
