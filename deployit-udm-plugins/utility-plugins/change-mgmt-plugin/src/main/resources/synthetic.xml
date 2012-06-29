@@ -5,9 +5,10 @@
     
     <type type="chg.ChangeRequest" extends="generic.Resource" />
     
-    <type-modification type="chg.ChangeTicket">
+    <type type="chg.ChangeTicket" extends="generic.ExecutedScript" 
+          deployable-type="chg.ChangeRequest" container-type="chg.ChangeManager" virtual="true">
         <property name="requestId" description="The ID or number of the change request" />
-        
+
         <!-- admin properties -->
         <property name="createScript" hidden="true" default="chg/check-for-request" />
         <property name="createVerb" hidden="true" default="Verify" />
@@ -16,13 +17,13 @@
         <property name="updateScript" hidden="true" default="chg/update-request" />
         <!-- DefaultOrders.POST_FLIGHT -->
         <property name="updateOrder" kind="integer" hidden="true" default="100" />
-    </type-modification>
-    
-    <!-- workaround for http://tech.xebialabs.com/jira/browse/DEPLOYITPB-2236 -->
-    <type type="chg.ChangeTicket2" extends="chg.ChangeTicket"
-        deployable-type="chg.ChangeRequest" container-type="chg.ChangeManager" />
+    </type>
+
+    <!-- keep for backwards-compatibility -->
+    <type type="chg.ChangeTicket2" extends="chg.ChangeTicket" />
     
     <type type="chg.ChangeManager" extends="generic.Container" description="A Change Management system">
+        <property name="updateChangeTicketAfterDeployment" kind="boolean" required="false" />
         <!-- The suffix of the calculated checklist item to use for change ticket validation.
           Should be hidden and not match the name of any visible deployment checklist item administered by users -->
         <property name="changeTicketChecklistItemSuffix" default="ChangeTicket" />

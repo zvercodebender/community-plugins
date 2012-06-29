@@ -16,12 +16,14 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.xebialabs.deployit.community.changemgmt.OverrideTestSynthetics;
 import com.xebialabs.deployit.deployment.planner.DeltaSpecificationBuilder;
 import com.xebialabs.deployit.plugin.api.boot.PluginBooter;
 import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecification;
 import com.xebialabs.deployit.plugin.api.udm.Deployed;
 import com.xebialabs.deployit.plugin.api.udm.Environment;
 import com.xebialabs.deployit.plugin.generic.ci.Container;
+import com.xebialabs.deployit.plugin.generic.deployed.ExecutedScript;
 import com.xebialabs.deployit.plugin.test.yak.ci.YakServer;
 import com.xebialabs.deployit.test.support.TestUtils;
 
@@ -82,7 +84,7 @@ public class SetChangeTicketChecklistItemTest {
         env.addMember((Container) newInstance("chg.ChangeManager"));
         env.setProperty(format("requires%s", changeTicketChecklistItemSuffix), TRUE);
         DeltaSpecification deltaSpec = newDeltaSpec(env, 
-                TestUtils.<ChangeTicket>newInstance("chg.ChangeTicket2")).build();
+                TestUtils.<ExecutedScript<?>>newInstance("chg.ChangeTicket2")).build();
         SetChangeTicketChecklistItem.setChecklistItem(deltaSpec);
         assertThat(deltaSpec.getDeployedApplication().getVersion()
                 .getProperty(format("satisfies%s", changeTicketChecklistItemSuffix)), 
@@ -95,8 +97,8 @@ public class SetChangeTicketChecklistItemTest {
         env.addMember((Container) newInstance("chg.ChangeManager"));
         env.setProperty(format("requires%s", changeTicketChecklistItemSuffix), TRUE);        
         DeltaSpecificationBuilder specBuilder = newDeltaSpec(env);
-        specBuilder.modify(TestUtils.<ChangeTicket>newInstance("chg.ChangeTicket2"),
-            TestUtils.<ChangeTicket>newInstance("chg.ChangeTicket2"));
+        specBuilder.modify(TestUtils.<ExecutedScript<?>>newInstance("chg.ChangeTicket2"),
+            TestUtils.<ExecutedScript<?>>newInstance("chg.ChangeTicket2"));
         DeltaSpecification deltaSpec = specBuilder.build();
         SetChangeTicketChecklistItem.setChecklistItem(deltaSpec);
         assertThat(deltaSpec.getDeployedApplication().getVersion()
@@ -112,7 +114,7 @@ public class SetChangeTicketChecklistItemTest {
         env.setProperty(format("requires%s", changeTicketChecklistItemSuffix), TRUE);        
         DeltaSpecificationBuilder specBuilder = newSpecification().undeploy(
                 createDeployedApplication(createDeploymentPackage(), env));
-        specBuilder.destroy(TestUtils.<ChangeTicket>newInstance("chg.ChangeTicket2"));
+        specBuilder.destroy(TestUtils.<ExecutedScript<?>>newInstance("chg.ChangeTicket2"));
         DeltaSpecification deltaSpec = specBuilder.build();
         SetChangeTicketChecklistItem.setChecklistItem(deltaSpec);
         assertThat(deltaSpec.getDeployedApplication().getVersion()

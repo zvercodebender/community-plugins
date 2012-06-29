@@ -12,6 +12,8 @@ sourceEncoding = 'UTF-8'
 
 dependencies {
   compile "com.xebialabs.deployit:udm-plugin-api:$apiVersion"
+  compile "com.xebialabs.deployit.plugins:generic-plugin:${apiVersion}"
+  compile "com.xebialabs.deployit.plugins:remoting-plugin:${apiVersion}"
 }
 
 repositories {
