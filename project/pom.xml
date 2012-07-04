@@ -103,6 +103,13 @@
       </dependency>
       <dependency>
         <groupId>com.xebialabs.deployit</groupId>
+        <artifactId>server-api</artifactId>
+        <version>${deployit.api.version}</version>
+        <scope>system</scope>
+        <systemPath>${deployit.server.home}/lib/server-api-${deployit.api.version}.jar</systemPath>
+      </dependency>
+      <dependency>
+        <groupId>com.xebialabs.deployit</groupId>
         <artifactId>server-core</artifactId>
         <version>${deployit.api.version}</version>
         <scope>system</scope>
