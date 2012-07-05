@@ -1,9 +1,9 @@
 package ext.deployit.community.cli.manifestexport.dar;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.ImmutableMap.copyOf;
 import static ext.deployit.community.cli.manifestexport.collect.Maps2.transformKeys;
 
+import java.util.Collection;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -34,6 +34,10 @@ public class DarManifestBuilder extends ManifestBuilder {
     }
 
     public DarManifestBuilder addDarEntry(@Nonnull DarEntry entry) {
+        Collection<String> entryErrors = entry.getErrors();
+        if (!entryErrors.isEmpty()) {
+            throw new IllegalArgumentException(entryErrors.toString());
+        }
         entry.addToManifest(this);
         return this;
     }
@@ -59,8 +63,21 @@ public class DarManifestBuilder extends ManifestBuilder {
         public DarEntry(@Nonnull String type, @Nonnull Map<String, String> properties, 
                 @Nonnull String jarEntryPath) {
             this.type = checkNotNull(type, "type");
-            this.properties = copyOf(checkNotNull(properties, "properties"));
+            this.properties = transformKeys(checkNotNull(properties, "properties"),
+                    new Function<String, String>() {
+                        @Override
+                        public String apply(String input) {
+                            return toCiAttribute(input);
+                        }
+                    });
             this.jarEntryPath = checkNotNull(jarEntryPath, "jarEntryPath");
+        }
+
+        /**
+         * @return a collection of error messages, empty if all the attributes are valid
+         */
+        public @Nonnull Collection<String> getErrors() {
+            return getAttributeErrors(properties);
         }
 
         private void addToManifest(@Nonnull ManifestBuilder builder) {
@@ -68,13 +85,12 @@ public class DarManifestBuilder extends ManifestBuilder {
             Map<String, String> attributes = Maps.newHashMapWithExpectedSize(
                     1 + properties.size());
             attributes.put(TYPE_ATTRIBUTE_NAME, type);
-            attributes.putAll(transformKeys(properties, new Function<String, String>() {
-                    @Override
-                    public String apply(String input) {
-                        return CI_ATTRIBUTE_PREFIX + input;
-                    }
-                }));
+            attributes.putAll(properties);
             builder.addEntryAttributes(jarEntryPath, attributes);
+        }
+
+        public static @Nonnull String toCiAttribute(@Nonnull String attributeName) {
+            return CI_ATTRIBUTE_PREFIX + attributeName;
         }
 
         @Override
