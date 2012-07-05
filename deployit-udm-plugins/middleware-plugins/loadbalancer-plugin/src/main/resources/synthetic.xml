@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+    <!-- there is no 'udm.AppServer' base class, unfortunately -->
+    <type-modification type="generic.Container">
+        <property name="removeFromLoadBalancerPool" kind="boolean" required="false" default="true" />
+    </type-modification>
+    <type-modification type="generic.NestedContainer">
+        <property name="removeFromLoadBalancerPool" kind="boolean" required="false" default="true" />
+    </type-modification>
+
+    <type-modification type="www.ApacheHttpdServer">
+        <property name="frontedServers" kind="set_of_ci" referenced-type="udm.Container" required="false" />
+    </type-modification>
+
+    <type type="lb.GenericLoadBalancer" extends="generic.Container">
+        <property name="webserverPool" kind="set_of_ci" referenced-type="www.ApacheHttpdServer" required="false" />
+        <!-- there is no 'udm.AppServer' base class, unfortunately -->
+        <property name="appserverPool" kind="set_of_ci" referenced-type="udm.Container" required="false" />
+        <property name="removeFromLoadBalancerPoolScript" hidden="true" default="lb/remove-from-pool" />
+        <!-- DefaultOrders.STOP_ARTIFACTS - 2 -->
+        <property name="removeFromLoadBalancerPoolOrder" kind="integer" hidden="true" default="8" />
+        <property name="returnToLoadBalancerPoolScript" hidden="true" default="lb/return-to-pool" />
+        <!-- DefaultOrders.START_ARTIFACTS + 4 -->
+        <property name="returnToLoadBalancerPoolOrder" kind="integer" hidden="true" default="94" />
+        <!-- hide "removeFromLoadBalancerPool"...makes little sense for the load balancer itself -->
+        <property name="removeFromLoadBalancerPool" kind="boolean" required="false" hidden="true" default="false" />
+    </type>
+</synthetic>
