@@ -28,4 +28,19 @@
         <!-- hide "removeFromLoadBalancerPool"...makes little sense for the load balancer itself -->
         <property name="removeFromLoadBalancerPool" kind="boolean" required="false" hidden="true" default="false" />
     </type>
+
+    <type type="lb.BigIpLoadBalancer" extends="lb.GenericLoadBalancer">
+        <property name="hostname" kind="string" required="true" />
+        <property name="username" kind="string" required="true" />
+        <property name="password" kind="string" password="true" required="true" />
+        <property name="partition" kind="string" required="true" />
+
+        <property name="removeFromLoadBalancerPoolScript" hidden="true" default="big-ip/remove-from-pool" />
+        <!-- DefaultOrders.STOP_ARTIFACTS - 2 -->
+        <property name="removeFromLoadBalancerPoolOrder" kind="integer" hidden="true" default="8" />
+        <property name="returnToLoadBalancerPoolScript" hidden="true" default="big-ip/return-to-pool" />
+        <!-- DefaultOrders.START_ARTIFACTS + 4 -->
+        <property name="returnToLoadBalancerPoolOrder" kind="integer" hidden="true" default="94" />
+    </type>
+
 </synthetic>
