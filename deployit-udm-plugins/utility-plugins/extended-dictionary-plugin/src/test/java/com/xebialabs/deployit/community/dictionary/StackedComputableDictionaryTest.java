@@ -11,13 +11,15 @@ import static com.google.common.collect.ImmutableList.of;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-public class StackedDictionaryTest {
+public class StackedComputableDictionaryTest {
 
     private Dictionary d1;
     private Dictionary d2;
     private Dictionary d3;
     private Dictionary d4;
-    private StackedDictionary hd;
+    private StackedComputableDictionary hd;
+    private Dictionary d1c;
+    private Dictionary d2c;
 
     @Before
     public void setup() throws Exception {
@@ -33,7 +35,12 @@ public class StackedDictionaryTest {
         d4 = new Dictionary();
         d4.setEntries(ImmutableMap.of("Y", "2"));
 
-        hd = new StackedDictionary();
+        d1c = new Dictionary();
+        d1c.setEntries(ImmutableMap.of("Y", "{{X}}"));
+        d2c = new Dictionary();
+        d2c.setEntries(ImmutableMap.of("X", "1"));
+
+        hd = new StackedComputableDictionary();
 
     }
 
@@ -119,5 +126,44 @@ public class StackedDictionaryTest {
         assertTrue(entries.containsKey("Y"));
         assertThat(entries.get("X"), is("1"));
         assertThat(entries.get("Y"), is("1"));
+    }
+
+    @Test
+    public void testComputeD1CD2C() {
+        hd.setDictionaries(of(d1c, d2c));
+        final Map<String, String> entries = hd.getEntries();
+        assertThat(entries.size(), is(2));
+        assertTrue(entries.containsKey("X"));
+        assertTrue(entries.containsKey("Y"));
+        assertThat(entries.get("X"), is("1"));
+        assertThat(entries.get("Y"), is("1"));
+    }
+
+
+    @Test
+    public void testComputeD1CD2CD3() {
+        hd.setDictionaries(of(d3, d1c, d2c));
+        final Map<String, String> entries = hd.getEntries();
+        assertThat(entries.size(), is(2));
+        assertTrue(entries.containsKey("X"));
+        assertTrue(entries.containsKey("Y"));
+        assertThat(entries.get("X"), is("2"));
+        assertThat(entries.get("Y"), is("2"));
+    }
+
+    @Test
+    public void testComputeMembersAreComputableDictionaries() {
+        Dictionary dictA = new ComputableDictionary();
+        dictA.setEntries(ImmutableMap.of("A", "1", "B", "{{A}}"));
+        Dictionary dictB = new ComputableDictionary();
+        dictB.setEntries(ImmutableMap.of("A", "2", "B", "{{A}}"));
+
+        hd.setDictionaries(of(dictB, dictA));
+        final Map<String, String> entries = hd.getEntries();
+        assertThat(entries.size(), is(2));
+        assertTrue(entries.containsKey("A"));
+        assertTrue(entries.containsKey("B"));
+        assertThat(entries.get("A"), is("2"));
+        assertThat(entries.get("B"), is("2"));
     }
 }

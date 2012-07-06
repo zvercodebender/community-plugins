@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static com.google.common.collect.Maps.newHashMap;
+import static java.lang.String.format;
 
 public class ComputableDictionary extends Dictionary {
 
@@ -33,36 +34,42 @@ public class ComputableDictionary extends Dictionary {
 		return getEntries().containsKey(key);
 	}
 
-	Map<String, String> getComputedEntries() {
+	private Map<String, String> getComputedEntries() {
 		final Map<String, String> entries = newHashMap(super.getEntries());
-		for (; ; ) {
-			final Set<String> previousUnresolvedPlaceholders = getUnresolvedPlaceholders(entries);
-			for (Map.Entry<String, String> entry : entries.entrySet()) {
-				final String key = entry.getKey();
-				final String value = entry.getValue();
-				try {
-					final String executed = Mustache.compiler().compile(value).execute(entries);
-					entries.put(key, executed);
-				} catch (MustacheException me) {
-					//TODO: decide if it should be an error or not !
-					logger.warn("cannot compute '{}' {}", entry, me.getMessage());
-				}
-			}
-
-			final Set<String> unresolvedPlaceholders = getUnresolvedPlaceholders(entries);
-			if (unresolvedPlaceholders.isEmpty()) {
-				logger.debug("no more placeholders in {}", entries.values());
-				break;
-			}
-			if (unresolvedPlaceholders.equals(previousUnresolvedPlaceholders)) {
-				logger.debug("no more work can be done with {}", entries.values());
-				break;
-			}
-		}
-		return entries;
+        return computeDictionary(entries);
 	}
 
-	private Set<String> getUnresolvedPlaceholders(Map<String, String> entries) {
+    protected Map<String, String> computeDictionary(Map<String, String> entries) {
+        for (; ; ) {
+            final Set<String> previousUnresolvedPlaceholders = getUnresolvedPlaceholders(entries);
+            if (previousUnresolvedPlaceholders.isEmpty()) {
+                break;
+            }
+            for (Map.Entry<String, String> entry : entries.entrySet()) {
+                final String key = entry.getKey();
+                final String value = entry.getValue();
+                try {
+                    final String executed = Mustache.compiler().compile(value).execute(entries);
+                    entries.put(key, executed);
+                } catch (MustacheException me) {
+                    //TODO: decide if it should be an error or not !
+                    logger.warn("cannot compute '{}' {}", entry, me.getMessage());
+                }
+            }
+
+            final Set<String> unresolvedPlaceholders = getUnresolvedPlaceholders(entries);
+            if (unresolvedPlaceholders.isEmpty()) {
+                break;
+            }
+            if (unresolvedPlaceholders.equals(previousUnresolvedPlaceholders)) {
+                logger.warn("no more work can be done with dict but it remains unresolved placeholders: {} ", unresolvedPlaceholders);
+                throw new RuntimeException(format("unresolved placeholders %s in %s", unresolvedPlaceholders, getId()));
+            }
+        }
+        return entries;
+    }
+
+    private Set<String> getUnresolvedPlaceholders(Map<String, String> entries) {
 		Set<String> unresolved = Sets.newHashSet();
 		for (String value : entries.values()) {
 			unresolved.addAll(scan(value));
@@ -70,7 +77,7 @@ public class ComputableDictionary extends Dictionary {
 		return unresolved;
 	}
 
-	public Set<String> scan(String in) {
+	private Set<String> scan(String in) {
 		Map<String, String> resolution = new MapMaker().makeComputingMap(new Function<String, String>() {
 			public String apply(String input) {
 				return input;

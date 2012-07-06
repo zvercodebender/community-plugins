@@ -49,7 +49,7 @@ public class ComputableDictionaryTest {
 		assertThat(entries.get("FOOBAR"), is("x-1521"));
 	}
 
-	@Test
+	@Test(expected = RuntimeException.class)
 	public void testMissingKeys() throws Exception {
         dictionary.setEntries( ImmutableMap.of("FOO", "1521", "BAR", "{{FOO}}", "FOOBAR", "x-{{XBAR}}"));
 		final Map<String, String> entries = dictionary.getEntries();
