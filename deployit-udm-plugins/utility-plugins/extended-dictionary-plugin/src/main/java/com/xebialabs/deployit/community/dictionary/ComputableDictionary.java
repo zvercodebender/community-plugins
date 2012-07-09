@@ -6,6 +6,7 @@ import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.MustacheException;
 import com.xebialabs.deployit.plugin.api.udm.Dictionary;
+import com.xebialabs.deployit.plugin.api.udm.Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,8 +16,10 @@ import java.util.Map;
 import java.util.Set;
 
 import static com.google.common.collect.Maps.newHashMap;
+import static com.xebialabs.deployit.plugin.api.udm.Metadata.ConfigurationItemRoot.ENVIRONMENTS;
 import static java.lang.String.format;
 
+@Metadata(root = ENVIRONMENTS, description = "A Dictionary whose values can be computed using each others")
 public class ComputableDictionary extends Dictionary {
 
 	@Override
