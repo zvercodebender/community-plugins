@@ -69,6 +69,30 @@ public class SentEmailTest extends TestBase {
         newDeployed.setProperty("bcc", null);
         assertThat(newDeployed.getBccAddresses().size(), is(0));
     }
+
+    @Test
+    public void supportsEmptyTos() {
+        SentEmail newDeployed = newInstance("notify.BasicSentEmail");
+        // just to be sure
+        newDeployed.setProperty("to", "");
+        assertThat(newDeployed.getToAddresses().size(), is(0));
+    }
+    
+    @Test
+    public void supportsEmptyCcs() {
+        SentEmail newDeployed = newInstance("notify.BasicSentEmail");
+        // just to be sure
+        newDeployed.setProperty("cc", "");
+        assertThat(newDeployed.getCcAddresses().size(), is(0));
+    }
+    
+    @Test
+    public void supportsEmptyBccs() {
+        SentEmail newDeployed = newInstance("notify.BasicSentEmail");
+        // just to be sure
+        newDeployed.setProperty("bcc", "");
+        assertThat(newDeployed.getBccAddresses().size(), is(0));
+    }
     
     @Test
     public void supportPlaceholdersInSubject() {
