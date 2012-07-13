@@ -112,7 +112,7 @@ public class SentEmail extends ProcessedTemplate<Resource> {
     }
     
     private static List<String> splitAddresses(String commaSeparatedAddresses) {
-        return ((commaSeparatedAddresses != null)
+        return (((commaSeparatedAddresses != null) && !commaSeparatedAddresses.isEmpty())
                 ? ImmutableList.copyOf(commaSeparatedAddresses.split(ADDRESS_SEPARATOR))
                 : ImmutableList.<String>of());
     }

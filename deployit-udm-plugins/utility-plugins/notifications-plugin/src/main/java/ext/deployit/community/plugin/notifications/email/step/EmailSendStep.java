@@ -5,7 +5,7 @@ import java.util.List;
 import org.codemonkey.simplejavamail.Email;
 
 import com.xebialabs.deployit.plugin.api.flow.StepExitCode;
-import com.xebialabs.deployit.plugin.generic.step.GenericBaseStep;
+import com.xebialabs.deployit.plugin.generic.step.BaseDeploymentStep;
 
 import ext.deployit.community.plugin.notifications.email.ci.MailServer;
 import ext.deployit.community.plugin.notifications.email.util.Addresses.NameAndAddress;
@@ -19,7 +19,7 @@ import static javax.mail.Message.RecipientType.CC;
 import static javax.mail.Message.RecipientType.TO;
 
 @SuppressWarnings("serial")
-public abstract class EmailSendStep extends GenericBaseStep {
+public abstract class EmailSendStep extends BaseDeploymentStep {
     protected final String fromAddress;
     protected final List<String> toAddresses;
     protected final List<String> ccAddresses;
