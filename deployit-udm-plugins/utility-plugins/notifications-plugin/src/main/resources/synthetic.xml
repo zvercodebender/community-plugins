@@ -9,8 +9,8 @@
         <property name="to" description="Comma-separated list of email addresses (format 'user@domain' or 'Name &lt;user@domain&gt;')" />
         <property name="cc" required="false" description="Comma-separated list of email addresses (format 'user@domain' or 'Name &lt;user@domain&gt;')" />
         <property name="bcc" required="false" description="Comma-separated list of email addresses (format 'user@domain' or 'Name &lt;user@domain&gt;')" />
-        <property name="subject" description="Subject of the mail. Use ${deployed.app.&lt;prop&gt;} to refer to property 'prop' of the deployed application" />
-        <property name="body" size="large" description="Use ${deployed.app.&lt;prop&gt;} to refer to property 'prop' of the deployed application" />
+        <property name="subject" description="Subject of the mail. Use ${deployed.deployedApplication.&lt;prop&gt;} to refer to property 'prop' of the deployed application" />
+        <property name="body" size="large" description="Use ${deployed.deployedApplication.&lt;prop&gt;} to refer to property 'prop' of the deployed application" />
         <property name="awaitConfirmation" kind="boolean" required="false" description="If set, a pause will be inserted after the email, allowing the deployment to be interrupted until a work item related to the email has been completed" />
         <!-- unhide so users can choose -->
         <property name="createOrder" kind="integer" hidden="false" default="1" description="Determines when in the step sequence this email will be sent. Lower numbers are earlier in the sequence" />
@@ -37,23 +37,6 @@
     <type type="notify.SentTemplateEmail2" extends="notify.SentTemplateEmail" deployable-type="notify.TemplateEmailDraft" container-type="notify.MailServer">
         <generate-deployable type="notify.TemplateEmailDraft" extends="generic.Resource" />
     </type>
-    
-    <!-- intended to be modified as part of the installation -->
-    <type type="notify.FixedSentTemplateEmail" extends="notify.SentTemplateEmail2">
-        <property name="from" hidden="true" default="OVERRIDE ME" />
-        <property name="to" hidden="true" default="OVERRIDE ME &lt;override@me.com&gt;" />
-        <!-- will not be included in deployit-defaults.properties as the value is empty, but can be added by users -->
-        <property name="cc" hidden="true" required="false" default="" />
-        <property name="bcc" hidden="true" required="false" default="" />
-    </type>
-    
-    <type type="notify.DeploymentStartNotification" extends="notify.FixedSentTemplateEmail">
-        <property name="subject" hidden="true" default="Deployit Deployment start notification"/>
-    </type>
-    
-    <type type="notify.DeploymentEndNotification" extends="notify.FixedSentTemplateEmail">
-        <property name="subject" hidden="true" default="Deployit Deployment end notification"/>
-    </type>
                 
     <type-modification type="notify.MailServer">
         <property name="address" description="The hostname or IP address of the SMTP server" />
@@ -68,6 +51,26 @@
         <property name="deploymentGroup" kind="integer" required="false" hidden="true" default="0" />
         <property name="jumpstation" kind="ci" referenced-type="overthere.Jumpstation" required="false" hidden="true" />
     </type-modification>
+    
+    <type-modification type="notify.EmailPrototype">
+        <!-- needs to be kept in sync with notify.SentEmail -->
+        <property name="from" />
+        <property name="to" />
+        <property name="cc" required="false" />
+        <property name="bcc" required="false" />
+        <property name="subject" />
+        <property name="body" size="large" />
+    </type-modification>
+
+    <type type="notify.DeploymentStartNotificationPrototype" extends="notify.EmailPrototype">
+        <property name="subject" default="Deployit 'Deployment Started' Notification" />
+        <property name="body" size="large" default="Start of deployment '${deployed.deployedApplication.version.application.name}' (version ${deployed.deployedApplication.version.version}) to '${deployed.deployedApplication.environment.name}'" />
+    </type>
+
+    <type type="notify.DeploymentEndNotificationPrototype" extends="notify.EmailPrototype">
+        <property name="subject" default="Deployit 'Deployment Complete' Notification" />
+        <property name="body" size="large" default="End of deployment '${deployed.deployedApplication.version.application.name}' (version ${deployed.deployedApplication.version.version}) to '${deployed.deployedApplication.environment.name}'" />
+    </type>
 
     <type-modification type="udm.Environment">
         <property name="sendDeploymentStartNotification" kind="boolean" required="false" category="Notifications" description="If set, a pre-deployment email will be sent" />

@@ -32,8 +32,7 @@ import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
 import com.xebialabs.deployit.plugin.api.udm.Environment;
 
 import ext.deployit.community.plugin.notifications.email.TestBase;
-import ext.deployit.community.plugin.notifications.email.planning.GeneratePreAndPostEmails;
-import ext.deployit.community.plugin.notifications.email.step.TemplateEmailSendStep;
+import ext.deployit.community.plugin.notifications.email.step.LiteralEmailSendStep;
 
 /**
  * Unit tests for {@link GeneratePreAndPostEmails}
@@ -47,7 +46,9 @@ public class GeneratePreAndPostEmailsTest extends TestBase {
         List<DeploymentStep> steps = GeneratePreAndPostEmails.generatePreEmails(
                 newDeltaSpec(env).build());
         assertThat(steps.size(), is(1));
-        assertThat(steps.get(0), instanceOf(TemplateEmailSendStep.class));
+        assertThat(steps.get(0), instanceOf(LiteralEmailSendStep.class));
+        assertThat(steps.get(0).getDescription().contains(
+                "Deployit 'Deployment Started' Notification"), is(true));
     }
     
     @Test
@@ -57,6 +58,8 @@ public class GeneratePreAndPostEmailsTest extends TestBase {
         List<DeploymentStep> steps = GeneratePreAndPostEmails.generatePostEmails(
                 newDeltaSpec(env).build());
         assertThat(steps.size(), is(1));
-        assertThat(steps.get(0), instanceOf(TemplateEmailSendStep.class));
+        assertThat(steps.get(0), instanceOf(LiteralEmailSendStep.class));
+        assertThat(steps.get(0).getDescription().contains(
+                "Deployit 'Deployment Complete' Notification"), is(true));
     }
 }

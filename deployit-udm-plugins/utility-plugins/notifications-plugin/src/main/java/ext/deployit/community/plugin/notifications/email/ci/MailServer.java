@@ -22,10 +22,13 @@ package ext.deployit.community.plugin.notifications.email.ci;
 
 import static com.xebialabs.deployit.plugin.api.udm.Metadata.ConfigurationItemRoot.INFRASTRUCTURE;
 
+import java.util.Set;
+
 import org.codemonkey.simplejavamail.Mailer;
 import org.codemonkey.simplejavamail.TransportStrategy;
 
 import com.xebialabs.deployit.plugin.api.udm.Metadata;
+import com.xebialabs.deployit.plugin.api.udm.Property;
 import com.xebialabs.deployit.plugin.overthere.Host;
 
 @SuppressWarnings("serial")
@@ -37,11 +40,22 @@ public class MailServer extends Host {
     private static final String SMTP_PASSWORD_PROPERTY = "smtpPassword";
     private static final String SMTP_TRANSPORT_PROPERTY = "smtpTransport";
     
+    @Property(asContainment = true, required = false, label = "Notification Templates")
+    private Set<EmailPrototype> emailPrototypes;
+    
     public Mailer getMailer() {
         return new Mailer(this.<String>getProperty(ADDRESS_PROPERTY),
                 this.<Integer>getProperty(SMTP_PORT_PROPERTY),
                 this.<String>getProperty(SMTP_USERNAME_PROPERTY),
                 this.<String>getProperty(SMTP_PASSWORD_PROPERTY),
                 this.<TransportStrategy>getProperty(SMTP_TRANSPORT_PROPERTY));
+    }
+
+    public Set<EmailPrototype> getEmailPrototypes() {
+        return emailPrototypes;
+    }
+
+    public void setEmailPrototypes(Set<EmailPrototype> emailPrototypes) {
+        this.emailPrototypes = emailPrototypes;
     }
 }

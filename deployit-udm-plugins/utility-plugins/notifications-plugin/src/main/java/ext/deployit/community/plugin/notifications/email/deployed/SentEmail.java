@@ -20,7 +20,6 @@
  */
 package ext.deployit.community.plugin.notifications.email.deployed;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Strings.nullToEmpty;
 import static com.xebialabs.deployit.plugin.api.reflect.DescriptorRegistry.getDescriptor;
 import static java.lang.Boolean.TRUE;
@@ -31,7 +30,6 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.xebialabs.deployit.plugin.api.deployment.planning.DeploymentPlanningContext;
-import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
 import com.xebialabs.deployit.plugin.api.udm.Metadata;
 import com.xebialabs.deployit.plugin.generic.ci.Resource;
 import com.xebialabs.deployit.plugin.generic.deployed.ProcessedTemplate;
@@ -46,19 +44,18 @@ import ext.deployit.community.plugin.notifications.email.step.LiteralEmailSendSt
 @SuppressWarnings("serial")
 @Metadata(virtual = true, description = "An email sent via a notify.MailServer")
 public class SentEmail extends ProcessedTemplate<Resource> {
-    private static final String SUBJECT_PROPERTY = "subject";
-    private static final String FROM_PROPERTY = "from";
-    private static final String TO_PROPERTY = "to";
-    private static final String CC_PROPERTY = "cc";
-    private static final String BCC_PROPERTY = "bcc";
-    private static final String BODY_PROPERTY = "body";
+    public static final String SUBJECT_PROPERTY = "subject";
+    public static final String FROM_PROPERTY = "from";
+    public static final String TO_PROPERTY = "to";
+    public static final String CC_PROPERTY = "cc";
+    public static final String BCC_PROPERTY = "bcc";
+    public static final String BODY_PROPERTY = "body";
+
     private static final String AWAIT_CONFIRMATION_PROPERTY = "awaitConfirmation";
     private static final String AWAIT_CONFIRMATION_SCRIPT_PROPERTY = "awaitConfirmationScript";
     private static final String ADDRESS_SEPARATOR = ",";
     
     private final Host localhost;
-
-    private DeployedApplication deployedApplication;
 
     public SentEmail() {
     	localhost = getDescriptor("overthere.LocalHost").newInstance();
@@ -122,15 +119,5 @@ public class SentEmail extends ProcessedTemplate<Resource> {
                 nullToEmpty(this.<String>getProperty(TO_PROPERTY)), 
                 nullToEmpty(this.<String>getProperty(CC_PROPERTY)), 
                 nullToEmpty(this.<String>getProperty(BCC_PROPERTY)));
-    }
-
-    // short name for user convenience
-    public DeployedApplication getApp() {
-        checkState(deployedApplication != null, "'getApp' should not be called before the application has been set");
-        return deployedApplication;
-    }
-
-    public void setDeployedApplication(DeployedApplication deployedApplication) {
-        this.deployedApplication = deployedApplication;
     }
 }

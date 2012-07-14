@@ -104,7 +104,7 @@ public class SentEmailTest extends TestBase {
 		deployedApplication.setVersion(version);
 		newDeployed.setDeployedApplication(deployedApplication);
 		
-        newDeployed.setProperty("subject", "Deployment of ${deployed.app.version.name} started!");
+        newDeployed.setProperty("subject", "Deployment of ${deployed.deployedApplication.version.name} started!");
 		assertThat(newDeployed.getSubject(), is("Deployment of 1.0 started!"));
     }
 
@@ -159,15 +159,14 @@ public class SentEmailTest extends TestBase {
             throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
 
-		@Override
-		public DeployedApplication getDeployedApplication() {
-			throw new UnsupportedOperationException("TODO Auto-generated method stub");
-		}
+        @Override
+        public DeployedApplication getDeployedApplication() {
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");
+        }
 
-		@Override
-		public ReadOnlyRepository getRepository() {
-			throw new UnsupportedOperationException("TODO Auto-generated method stub");
-		}
-
+        @Override
+        public ReadOnlyRepository getRepository() {
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");
+        }
     }
 }

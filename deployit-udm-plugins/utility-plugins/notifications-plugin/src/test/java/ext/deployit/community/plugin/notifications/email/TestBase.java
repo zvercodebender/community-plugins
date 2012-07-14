@@ -27,11 +27,14 @@ import static com.xebialabs.deployit.test.support.TestUtils.newInstance;
 
 import org.junit.BeforeClass;
 
+import com.google.common.collect.ImmutableSet;
 import com.xebialabs.deployit.deployment.planner.DeltaSpecificationBuilder;
 import com.xebialabs.deployit.plugin.api.boot.PluginBooter;
 import com.xebialabs.deployit.plugin.api.udm.Deployed;
 import com.xebialabs.deployit.plugin.api.udm.Environment;
+import com.xebialabs.deployit.test.support.TestUtils;
 
+import ext.deployit.community.plugin.notifications.email.ci.EmailPrototype;
 import ext.deployit.community.plugin.notifications.email.ci.MailServer;
 
 public abstract class TestBase {
@@ -42,7 +45,11 @@ public abstract class TestBase {
     }
     
     protected static Environment newEnvironment() {
-        return createEnvironment(newInstance(MailServer.class));
+        MailServer mailServer = newInstance(MailServer.class);
+        mailServer.setEmailPrototypes(ImmutableSet.of(
+                TestUtils.<EmailPrototype>newInstance("notify.DeploymentStartNotificationPrototype"), 
+                TestUtils.<EmailPrototype>newInstance("notify.DeploymentEndNotificationPrototype")));
+        return createEnvironment(mailServer);
     }
     
     protected static DeltaSpecificationBuilder newDeltaSpec(Environment env,
