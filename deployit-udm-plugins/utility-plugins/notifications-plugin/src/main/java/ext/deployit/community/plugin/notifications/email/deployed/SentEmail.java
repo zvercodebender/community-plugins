@@ -54,13 +54,12 @@ public class SentEmail extends ProcessedTemplate<Resource> {
     public static final String CC_PROPERTY = "cc";
     public static final String BCC_PROPERTY = "bcc";
     public static final String BODY_PROPERTY = "body";
-    public static final String AWAIT_CONFIRMATION_PROPERTY = "awaitConfirmation";
-    public static final String AWAIT_CONFIRMATION_SCRIPT_PROPERTY = "awaitConfirmationScript";
-    public static final String ADDRESS_SEPARATOR = ",";
+
+    private static final String AWAIT_CONFIRMATION_PROPERTY = "awaitConfirmation";
+    private static final String AWAIT_CONFIRMATION_SCRIPT_PROPERTY = "awaitConfirmationScript";
+    private static final String ADDRESS_SEPARATOR = ",";
     
     private final Host localhost;
-
-    private DeployedApplication deployedApplication;
 
     public SentEmail() {
     	localhost = getDescriptor("overthere.LocalHost").newInstance();
@@ -124,15 +123,5 @@ public class SentEmail extends ProcessedTemplate<Resource> {
                 nullToEmpty(this.<String>getProperty(TO_PROPERTY)), 
                 nullToEmpty(this.<String>getProperty(CC_PROPERTY)), 
                 nullToEmpty(this.<String>getProperty(BCC_PROPERTY)));
-    }
-
-    // short name for user convenience
-    public DeployedApplication getApp() {
-        checkState(deployedApplication != null, "'getApp' should not be called before the application has been set");
-        return deployedApplication;
-    }
-
-    public void setDeployedApplication(DeployedApplication deployedApplication) {
-        this.deployedApplication = deployedApplication;
     }
 }
