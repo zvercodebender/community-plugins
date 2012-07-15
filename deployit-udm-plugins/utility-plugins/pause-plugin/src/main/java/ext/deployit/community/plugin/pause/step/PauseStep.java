@@ -1,4 +1,4 @@
-package com.xebialabs.deployit.community.pause.step;
+package ext.deployit.community.plugin.pause.step;
 
 import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentExecutionContext;
 import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;

@@ -1,4 +1,4 @@
-package com.xebialabs.deployit.plugin.api.util;
+package ext.deployit.community.plugin.precheck.util;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;

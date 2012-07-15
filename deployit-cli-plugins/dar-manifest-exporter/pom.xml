@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.xebialabs.deployit</groupId>
     <artifactId>cli-plugins</artifactId>
-    <version>3.7.0</version>
+    <version>3.8.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>dar-manifest-converter</artifactId>
@@ -20,7 +20,7 @@
     </dependency>
     <dependency>
       <groupId>com.xebialabs.deployit</groupId>
-      <artifactId>server-api</artifactId>
+      <artifactId>engine-spi</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>

@@ -36,7 +36,7 @@ import org.junit.rules.TemporaryFolder;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.Files;
-import com.xebialabs.deployit.plugin.api.boot.PluginBooter;
+import com.xebialabs.deployit.booter.local.LocalBooter;
 import com.xebialabs.deployit.plugin.api.reflect.Type;
 import com.xebialabs.deployit.plugin.api.udm.Deployable;
 import com.xebialabs.deployit.plugin.jee.artifact.Ear;
@@ -44,8 +44,6 @@ import com.xebialabs.deployit.server.api.importer.ImportSource;
 import com.xebialabs.deployit.server.api.importer.ImportingContext;
 import com.xebialabs.deployit.server.api.importer.PackageInfo;
 import com.xebialabs.overthere.local.LocalFile;
-
-import ext.deployit.community.importer.singlefile.SingleFileImporter;
 
 /**
  * Unit tests for the {@link SingleFileImporter}
@@ -83,7 +81,7 @@ public class SingleFileImporterTest {
     
     @BeforeClass
     public static void boot() {
-        PluginBooter.bootWithoutGlobalContext();
+        LocalBooter.bootWithoutGlobalContext();
     }
     
     @Before

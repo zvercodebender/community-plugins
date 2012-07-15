@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.xebialabs.deployit</groupId>
     <artifactId>server-plugins</artifactId>
-    <version>3.7.0</version>
+    <version>3.8.0</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <artifactId>composite-application-importer</artifactId>
@@ -15,8 +15,20 @@
   </scm>
   <dependencies>
     <dependency>
+      <groupId>com.xebialabs.deployit.engine</groupId>
+      <artifactId>local-booter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>nl.javadude.scannit</groupId>
+      <artifactId>scannit</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.xebialabs.overthere</groupId>
       <artifactId>overthere</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
     </dependency>
   </dependencies>
 </project>

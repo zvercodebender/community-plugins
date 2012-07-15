@@ -40,6 +40,7 @@ import com.xebialabs.deployit.plugin.api.deployment.planning.PostPlanProcessor;
 import com.xebialabs.deployit.plugin.api.deployment.planning.PrePlanProcessor;
 import com.xebialabs.deployit.plugin.api.deployment.planning.ReadOnlyRepository;
 import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecification;
+import com.xebialabs.deployit.plugin.api.flow.Step;
 import com.xebialabs.deployit.plugin.api.reflect.Type;
 import com.xebialabs.deployit.plugin.api.udm.Container;
 import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
@@ -47,6 +48,7 @@ import com.xebialabs.deployit.plugin.api.udm.Environment;
 
 import ext.deployit.community.plugin.notifications.email.ci.MailServer;
 import ext.deployit.community.plugin.notifications.email.deployed.SentTemplateEmail;
+import ext.deployit.community.plugin.notifications.util.StepAdapter;
 
 public class GeneratePreAndPostEmails {
     private static final String ENV_REQUIRES_PRE_EMAIL = "sendDeploymentStartNotification";
@@ -54,21 +56,21 @@ public class GeneratePreAndPostEmails {
     private static final Type PRE_EMAIL_TYPE = Type.valueOf("notify.DeploymentStartNotification"); 
     private static final Type POST_EMAIL_TYPE = Type.valueOf("notify.DeploymentEndNotification");
     private static final Type MAIL_SERVER_TYPE = Type.valueOf(MailServer.class);
-    private static final List<DeploymentStep> NO_STEPS = ImmutableList.of();
+    private static final List<Step> NO_STEPS = ImmutableList.of();
 
     @PrePlanProcessor
-    public static List<DeploymentStep> generatePreEmails(DeltaSpecification spec) {
+    public static List<Step> generatePreEmails(DeltaSpecification spec) {
         return generateEmails(spec.getDeployedApplication(), 
                 ENV_REQUIRES_PRE_EMAIL, PRE_EMAIL_TYPE);
     }
 
     @PostPlanProcessor
-    public static List<DeploymentStep> generatePostEmails(DeltaSpecification spec) {
+    public static List<Step> generatePostEmails(DeltaSpecification spec) {
         return generateEmails(spec.getDeployedApplication(), 
                 ENV_REQUIRES_POST_EMAIL, POST_EMAIL_TYPE);
     }
     
-    protected static List<DeploymentStep> generateEmails(DeployedApplication deployedApplication, 
+    protected static List<Step> generateEmails(DeployedApplication deployedApplication, 
             String triggerProperty, Type sentEmailType) {
         // property may also be null
         if (!TRUE.equals(deployedApplication.getEnvironment().getProperty(triggerProperty))) {
@@ -101,22 +103,24 @@ public class GeneratePreAndPostEmails {
     }
 
     private static class StepCollector implements DeploymentPlanningContext {
-        private final List<DeploymentStep> steps = newLinkedList();
+        private final List<Step> steps = newLinkedList();
         
         @Override
-        public void addStep(DeploymentStep step) {
+        public void addStep(Step step) {
             steps.add(step);
         }
 
         @Override
-        public void addSteps(DeploymentStep... steps) {
+        public void addSteps(Step... steps) {
             addSteps(asList(steps));
         }
 
         @Override
-        public void addSteps(Collection<DeploymentStep> steps) {
-            this.steps.addAll(steps);
-        }
+		public void addSteps(Iterable<Step> steps) {
+        	for (Step step : steps) {
+				addStep(step);
+			}
+		}
 
         @Override
         public Object getAttribute(String name) {
@@ -129,7 +133,7 @@ public class GeneratePreAndPostEmails {
         }
 
         @Override
-	public DeployedApplication getDeployedApplication() {
+        public DeployedApplication getDeployedApplication() {
                 throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
 
@@ -137,6 +141,25 @@ public class GeneratePreAndPostEmails {
         public ReadOnlyRepository getRepository() {
                 throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
+
+		@Override
+		public void addStep(DeploymentStep step) {
+			addStep(StepAdapter.wrapIfNeeded(step));
+		}
+		
+		@Override
+		public void addSteps(DeploymentStep... steps) {
+			for (DeploymentStep step : steps) {
+				addStep(step);
+			}
+		}
+
+		@Override
+		public void addSteps(Collection<DeploymentStep> steps) {
+			for (DeploymentStep step : steps) {
+				addStep(step);
+			}
+		}
         
     }
 }

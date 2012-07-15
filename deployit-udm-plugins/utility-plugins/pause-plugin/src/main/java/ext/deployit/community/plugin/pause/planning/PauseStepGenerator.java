@@ -1,13 +1,15 @@
-package com.xebialabs.deployit.community.pause.planning;
+package ext.deployit.community.plugin.pause.planning;
 
 import com.google.common.base.Predicate;
-import com.xebialabs.deployit.community.pause.step.PauseStep;
 import com.xebialabs.deployit.plugin.api.deployment.planning.Contributor;
 import com.xebialabs.deployit.plugin.api.deployment.planning.DeploymentPlanningContext;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Deltas;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Operation;
 import com.xebialabs.deployit.plugin.api.udm.Environment;
+
+import ext.deployit.community.plugin.pause.step.PauseStep;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

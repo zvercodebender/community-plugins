@@ -1,4 +1,14 @@
-package com.xebialabs.deployit.community.precheck.planning;
+package ext.deployit.community.plugin.precheck.planning;
+
+import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.transform;
+import static com.xebialabs.deployit.plugin.api.deployment.specification.Operation.DESTROY;
+
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -10,18 +20,10 @@ import com.xebialabs.deployit.plugin.api.deployment.planning.PrePlanProcessor;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
 import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecification;
 import com.xebialabs.deployit.plugin.api.udm.Container;
-import com.xebialabs.deployit.plugin.api.utils.Strings;
 import com.xebialabs.deployit.plugin.generic.step.ScriptExecutionStep;
 import com.xebialabs.deployit.plugin.overthere.HostContainer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Map;
-
-import static com.google.common.collect.Iterables.filter;
-import static com.google.common.collect.Iterables.transform;
-import static com.xebialabs.deployit.plugin.api.deployment.specification.Operation.DESTROY;
+import ext.deployit.community.plugin.precheck.util.Strings;
 
 
 public class PrecheckStepsGenerator {

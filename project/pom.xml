@@ -3,13 +3,17 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.xebialabs.deployit</groupId>
   <artifactId>community-plugins-project</artifactId>
-  <version>3.7.0</version>
+  <version>3.8.0</version>
   <packaging>pom</packaging>
   <properties>
     <deployit.server.home>${env.DEPLOYIT_HOME}</deployit.server.home>
     <deployit.cli.home>${env.DEPLOYIT_CLI_HOME}</deployit.cli.home>
     <deployit.api.version>3.8.0-alpha-26</deployit.api.version>
+    <deployit.engine.version>3.8.0-alpha-35</deployit.engine.version>
+    <deployit.servercli.version>3.8.0-SNAPSHOT</deployit.servercli.version>
+    <deployit.bundledplugin.version>3.8.0-alpha-10</deployit.bundledplugin.version>
     <overthere.version>2.0.0-beta-3</overthere.version>
+    <scannit.version>1.0.2</scannit.version>
     <github.global.server>github</github.global.server>
     <maven.compile.source>1.6</maven.compile.source>
     <maven.compile.target>1.6</maven.compile.target>
@@ -25,11 +29,23 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
+        <groupId>nl.javadude.scannit</groupId>
+        <artifactId>scannit</artifactId>
+        <version>${scannit.version}</version>
+      </dependency>
+      <dependency>
         <groupId>com.xebialabs.deployit</groupId>
-        <artifactId>server-plugin-api</artifactId>
+        <artifactId>engine-api</artifactId>
         <version>${deployit.api.version}</version>
         <scope>system</scope>
-        <systemPath>${deployit.server.home}/lib/server-plugin-api-${deployit.api.version}.jar</systemPath>
+        <systemPath>${deployit.server.home}/lib/engine-api-${deployit.api.version}.jar</systemPath>
+      </dependency>
+      <dependency>
+        <groupId>com.xebialabs.deployit.engine</groupId>
+        <artifactId>local-booter</artifactId>
+        <version>${deployit.engine.version}</version>
+        <scope>system</scope>
+        <systemPath>${deployit.server.home}/lib/local-booter-${deployit.engine.version}.jar</systemPath>
       </dependency>
       <dependency>
         <groupId>com.xebialabs.deployit</groupId>
@@ -41,9 +57,9 @@
       <dependency>
         <groupId>com.xebialabs.deployit</groupId>
         <artifactId>jee-plugin</artifactId>
-        <version>${deployit.api.version}</version>
+        <version>${deployit.bundledplugin.version}</version>
         <scope>system</scope>
-        <systemPath>${deployit.server.home}/lib/jee-plugin-${deployit.api.version}.jar</systemPath>
+        <systemPath>${deployit.server.home}/lib/jee-plugin-${deployit.bundledplugin.version}.jar</systemPath>
       </dependency>
       <dependency>
         <groupId>com.xebialabs.deployit.plugins</groupId>
@@ -55,9 +71,9 @@
       <dependency>
         <groupId>com.xebialabs.deployit.plugins</groupId>
         <artifactId>webserver-plugin</artifactId>
-        <version>${deployit.api.version}</version>
+        <version>${deployit.bundledplugin.version}</version>
         <scope>system</scope>
-        <systemPath>${deployit.server.home}/plugins/webserver-plugin-${deployit.api.version}.jar</systemPath>
+        <systemPath>${deployit.server.home}/plugins/webserver-plugin-${deployit.bundledplugin.version}.jar</systemPath>
       </dependency>
       <dependency>
         <groupId>com.xebialabs.deployit.plugins</groupId>
@@ -69,51 +85,44 @@
       <dependency>
         <groupId>com.xebialabs.deployit.plugins</groupId>
         <artifactId>deployment-checklist-plugin</artifactId>
-        <version>${deployit.api.version}</version>
+        <version>${deployit.bundledplugin.version}</version>
         <scope>system</scope>
-        <systemPath>${deployit.server.home}/plugins/deployment-checklist-plugin-${deployit.api.version}.jar</systemPath>
+        <systemPath>${deployit.server.home}/plugins/deployment-checklist-plugin-${deployit.bundledplugin.version}.jar</systemPath>
       </dependency>
       <dependency>
         <groupId>com.xebialabs.deployit.plugins</groupId>
         <artifactId>remoting-plugin</artifactId>
-        <version>${deployit.api.version}</version>
+        <version>${deployit.bundledplugin.version}</version>
         <scope>system</scope> 
-        <systemPath>${deployit.server.home}/lib/remoting-plugin-${deployit.api.version}.jar</systemPath>
+        <systemPath>${deployit.server.home}/lib/remoting-plugin-${deployit.bundledplugin.version}.jar</systemPath>
       </dependency>
       <dependency>
         <groupId>com.xebialabs.deployit.plugins</groupId>
         <artifactId>python-plugin</artifactId>
-        <version>${deployit.api.version}</version>
+        <version>${deployit.bundledplugin.version}</version>
         <scope>system</scope>
-        <systemPath>${deployit.server.home}/lib/python-plugin-${deployit.api.version}.jar</systemPath>
+        <systemPath>${deployit.server.home}/lib/python-plugin-${deployit.bundledplugin.version}.jar</systemPath>
       </dependency>
       <dependency>
         <groupId>com.xebialabs.deployit.plugins</groupId>
         <artifactId>generic-plugin</artifactId>
-        <version>${deployit.api.version}</version>
+        <version>${deployit.bundledplugin.version}</version>
         <scope>system</scope> 
-        <systemPath>${deployit.server.home}/lib/generic-plugin-${deployit.api.version}.jar</systemPath>
+        <systemPath>${deployit.server.home}/lib/generic-plugin-${deployit.bundledplugin.version}.jar</systemPath>
       </dependency>
       <dependency>
         <groupId>com.xebialabs.deployit</groupId>
         <artifactId>cli</artifactId>
-        <version>${deployit.api.version}</version>
+        <version>${deployit.servercli.version}</version>
         <scope>system</scope>
-        <systemPath>${deployit.cli.home}/lib/cli-${deployit.api.version}.jar</systemPath>
+        <systemPath>${deployit.cli.home}/lib/cli-${deployit.servercli.version}.jar</systemPath>
       </dependency>
       <dependency>
         <groupId>com.xebialabs.deployit</groupId>
-        <artifactId>server-api</artifactId>
+        <artifactId>engine-spi</artifactId>
         <version>${deployit.api.version}</version>
         <scope>system</scope>
-        <systemPath>${deployit.server.home}/lib/server-api-${deployit.api.version}.jar</systemPath>
-      </dependency>
-      <dependency>
-        <groupId>com.xebialabs.deployit</groupId>
-        <artifactId>server-core</artifactId>
-        <version>${deployit.api.version}</version>
-        <scope>system</scope>
-        <systemPath>${deployit.server.home}/lib/server-core-${deployit.api.version}.jar</systemPath>
+        <systemPath>${deployit.server.home}/lib/engine-spi-${deployit.api.version}.jar</systemPath>
       </dependency>
 
       <dependency>
@@ -124,7 +133,7 @@
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>10.0.1</version>
+        <version>12.0</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>

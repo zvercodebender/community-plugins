@@ -38,7 +38,7 @@ import java.util.jar.Attributes;
 import org.junit.After;
 import org.junit.Test;
 
-import com.xebialabs.deployit.cli.api.Proxies;
+import com.xebialabs.deployit.cli.api.ProxiesInstance;
 
 import de.schlichtherle.truezip.file.TFile;
 import ext.deployit.community.cli.plainarchive.dar.DarReader;
@@ -57,7 +57,7 @@ public class PlainArchiveConverterTest {
     private static final String TEST_ARCHIVE_WITHOUT_VERSION_PATH = 
         "src/test/resources/archive_without_version.zip";
     
-    private PlainArchiveConverter converter = new PlainArchiveConverter((Proxies) null);
+    private PlainArchiveConverter converter = new PlainArchiveConverter((ProxiesInstance) null);
     private File result;
     
     @Test(expected = IllegalArgumentException.class)
