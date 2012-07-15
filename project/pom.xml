@@ -8,7 +8,7 @@
   <properties>
     <deployit.server.home>${env.DEPLOYIT_HOME}</deployit.server.home>
     <deployit.cli.home>${env.DEPLOYIT_CLI_HOME}</deployit.cli.home>
-    <deployit.api.version>3.7.0</deployit.api.version>
+    <deployit.api.version>3.8.0-alpha-26</deployit.api.version>
     <overthere.version>2.0.0-beta-3</overthere.version>
     <github.global.server>github</github.global.server>
     <maven.compile.source>1.6</maven.compile.source>

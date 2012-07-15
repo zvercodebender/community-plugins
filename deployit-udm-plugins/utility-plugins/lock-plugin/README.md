@@ -4,35 +4,48 @@ This document describes the functionality provided by the Lock plugin.
 
 See the **Deployit Reference Manual** for background information on Deployit and deployment concepts.
 
-# Overview #
+## Overview
 
-The Lock plugin is a Deployit plugin that adds capabilities for locking containers when deployments are in progress.
+The Lock plugin is a Deployit plugin that adds capabilities for preventing simultaneous deployments.
 
-##Features##
+###Features
 
-* Lock containers for exclusive use by one deployment
-* List and clear locks using a lock manager CI and control tasks.
+* Lock a specific environment / application combination for exclusive use by one deployment
+* Lock a complete environment for exclusive use by one deployment
+* Lock specific containers for exclusive use by one deployment
+* List and clear locks using a lock manager CI
 
-# Requirements #
+## Requirements
 
 * **Deployit requirements**
-	* **Deployit**: version 3.6+
+	* **Deployit**: version 3.8+
 	* **Other Deployit Plugins**: None
 
-# Installation
+## Installation
 
 Place the plugin JAR file into your `SERVER_HOME/plugins` directory. 
 
-# Configuration #
+## Locking deployments
 
-The locks plugin adds a few synthetic properties to all containers in Deployit:
+When a deployment is configured, the Lock plugin examines the CIs involved in the deployment to determine whether any of them must be locked for exclusive use. If so,
+it contributes a step to the beginning of the deployment plan to acquire the required locks. If the necessary locks can't be obtained, the deployment will enter a PAUSE 
+state and can be continued at a later time.
 
-* *allowConcurrentDeployments* (default: false): indicates whether concurrent deployments are allowed. If true, the locks plugin will *not* lock the container.
-* *deploymentInProgressCheckOrder* (default: PRE_FLIGHT + 2): the order of the steps added to the deployment plan to check the container locks.
-* *deploymentInProgressCheckCleanupOrder* (default: POST_FLIGHT - 2): the order of the steps added to the deployment plan to clear the container locks.
+If lock acquisition is successful, the deployment will continue to execute. During a deployment, the locks are retained, even if the deployment fails and requires 
+manual intervention. When the deployment finishes (either successfully or is aborted), the locks will be released.
 
-# Usage #
+## Configuration
 
-When installed, the locks plugin will add steps to your deployment plan to exclusively lock each container involved in a deployment. If an exclusive lock can not be obtained, the deployment will fail and must be continued when the container involved is unlocked. Steps to unlock each of the containers are added to the end of your deployment plan.
+The locks plugin adds synthetic properties to specific CIs in Deployit that are used to control locking behavior. The following CIs can be locked:
+
+* *udm.DeployedApplication*: this ensures that only one depoyment of a particular application to an environment can be in progress at once
+* *udm.Environment*: this ensures that only one depoyment to a particular environment can be in progress at once
+* *udm.Container*: this ensures that only one depoyment can use the specific container at once
+
+Each of the above CIs has the following synthetic property added:
+
+* *allowConcurrentDeployments* (default: true): indicates whether concurrent deployments are allowed. If false, the Lock plugin will lock the CI prior to a deployment.
+
+## Implementation
 
 Each lock is stored as a file in a directory under the Deployit installation directory. The _lock.Manager_ CI can be created in the _Infrastructure_ section of Deployit to list and clear all of the current locks.

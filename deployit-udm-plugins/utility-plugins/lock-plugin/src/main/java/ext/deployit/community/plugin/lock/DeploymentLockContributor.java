@@ -6,6 +6,7 @@ import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.Boolean.FALSE;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -14,7 +15,9 @@ import com.xebialabs.deployit.plugin.api.deployment.planning.DeploymentPlanningC
 import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Deltas;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Operation;
+import com.xebialabs.deployit.plugin.api.udm.ConfigurationItem;
 import com.xebialabs.deployit.plugin.api.udm.Container;
+import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
 import com.xebialabs.deployit.plugin.api.udm.Environment;
 
 /**
@@ -22,31 +25,44 @@ import com.xebialabs.deployit.plugin.api.udm.Environment;
  * (find hostcontainer), can be turned off with synthetic property
  */
 public class DeploymentLockContributor {
-	private static final String CONTAINER_CHECK_REQUIRED_PROPERTY = "allowConcurrentDeployments";
+	private static final String CONCURRENT_DEPLOYMENTS_ALLOWED_PROPERTY = "allowConcurrentDeployments";
 	
-	//TODO: to make the below order configurable. Where can it be specified??
-	private static final int CONTAINER_CHECK_ORDER = 2;
-	private static final int CONTAINER_CHECK_CLEANUP_ORDER = 98;
-
 	public DeploymentLockContributor() {
 	}
 
 	@Contributor
 	public void addDeploymentLockCheckStep(Deltas deltas, DeploymentPlanningContext ctx) {
-		Environment environment = ctx.getDeployedApplication().getEnvironment();
+		DeployedApplication deployedApplication = ctx.getDeployedApplication();
+		Environment environment = deployedApplication.getEnvironment();
 
-		// if the environment has been specified to be locked, no need to lock the individual containers
-		if (FALSE.equals(environment.getProperty(CONTAINER_CHECK_REQUIRED_PROPERTY))) {
-			ctx.addStep(new CheckAndCreateLockStep(CONTAINER_CHECK_ORDER, environment));
-			ctx.addStep(new RemoveLockStep(CONTAINER_CHECK_CLEANUP_ORDER, environment));
-		} else {
-			Container[] containersRequiringCheck = getContainersRequiringCheck(deltas);
-			ctx.addStep(new CheckAndCreateLockStep(CONTAINER_CHECK_ORDER, containersRequiringCheck));
-			ctx.addStep(new RemoveLockStep(CONTAINER_CHECK_CLEANUP_ORDER, containersRequiringCheck));
+		Set<ConfigurationItem> cisToBeLocked = new HashSet<ConfigurationItem>();
+
+		// Check whether locking is required:
+		//
+		// 1. on the DeployedApplication
+		// 2. on the Environment
+		// 3. on the individual containers
+		if (shouldLockCI(deployedApplication)) {
+			cisToBeLocked.add(deployedApplication);
+		}
+		
+		if (shouldLockCI(environment)) {
+			cisToBeLocked.add(environment);
+		}
+
+		cisToBeLocked.addAll(getContainersRequiringCheck(deltas));
+		
+		if (!cisToBeLocked.isEmpty()) {
+			ctx.addStep(new AcquireAllLocksStep(new LockHelper(), cisToBeLocked));
 		}
 	}
 
-	private Container[] getContainersRequiringCheck(Deltas deltas) {
+	private boolean shouldLockCI(ConfigurationItem ci) {
+		return ci.hasProperty(CONCURRENT_DEPLOYMENTS_ALLOWED_PROPERTY) &&
+				FALSE.equals(ci.getProperty(CONCURRENT_DEPLOYMENTS_ALLOWED_PROPERTY));
+	}
+
+	private Set<Container> getContainersRequiringCheck(Deltas deltas) {
 		Iterable<Container> containersInAction = transform(deltas.getDeltas(), new Function<Delta, Container>() {
 			@Override
 			public Container apply(Delta input) {
@@ -58,9 +74,9 @@ public class DeploymentLockContributor {
 			@Override
 			public boolean apply(Container input) {
 				// may be null
-				return FALSE.equals(input.getProperty(CONTAINER_CHECK_REQUIRED_PROPERTY));
+				return FALSE.equals(input.getProperty(CONCURRENT_DEPLOYMENTS_ALLOWED_PROPERTY));
 			}
 		}));
-		return containers.toArray(new Container[containers.size()]);
+		return containers;
 	}
 }

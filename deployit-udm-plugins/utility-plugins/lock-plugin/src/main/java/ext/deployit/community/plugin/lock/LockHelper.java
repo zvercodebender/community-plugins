@@ -4,29 +4,71 @@ import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.base.Function;
 import com.xebialabs.deployit.plugin.api.udm.ConfigurationItem;
 
-public class LockFileHelper {
+/**
+ * Helper class that acquires locks by creating lock files in a directory.
+ */
+public class LockHelper implements Serializable {
 
-	private static final String LOCK_FILE_DIRECTORY = "locks";
+	private final String LOCK_FILE_DIRECTORY = "locks";
 
-	public static void lock(ConfigurationItem ci) throws FileNotFoundException {
+	public boolean atomicallyLock(Collection<ConfigurationItem> cis) {
+		Set<ConfigurationItem> acquiredLocks = new HashSet<ConfigurationItem>();
+		
+		for (ConfigurationItem ci : cis) {
+			try {
+				if (lock(ci)) {
+					acquiredLocks.add(ci);
+				}
+			} catch(Exception e) {
+				// failed to acquire one lock, will clean up later
+			}
+		}
+		
+		if (acquiredLocks.size() != cis.size()) {
+			// failed to get one or more locks, unlock all acquired locks
+			for (ConfigurationItem lockedCi : acquiredLocks) {
+				unlock(lockedCi);
+			}
+		}
+
+		return acquiredLocks.size() == cis.size();
+	}
+
+	public void unlock(Set<ConfigurationItem> cisToBeUnlocked) {
+		for (ConfigurationItem ci : cisToBeUnlocked) {
+			unlock(ci);
+		}
+	}
+	
+	public boolean lock(ConfigurationItem ci) throws IOException {
 		createLockDirectoryIfNotExists();
 
-		PrintWriter pw = new PrintWriter(getLockFile(ci));
-		pw.println("Locking " + ci.getName() + " on " + new Date());
-		pw.close();
+		File lockFile = getLockFile(ci);
+		if (lockFile.createNewFile()) {
+			PrintWriter pw = new PrintWriter(lockFile);
+			pw.println("Locking " + ci.getName() + " on " + new Date());
+			pw.close();
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 	
-	public static void unlock(ConfigurationItem ci) {
+	public void unlock(ConfigurationItem ci) {
 		createLockDirectoryIfNotExists();
 		
 		if (!getLockFile(ci).delete()) {
@@ -34,11 +76,11 @@ public class LockFileHelper {
 		}
 	}
 	
-	public static boolean isLocked(ConfigurationItem ci) {
+	public boolean isLocked(ConfigurationItem ci) {
 		return getLockFile(ci).exists();
 	}
 	
-	public static void clearLocks() {
+	public void clearLocks() {
 		createLockDirectoryIfNotExists();
 		
 		for (String lockFile : getLockFileList()) {
@@ -48,7 +90,7 @@ public class LockFileHelper {
 		}
 	}
 
-	public static List<String> listLocks() {
+	public List<String> listLocks() {
 		createLockDirectoryIfNotExists();
 		
 		return newArrayList(transform(getLockFileList(), new Function<String, String>() {
@@ -59,7 +101,7 @@ public class LockFileHelper {
 		}));
 	}
 
-	private static List<String> getLockFileList() {
+	private List<String> getLockFileList() {
 		return newArrayList(new File(LOCK_FILE_DIRECTORY).list(new FilenameFilter() {
 			@Override
 			public boolean accept(File dir, String name) {
@@ -68,23 +110,23 @@ public class LockFileHelper {
 		}));
 	}
 
-	private static File getLockFile(ConfigurationItem ci) {
+	private File getLockFile(ConfigurationItem ci) {
 		return new File(LOCK_FILE_DIRECTORY, ciIdToLockFileName(ci.getId()));
 	}
 
-	static String ciIdToLockFileName(String ciId) {
+	String ciIdToLockFileName(String ciId) {
 		return ciId.replaceAll("/", "\\$") + ".lock";
 	}
 
-	static String lockFileNameToCiId(String lockFileName) {
+	String lockFileNameToCiId(String lockFileName) {
 		return lockFileName.replaceAll("\\$", "/").replace(".lock", "");
 	}
 	
-	private static File createLockDirectoryIfNotExists() {
+	private File createLockDirectoryIfNotExists() {
 		return createLockDirectoryIfNotExists(LOCK_FILE_DIRECTORY);
 	}
 	
-	private static File createLockDirectoryIfNotExists(String directory) {
+	private File createLockDirectoryIfNotExists(String directory) {
 		File lockDir = new File(directory);
 		if (lockDir.exists() && lockDir.isDirectory()) {
 			return lockDir;

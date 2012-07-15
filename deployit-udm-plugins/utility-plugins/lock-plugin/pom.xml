@@ -19,5 +19,19 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.xebialabs.deployit</groupId>
+      <artifactId>engine-spi</artifactId>
+      <version>${deployit.api.version}</version>
+      <scope>system</scope>
+      <systemPath>${deployit.server.home}/lib/engine-spi-${deployit.api.version}.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>com.xebialabs.deployit</groupId>
+      <artifactId>engine-api</artifactId>
+      <version>${deployit.api.version}</version>
+      <scope>system</scope>
+      <systemPath>${deployit.server.home}/lib/engine-api-${deployit.api.version}.jar</systemPath>
+    </dependency>
   </dependencies>
 </project>

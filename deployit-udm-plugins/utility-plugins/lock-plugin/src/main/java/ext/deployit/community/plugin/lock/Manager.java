@@ -4,8 +4,9 @@ import static com.google.common.collect.Lists.newArrayList;
 
 import java.util.List;
 
-import com.xebialabs.deployit.plugin.api.execution.ExecutionContext;
-import com.xebialabs.deployit.plugin.api.execution.Step;
+import com.xebialabs.deployit.plugin.api.flow.ExecutionContext;
+import com.xebialabs.deployit.plugin.api.flow.Step;
+import com.xebialabs.deployit.plugin.api.flow.StepExitCode;
 import com.xebialabs.deployit.plugin.api.udm.ControlTask;
 import com.xebialabs.deployit.plugin.api.udm.Metadata;
 import com.xebialabs.deployit.plugin.api.udm.base.BaseContainer;
@@ -28,9 +29,14 @@ public class Manager extends BaseContainer {
 			}
 
 			@Override
-			public Result execute(ExecutionContext ctx) throws Exception {
-				LockFileHelper.clearLocks();
-				return Result.Success;
+			public StepExitCode execute(ExecutionContext arg0) throws Exception {
+				new LockHelper().clearLocks();
+				return StepExitCode.SUCCESS;
+			}
+
+			@Override
+			public int getOrder() {
+				return 0;
 			}
 		};
 		
@@ -48,10 +54,10 @@ public class Manager extends BaseContainer {
 			}
 
 			@Override
-			public Result execute(ExecutionContext ctx) throws Exception {
-				ctx.logOutput("The following containers are currently locked:");
+			public StepExitCode execute(ExecutionContext ctx) throws Exception {
+				ctx.logOutput("The following CIs are currently locked:");
 
-				List<String> locksListing = LockFileHelper.listLocks();
+				List<String> locksListing = new LockHelper().listLocks();
 				if (locksListing.isEmpty()) {
 					ctx.logOutput("<none>");
 				} else {
@@ -60,8 +66,12 @@ public class Manager extends BaseContainer {
 					}
 				}
 				
-				// Needed so the logging is shown in the GUI
-				return Result.Success;
+				return StepExitCode.SUCCESS;
+			}
+
+			@Override
+			public int getOrder() {
+				return 0;
 			}
 		};
 		
