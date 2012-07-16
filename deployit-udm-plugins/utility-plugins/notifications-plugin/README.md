@@ -37,4 +37,4 @@ The plugin supports one or multiple SMTP server settings, which are specified by
 
 In order to send emails during deployments to an environment, precisely *one* `notify.MailServer` needs to be added to the environment. The settings for any start/end notification emails that need to be sent are specified by `notify.DeploymentStartNotificationPrototype` (respectively, `notify.DeploymentEndNotificationPrototype`) items created under the `notify.MailServer` included in the environment.
 
-The `From`, `To`, `Cc` and `Bcc` properties expect email addresses to be specified as "address" or "name <address>". `To`, `Cc` and `Bcc` accept comma-separated lists of email addresses.
+The `From`, `To`, `Cc` and `Bcc` properties expect email addresses to be specified as _address_ or _name &lt;address&gt;_. `To`, `Cc` and `Bcc` accept comma-separated lists of email addresses.
