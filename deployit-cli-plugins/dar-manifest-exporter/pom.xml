@@ -20,7 +20,19 @@
     </dependency>
     <dependency>
       <groupId>com.xebialabs.deployit</groupId>
+      <artifactId>udm-plugin-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.xebialabs.deployit</groupId>
+      <artifactId>engine-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.xebialabs.deployit</groupId>
       <artifactId>engine-spi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.xebialabs.deployit.engine</groupId>
+      <artifactId>remote-booter</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>

@@ -14,6 +14,6 @@
   <modules>
     <module>mustachifier</module>
     <module>plain-archive-converter</module>
-    <!-- module>dar-manifest-exporter</module -->
+    <module>dar-manifest-exporter</module>
   </modules>
 </project>

@@ -2,7 +2,11 @@ package ext.deployit.community.cli.manifestexport.convert;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
-import static ext.deployit.community.cli.manifestexport.ci.ConfigurationItems.*;
+import static ext.deployit.community.cli.manifestexport.ci.ConfigurationItems.DEPLOYABLE_ARTIFACT_TYPE;
+import static ext.deployit.community.cli.manifestexport.ci.ConfigurationItems.EAR_TYPE;
+import static ext.deployit.community.cli.manifestexport.ci.ConfigurationItems.EJB_JAR_TYPE;
+import static ext.deployit.community.cli.manifestexport.ci.ConfigurationItems.WAR_TYPE;
+import static ext.deployit.community.cli.manifestexport.ci.ConfigurationItems.nameFromId;
 import static ext.deployit.community.cli.manifestexport.dar.DarManifestBuilder.DarEntry.toCiAttribute;
 import static ext.deployit.community.cli.manifestexport.dar.ManifestBuilder.getAttributeNameErrors;
 import static java.lang.String.format;
@@ -14,13 +18,15 @@ import java.util.Map.Entry;
 import java.util.jar.Manifest;
 
 import com.google.common.collect.ImmutableList;
-import com.xebialabs.deployit.core.api.dto.ConfigurationItemPropertyDescriptorDto;
-import com.xebialabs.deployit.core.api.dto.RepositoryObject;
+import com.xebialabs.deployit.plugin.api.reflect.DescriptorRegistry;
+import com.xebialabs.deployit.plugin.api.reflect.PropertyDescriptor;
+import com.xebialabs.deployit.plugin.api.reflect.PropertyKind;
+import com.xebialabs.deployit.plugin.api.reflect.Type;
+import com.xebialabs.deployit.plugin.api.udm.ConfigurationItem;
 
 import ext.deployit.community.cli.manifestexport.dar.DarManifestBuilder;
 import ext.deployit.community.cli.manifestexport.dar.DarManifestBuilder.DarEntry;
 import ext.deployit.community.cli.manifestexport.service.RepositoryHelper;
-import ext.deployit.community.cli.manifestexport.service.TypeReflectionHelper;
 
 public class PackageContentAnalyzer {
     // jee-plugin is not available in the CLI
@@ -29,16 +35,13 @@ public class PackageContentAnalyzer {
     protected static final String EJB_JAR_EXTENSION = ".jar";
 
     protected final RepositoryHelper repository;
-    protected final TypeReflectionHelper types;
 
-    public PackageContentAnalyzer(RepositoryHelper repository,
-            TypeReflectionHelper types) {
+    public PackageContentAnalyzer(RepositoryHelper repository) {
         this.repository = repository;
-        this.types = types;
     }
 
     public ManifestAndLogMessages extractFromPackage(
-            RepositoryObject deploymentPackage) {
+            ConfigurationItem deploymentPackage) {
         DarManifestBuilder manifestBuilder = new DarManifestBuilder();
         List<String> logMessages = convertToManifestEntries(
                 deploymentPackage, manifestBuilder);
@@ -46,16 +49,15 @@ public class PackageContentAnalyzer {
     }
 
     @SuppressWarnings("unchecked")
-    private List<String> convertToManifestEntries(RepositoryObject deploymentPackage,
+    private List<String> convertToManifestEntries(ConfigurationItem deploymentPackage,
             DarManifestBuilder manifestBuilder) {
         List<String> logMessages = newArrayList();
-        Map<String, Object> deploymentPackageProperties = deploymentPackage.getValues();
         manifestBuilder.setApplication(
-                nameFromId((String) deploymentPackageProperties.get("application")));
+                nameFromId((String) deploymentPackage.getProperty("application")));
         manifestBuilder.setVersion(nameFromId(deploymentPackage.getId()));
 
-        for (String deployableId : (Collection<String>) deploymentPackageProperties.get("deployables")) {
-            RepositoryObject deployable = repository.readExisting(deployableId);
+        for (String deployableId : (Collection<String>) deploymentPackage.getProperty("deployables")) {
+            ConfigurationItem deployable = repository.readExisting(deployableId);
             Map<String, String> attributes = getPropertyValues(deployable, logMessages);
             if (isArtifact(deployable)) {
                 // the DAR entry may have a file extension
@@ -69,18 +71,18 @@ public class PackageContentAnalyzer {
         return logMessages;
     }
 
-    private boolean isArtifact(RepositoryObject ci) {
-        return types.getDescriptor(ci).getInterfaces().contains(DEPLOYABLE_ARTIFACT_TYPE);
+    private boolean isArtifact(ConfigurationItem ci) {
+        return DescriptorRegistry.getDescriptor(ci.getType()).getInterfaces().contains(DEPLOYABLE_ARTIFACT_TYPE);
     }
 
-    private String getExtension(RepositoryObject deployable) {
+    private String getExtension(ConfigurationItem deployable) {
         // some special case handling - not comprehensive by any means!
-        String type = deployable.getType();
-        if (type.equals(EAR_TYPE)) {
+        Type type = deployable.getType();
+        if (type.equals(Type.valueOf(EAR_TYPE))) {
             return EAR_EXTENSION;
-        } else if (type.equals(WAR_TYPE)) {
+        } else if (type.equals(Type.valueOf(WAR_TYPE))) {
             return WAR_EXTENSION;
-        } else if (type.equals(EJB_JAR_TYPE)) {
+        } else if (type.equals(Type.valueOf(EJB_JAR_TYPE))) {
             return EJB_JAR_EXTENSION;
         } else {
             return "";
@@ -88,24 +90,20 @@ public class PackageContentAnalyzer {
     }
 
     @SuppressWarnings("unchecked")
-    private Map<String, String> getPropertyValues(RepositoryObject ci, List<String> logMessages) {
-        Map<String, Object> ciValues = ci.getValues();
+    private Map<String, String> getPropertyValues(ConfigurationItem ci, List<String> logMessages) {
         Map<String, String> valuesForManifest = newHashMap();
-        for (ConfigurationItemPropertyDescriptorDto propertyDescriptor 
-                : types.getPropertyDescriptors(ci)) {
-
-            if (!propertyDescriptor.isEditable()) {
-                continue;
-            }
+        for (PropertyDescriptor propertyDescriptor 
+                : DescriptorRegistry.getDescriptor(ci.getType()).getPropertyDescriptors()) {
 
             String propertyName = propertyDescriptor.getName();
-            Object value = ciValues.get(propertyName);
+            Object value = ci.getProperty(propertyName);
 
             if (value == null) {
                 continue;
             }
 
-            switch (propertyDescriptor.getType()) {
+            PropertyKind kind = propertyDescriptor.getKind();
+            switch(kind) {
             case BOOLEAN:
             case INTEGER:
             case STRING:
@@ -155,7 +153,7 @@ public class PackageContentAnalyzer {
     }
 
     private static boolean validateAttributeName(String attributeName,
-            String propertyName, RepositoryObject ci, List<String> logMessages) {
+            String propertyName, ConfigurationItem ci, List<String> logMessages) {
         Collection<String> errors = getAttributeNameErrors(toCiAttribute(attributeName));
         if (errors.isEmpty()) {
             return true;

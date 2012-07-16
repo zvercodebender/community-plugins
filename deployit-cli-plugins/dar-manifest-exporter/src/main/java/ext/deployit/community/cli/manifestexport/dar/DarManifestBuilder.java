@@ -9,8 +9,8 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 
 import com.google.common.base.Function;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.xebialabs.deployit.plugin.api.reflect.Type;
 
 public class DarManifestBuilder extends ManifestBuilder {
     public static final String APPLICATION_ATTRIBUTE_NAME = "Ci-Application";
@@ -51,18 +51,17 @@ public class DarManifestBuilder extends ManifestBuilder {
 
     public static class DarEntry {
         // null object to indicate "no result"
-        public static final DarEntry NULL = new DarEntry("", ImmutableMap.<String, String>of(), "");
         public static final String CI_ATTRIBUTE_PREFIX = "Ci-";
 
         private static final String TYPE_ATTRIBUTE_NAME = CI_ATTRIBUTE_PREFIX + "type";
 
-        private final String type;
+        private final Type type;
         private final Map<String, String> properties;
         private final String jarEntryPath;
 
-        public DarEntry(@Nonnull String type, @Nonnull Map<String, String> properties, 
+        public DarEntry(@Nonnull Type type, @Nonnull Map<String, String> properties, 
                 @Nonnull String jarEntryPath) {
-            this.type = checkNotNull(type, "type");
+            this.type = type;
             this.properties = transformKeys(checkNotNull(properties, "properties"),
                     new Function<String, String>() {
                         @Override
@@ -84,7 +83,7 @@ public class DarManifestBuilder extends ManifestBuilder {
             // type and all the properties
             Map<String, String> attributes = Maps.newHashMapWithExpectedSize(
                     1 + properties.size());
-            attributes.put(TYPE_ATTRIBUTE_NAME, type);
+            attributes.put(TYPE_ATTRIBUTE_NAME, type.toString());
             attributes.putAll(properties);
             builder.addEntryAttributes(jarEntryPath, attributes);
         }

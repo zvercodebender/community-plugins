@@ -48,6 +48,13 @@
         <systemPath>${deployit.server.home}/lib/local-booter-${deployit.engine.version}.jar</systemPath>
       </dependency>
       <dependency>
+        <groupId>com.xebialabs.deployit.engine</groupId>
+        <artifactId>remote-booter</artifactId>
+        <version>${deployit.engine.version}</version>
+        <scope>system</scope>
+        <systemPath>${deployit.cli.home}/lib/remote-booter-${deployit.engine.version}.jar</systemPath>
+      </dependency>
+      <dependency>
         <groupId>com.xebialabs.deployit</groupId>
         <artifactId>udm-plugin-api</artifactId>
         <version>${deployit.api.version}</version>
