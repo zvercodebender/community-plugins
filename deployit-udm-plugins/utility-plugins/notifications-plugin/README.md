@@ -17,6 +17,8 @@ Also requires 'simple-java-mail-1.8.jar' in the `SERVER_HOME/lib` directory. Thi
 
 ### Upgrading to 3.7.0-3 ###
 
+notify.SentTemplateEmail0 and notify.SentTemplateEmail2 -> notify.SentTemplateEmail (now virtual). Added an upgrader to check if a legacy type declaration is required
+
 If upgrading to 3.7.0-3 from an older version, please add the following temporary type definition to `SERVER_HOME/ext/synthetic.xml`:
 
 ```xml
