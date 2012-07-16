@@ -15,7 +15,7 @@ Place the plugin JAR file into your `SERVER_HOME/plugins` directory.
 
 Also requires 'simple-java-mail-1.8.jar' in the `SERVER_HOME/lib` directory. This library is available from [Maven Central](http://search.maven.org/#search|ga|1|simple-java-mail-1.8).
 
-## Upgrading to 3.7.0-3 ##
+### Upgrading to 3.7.0-3 ###
 
 If upgrading to 3.7.0-3 from an older version, please add the following temporary type definition to `SERVER_HOME/ext/synthetic.xml`:
 
