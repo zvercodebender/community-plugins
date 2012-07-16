@@ -28,7 +28,7 @@ import ext.deployit.community.plugin.notifications.email.step.TemplateEmailSendS
 
 @SuppressWarnings("serial")
 @Metadata(virtual = true, description = "A template email sent via a notify.MailServer")
-public class SentTemplateEmail extends SentEmail {
+public class SentTemplateEmail0 extends SentEmail {
 
     @Override
     protected EmailSendStep getEmailSendStep() {

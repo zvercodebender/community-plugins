@@ -27,17 +27,17 @@
         <generate-deployable type="notify.EmailDraft" extends="generic.Resource" />
     </type>
 
-    <type-modification type="notify.SentTemplateEmail">
+    <type-modification type="notify.SentTemplateEmail0">
         <!-- override -->
         <property name="body" hidden="true" default="UNUSED" />
         <property name="template" hidden="true" default="notify/email/${deployed.type}.ftl" />
     </type-modification>
 
     <!-- workaround for http://tech.xebialabs.com/jira/browse/DEPLOYITPB-2236 -->
-    <type type="notify.SentTemplateEmail2" extends="notify.SentTemplateEmail" deployable-type="notify.TemplateEmailDraft" container-type="notify.MailServer">
+    <type type="notify.SentTemplateEmail" extends="notify.SentTemplateEmail0" virtual="true" deployable-type="notify.TemplateEmailDraft" container-type="notify.MailServer">
         <generate-deployable type="notify.TemplateEmailDraft" extends="generic.Resource" />
     </type>
-                
+
     <type-modification type="notify.MailServer">
         <property name="address" description="The hostname or IP address of the SMTP server" />
         <property name="smtpPort" kind="integer" default="25" />
