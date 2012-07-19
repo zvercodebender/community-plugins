@@ -2,6 +2,7 @@ package com.xebialabs.deployit.plugin.api.util;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.collect.Sets;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Operation;
 import com.xebialabs.deployit.plugin.api.reflect.Type;
@@ -67,7 +68,7 @@ public class Predicates2 {
         private final Collection<Type> subtypes;
 
         public IsSubtypeOf(Type typeToMatch) {
-            subtypes = getSubtypes(typeToMatch);
+            subtypes = Sets.newHashSet(getSubtypes(typeToMatch));
             subtypes.add(typeToMatch);
         }
 
