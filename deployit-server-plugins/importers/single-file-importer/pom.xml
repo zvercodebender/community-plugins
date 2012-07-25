@@ -8,7 +8,7 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <artifactId>single-file-importer</artifactId>
-  <version>${deployit.api.version}-3</version>
+  <version>${deployit.api.version}-4-SNAPSHOT</version>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
