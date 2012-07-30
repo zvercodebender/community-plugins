@@ -4,14 +4,16 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 
 group = 'com.xebialabs.deployit.community'
-apiVersion = '3.7.0'
-version = "${apiVersion}-2-SNAPSHOT"
+apiVersion = '3.7.4'
+version = "${apiVersion}-3-SNAPSHOT"
 
 sourceCompatibility = 1.6
 sourceEncoding = 'UTF-8'
 
 dependencies {
   compile "com.xebialabs.deployit.plugins:generic-plugin:${apiVersion}"
+  compile "com.xebialabs.deployit:udm-plugin-api:${apiVersion}"
+  compile "com.xebialabs.deployit:server-plugin-api:${apiVersion}"
   compile 'com.github.stephenc.simple-java-mail:simple-java-mail:1.8'
   testCompile 'junit:junit:4.8.2'
   testCompile "com.xebialabs.deployit:udm-test-support:${apiVersion}"
