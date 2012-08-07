@@ -6,7 +6,6 @@
     <groupId>org.xebialabs.deployit</groupId>
     <artifactId>middleware-plugins</artifactId>
     <version>3.7.0</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>apache-weblogic-plugin</artifactId>
   <version>${deployit.api.version}-2-SNAPSHOT</version>
