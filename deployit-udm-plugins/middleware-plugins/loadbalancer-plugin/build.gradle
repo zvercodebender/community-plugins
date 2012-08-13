@@ -5,7 +5,7 @@ apply plugin: 'maven'
 
 group = 'com.xebialabs.deployit.community'
 apiVersion = '3.7.4'
-version = "${apiVersion}-1-SNAPSHOT"
+version = "${apiVersion}-1"
 
 sourceCompatibility = 1.6
 sourceEncoding = 'UTF-8'
