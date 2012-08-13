@@ -4,7 +4,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 group = 'com.xebialabs.deployit.community'
-apiVersion = '3.7.0'
+apiVersion = '3.7.4'
 version = "${apiVersion}-1-SNAPSHOT"
 
 sourceCompatibility = 1.6
