@@ -3,21 +3,17 @@
            xmlns="http://www.xebialabs.com/deployit/synthetic"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
-    <!-- there is no 'udm.AppServer' base class, unfortunately -->
-    <type-modification type="generic.Container">
-        <property name="removeFromLoadBalancerPool" kind="boolean" required="false" default="true" />
-    </type-modification>
-    <type-modification type="generic.NestedContainer">
-        <property name="removeFromLoadBalancerPool" kind="boolean" required="false" default="true" />
+<!-- Generic load balancer support -->
+    <type-modification type="udm.BaseContainer">
+        <property category="Load balancer" name="removeFromLoadBalancerPool" kind="boolean" required="false" default="true" />
     </type-modification>
 
     <type-modification type="www.ApacheHttpdServer">
-        <property name="frontedServers" kind="set_of_ci" referenced-type="udm.Container" required="false" />
+        <property category="Load balancer" name="frontedServers" kind="set_of_ci" referenced-type="udm.Container" required="false" />
     </type-modification>
 
-    <type type="lb.GenericLoadBalancer" extends="generic.Container">
+    <type type="lb.GenericLoadBalancer" extends="generic.Container" virtual="true">
         <property name="webserverPool" kind="set_of_ci" referenced-type="www.ApacheHttpdServer" required="false" />
-        <!-- there is no 'udm.AppServer' base class, unfortunately -->
         <property name="appserverPool" kind="set_of_ci" referenced-type="udm.Container" required="false" />
         <property name="removeFromLoadBalancerPoolScript" hidden="true" default="lb/remove-from-pool" />
         <!-- DefaultOrders.STOP_ARTIFACTS - 2 -->
@@ -29,16 +25,23 @@
         <property name="removeFromLoadBalancerPool" kind="boolean" required="false" hidden="true" default="false" />
     </type>
 
+<!-- For F5 BigIP -->
+    <type-modification type="udm.BaseContainer">
+        <property category="Load balancer" name="bigIpPool" kind="string" required="false" />
+        <property category="Load balancer" name="bigIpAddress" kind="string" required="false" />
+        <property category="Load balancer" name="bigIpPort" kind="integer" required="false" />
+    </type-modification>
+
     <type type="lb.BigIpLoadBalancer" extends="lb.GenericLoadBalancer">
         <property name="hostname" kind="string" required="true" />
         <property name="username" kind="string" required="true" />
         <property name="password" kind="string" password="true" required="true" />
         <property name="partition" kind="string" required="true" />
 
-        <property name="removeFromLoadBalancerPoolScript" hidden="true" default="big-ip/remove-from-pool" />
+        <property name="removeFromLoadBalancerPoolScript" hidden="true" default="big-ip/disable-pool-member.py.ftl" />
         <!-- DefaultOrders.STOP_ARTIFACTS - 2 -->
         <property name="removeFromLoadBalancerPoolOrder" kind="integer" hidden="true" default="8" />
-        <property name="returnToLoadBalancerPoolScript" hidden="true" default="big-ip/return-to-pool" />
+        <property name="returnToLoadBalancerPoolScript" hidden="true" default="big-ip/enable-pool-member.py.ftl" />
         <!-- DefaultOrders.START_ARTIFACTS + 4 -->
         <property name="returnToLoadBalancerPoolOrder" kind="integer" hidden="true" default="94" />
     </type>

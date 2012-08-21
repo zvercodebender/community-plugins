@@ -35,7 +35,9 @@ For BIG-IP support, install the pycontrol and suds libraries on the host from wh
 
 The plugin provides an lb.BigIpLoadbalancer CI that can be added to your environment. The loadbalancer CI is associated with a host from which the
 BIG-IP loadbalancer is reachable. Configure the loadbalancer CI with the BIG-IP's hostname, username and password, as well as the active partition to use. 
-The loadbalancer CI has a pool of web servers and app servers that it manages.
+The loadbalancer CI has a pool of web servers and app servers that it manages. For each of those you will have to configure the pool name, address (as it
+is known in BIG-IP) and the port (as it is known in BIG-IP), as well as set the "remove from load balancer pool" flag if you want that server to be included
+in the disable/enable logic.
 
 When a deployment is performed that installs or de-installs application components to/from one of the web servers or app servers that the loadbalancer
 manages, Deployit will include steps to remove the server from the active pool when the installation process starts and return it to the pool when it
