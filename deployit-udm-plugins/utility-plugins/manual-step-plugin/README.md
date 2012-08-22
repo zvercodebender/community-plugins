@@ -61,7 +61,7 @@ The *description*, *subject*, *toAddresses*, *fromAddress* properties can contai
 * **step**: Contains a ManualStep object.
 
 
-## Grouping Notifications and associating with an Environment ##
+## Grouping Manual Steps and associating with an Environment ##
 
 Once you have defined manual steps, you can group the steps using the [ManualSteps](#manualstep.ManualSteps) configuration item and then associate the [ManualSteps](#manualstep.ManualSteps) with an Environment via the *manualSteps* property.
 
