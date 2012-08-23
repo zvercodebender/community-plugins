@@ -13,7 +13,6 @@ import ext.deployit.community.plugin.manualstep.ci.ManualStep;
 import ext.deployit.community.plugin.manualstep.ci.ManualSteps;
 import ext.deployit.community.plugin.manualstep.step.InstructionStep;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static com.google.common.collect.Iterables.filter;
@@ -30,7 +29,7 @@ public class ManualStepContributor {
         commonVars.put("operation", operation);
 
         Environment environment = ctx.getDeployedApplication().getEnvironment();
-        Iterable<ManualStep> manualSteps = ManualSteps.getSteps(environment, ContributorType.CONTRIBUTOR, operation);
+        Iterable<ManualStep> manualSteps = ManualSteps.getSteps(environment, ContributorType.EVERY_SUBPLAN, operation);
         for (ManualStep manualStep : manualSteps) {
             Map<String,Object> vars = newHashMap(commonVars);
             vars.put("step",manualStep);

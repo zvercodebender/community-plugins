@@ -36,7 +36,7 @@ Under the *Configuration* root, define a [ManualStep](#manualstep.ManualStep) co
 
 	step = factory.configurationItem("Configuration/NotifyStartOfDeployment", "manualstep.ManualStep")
 	step.mailServer = "Infrastructure/MailServer"
-	step.contributorType = "PRE_PLAN_PROCESSOR"
+	step.contributorType = "ONCE_AT_THE_START"
 	step.description = "Inform monitoring department of start of ${deployedApplication.version.application.name} deployment."
 	step.inlineScript="Turn monitoring for application ${deployedApplication.version.application.name}"
 	
@@ -56,7 +56,7 @@ The *description*, *subject*, *toAddresses*, *fromAddress* properties can contai
 
 * **deltas**: The delta specifications.
 * **deployedApplication**: The entire deployed application containing application and environment configuration items.
-* **previousDeployedApplication**: Only available when ContributorType is pre/post plan processor.
+* **previousDeployedApplication**: Only available when ContributorType is ONCE_AT_THE_START or ONCE_AT_THE_END.
 * **operation**: The deployment operation.
 * **step**: Contains a ManualStep object.
 

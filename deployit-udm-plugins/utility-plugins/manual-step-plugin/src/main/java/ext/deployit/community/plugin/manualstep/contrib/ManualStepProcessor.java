@@ -21,12 +21,12 @@ public class ManualStepProcessor {
 
     @PrePlanProcessor
     public List<Step> triggerManualStepsForPrePlanProcessor(DeltaSpecification deltaSpec) {
-        return triggerManualSteps(deltaSpec, ContributorType.PRE_PLAN_PROCESSOR);
+        return triggerManualSteps(deltaSpec, ContributorType.ONCE_AT_THE_START);
     }
 
     @PostPlanProcessor
     public List<Step> triggerManualStepsForPostPlanProcessor(DeltaSpecification deltaSpec) {
-        return triggerManualSteps(deltaSpec, ContributorType.POST_PLAN_PROCESSOR);
+        return triggerManualSteps(deltaSpec, ContributorType.ONCE_AT_THE_END);
     }
 
     private List<Step> triggerManualSteps(DeltaSpecification deltaSpec, ContributorType contributorType) {
