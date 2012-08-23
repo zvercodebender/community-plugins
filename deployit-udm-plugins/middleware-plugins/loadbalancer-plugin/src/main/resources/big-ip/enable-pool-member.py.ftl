@@ -18,11 +18,23 @@ bigip = pc.BIGIP(hostname = bigip_address, username = bigip_user, password = big
 print 'Setting active partition to [' + active_partition + ']'
 bigip.Management.Partition.set_active_partition(active_partition)
 
-print 'Enabling pool member [' + poolmember_address + ':' + poolmember_port + '] in pool [' + poolmember_pool + ']'
+#
 pmem = bigip.LocalLB.PoolMember.typefactory.create('Common.IPPortDefinition')
 pmem.address = poolmember_address
 pmem.port = poolmember_port
 
+#
+mstate = bigip.LocalLB.PoolMember.typefactory.create('LocalLB.PoolMember.MemberMonitorState')
+mstate.member = pmem
+mstate.monitor_state = 'STATE_ENABLED'
+
+mstate_seq = bigip.LocalLB.PoolMember.typefactory.create('LocalLB.PoolMember.MemberMonitorStateSequence')
+mstate_seq.item = [mstate]
+
+print 'Disabling pool member [' + poolmember_address + ':' + poolmember_port + '] in pool [' + poolmember_pool + ']'
+bigip.LocalLB.PoolMember.set_monitor_state(pool_names = [poolmember_pool], monitor_states = [mstate_seq])
+
+#
 sstate = bigip.LocalLB.PoolMember.typefactory.create('LocalLB.PoolMember.MemberSessionState')
 sstate.member = pmem
 sstate.session_state = 'STATE_ENABLED'
@@ -30,6 +42,7 @@ sstate.session_state = 'STATE_ENABLED'
 sstate_seq = bigip.LocalLB.PoolMember.typefactory.create('LocalLB.PoolMember.MemberSessionStateSequence')
 sstate_seq.item = [sstate]
 
+print 'Enabling pool member [' + poolmember_address + ':' + poolmember_port + '] in pool [' + poolmember_pool + ']'
 bigip.LocalLB.PoolMember.set_session_enabled_state(pool_names = [poolmember_pool], session_states = [sstate_seq])
 
 print 'Done'
