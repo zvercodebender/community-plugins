@@ -46,21 +46,23 @@ public class InstructionStep implements Step {
 
     @Override
     public StepExitCode execute(ExecutionContext ctx) throws Exception {
+        String instructions = renderInstructionsTemplate();
         if (paused) {
             ctx.logOutput("Assuming manual process performed. Continuing...");
             ctx.logOutput("------------");
             ctx.logOutput("Instructions");
             ctx.logOutput("------------");
-            ctx.logOutput(renderEmailTemplate());
+            ctx.logOutput(instructions);
 
             return StepExitCode.SUCCESS;
         }
-        ctx.logOutput(renderEmailTemplate());
+        mailInstructions(instructions, ctx);
+        ctx.logOutput(instructions);
         paused = true;
         return StepExitCode.PAUSE;
     }
 
-    private String renderEmailTemplate() throws IOException, TemplateException {
+    private String renderInstructionsTemplate() throws IOException, TemplateException {
         Configuration cfg = ConfigurationHolder.getConfiguration();
         Template loadedTemplate;
         if (isNullOrEmpty(stepConfig.getInlineScript()) && !isNullOrEmpty(stepConfig.getScriptPath())) {

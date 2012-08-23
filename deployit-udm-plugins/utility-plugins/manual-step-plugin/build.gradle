@@ -12,7 +12,13 @@ targetCompatibility = 1.6
 repositories {
 	mavenLocal()
 	mavenCentral()
-	mavenRepo urls: "${nexusBaseUrl}/repositories/releases"
+    maven {
+        credentials {
+            username nexusUserName
+            password nexusPassword
+        }
+        url "${nexusBaseUrl}/repositories/releases"
+    }
 }
 
 configurations {
@@ -21,8 +27,8 @@ configurations {
 	}
 }
 
+version = '3.8.0-SNAPSHOT'
 project.ext {
-	version = '3.8.0-SNAPSHOT'
 	apiVersion = '3.8.0-alpha-42'
 	bundledPluginsVersion = '3.8.0-alpha-14'
 }
@@ -37,7 +43,7 @@ dependencies {
     compile "javax.mail:mail:1.4.5"
 
 	testCompile "org.hamcrest:hamcrest-core:1.2.1"
-	testCompile "org.hamcrest:hamcrest-library:1.2.1"
+    testCompile "org.hamcrest:hamcrest-library:1.2.1"
 	testCompile "junit:junit-dep:4.10"
 }
 
