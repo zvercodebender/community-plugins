@@ -22,7 +22,7 @@ Currently, the loadbalancer plugin provides add and remove scripts for the F5 BI
 * **Deployit requirements**
 	* **Deployit**: version 3.7+
 * **BIG-IP requirements**
-	* **API**: pycontrol Python library, version 2.0 or up
+	* **API**: [pycontrol Python library, version 2.0 or up](https://devcentral.f5.com/Default.aspx?tabid=2230)
 	* **SOAP**: suds Python library, version 0.3.9 or up
 
 # Installation
