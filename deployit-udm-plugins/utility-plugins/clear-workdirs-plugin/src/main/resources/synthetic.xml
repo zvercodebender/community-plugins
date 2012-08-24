@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+    
+    <type-modification type="generic.AbstractDeployed">
+      <property name="clearWorkDirectories" kind="boolean" required="false" default="false" category="Work Directories" />
+      <property name="workDirectories" kind="list_of_string" required="false" category="Work Directories" />
+      <!-- admin properties -->
+      <!-- DefaultOrders.DESTROY_RESOURCES + 2 -->
+      <property name="clearWorkDirectoriesOrder" kind="integer" hidden="true" default="42" />
+    </type-modification>
+
+</synthetic>
