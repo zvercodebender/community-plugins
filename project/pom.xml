@@ -8,10 +8,10 @@
   <properties>
     <deployit.server.home>${env.DEPLOYIT_HOME}</deployit.server.home>
     <deployit.cli.home>${env.DEPLOYIT_CLI_HOME}</deployit.cli.home>
-    <deployit.api.version>3.8.0-alpha-26</deployit.api.version>
-    <deployit.engine.version>3.8.0-alpha-35</deployit.engine.version>
+    <deployit.api.version>3.8.0-alpha-52</deployit.api.version>
+    <deployit.engine.version>3.8.0-alpha-54</deployit.engine.version>
     <deployit.servercli.version>3.8.0-SNAPSHOT</deployit.servercli.version>
-    <deployit.bundledplugin.version>3.8.0-alpha-10</deployit.bundledplugin.version>
+    <deployit.bundledplugin.version>3.8.0-alpha-17</deployit.bundledplugin.version>
     <overthere.version>2.0.0-beta-3</overthere.version>
     <scannit.version>1.0.2</scannit.version>
     <github.global.server>github</github.global.server>
@@ -80,7 +80,7 @@
         <artifactId>webserver-plugin</artifactId>
         <version>${deployit.bundledplugin.version}</version>
         <scope>system</scope>
-        <systemPath>${deployit.server.home}/plugins/webserver-plugin-${deployit.bundledplugin.version}.jar</systemPath>
+        <systemPath>${deployit.server.home}/available-plugins/webserver-plugin-${deployit.bundledplugin.version}.jar</systemPath>
       </dependency>
       <dependency>
         <groupId>com.xebialabs.deployit.plugins</groupId>
