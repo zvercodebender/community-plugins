@@ -20,26 +20,21 @@
  */
 package ext.deployit.community.plugin.notifications.email.planning;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.collect.Lists.newLinkedList;
-import static com.google.common.collect.Sets.filter;
-import static com.xebialabs.deployit.plugin.api.reflect.DescriptorRegistry.getDescriptor;
-import static ext.deployit.community.plugin.notifications.util.Predicates.subtypeOf;
-import static java.lang.Boolean.TRUE;
-import static java.util.Arrays.asList;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
+
 import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
 import com.xebialabs.deployit.plugin.api.deployment.planning.DeploymentPlanningContext;
 import com.xebialabs.deployit.plugin.api.deployment.planning.PostPlanProcessor;
 import com.xebialabs.deployit.plugin.api.deployment.planning.PrePlanProcessor;
 import com.xebialabs.deployit.plugin.api.deployment.planning.ReadOnlyRepository;
+import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
 import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecification;
+import com.xebialabs.deployit.plugin.api.deployment.specification.Operation;
 import com.xebialabs.deployit.plugin.api.flow.Step;
 import com.xebialabs.deployit.plugin.api.reflect.Type;
 import com.xebialabs.deployit.plugin.api.udm.Container;
@@ -49,6 +44,14 @@ import com.xebialabs.deployit.plugin.api.udm.Environment;
 import ext.deployit.community.plugin.notifications.email.ci.MailServer;
 import ext.deployit.community.plugin.notifications.email.deployed.SentTemplateEmail;
 import ext.deployit.community.plugin.notifications.util.StepAdapter;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.Lists.newLinkedList;
+import static com.google.common.collect.Sets.filter;
+import static com.xebialabs.deployit.plugin.api.reflect.DescriptorRegistry.getDescriptor;
+import static ext.deployit.community.plugin.notifications.util.Predicates.subtypeOf;
+import static java.lang.Boolean.TRUE;
+import static java.util.Arrays.asList;
 
 public class GeneratePreAndPostEmails {
     private static final String ENV_REQUIRES_PRE_EMAIL = "sendDeploymentStartNotification";
@@ -78,7 +81,7 @@ public class GeneratePreAndPostEmails {
         }
 
         StepCollector steps = new StepCollector();
-        getDelegate(sentEmailType, deployedApplication).executeCreate(steps);
+        getDelegate(sentEmailType, deployedApplication).executeCreate(steps, null);
         return steps.steps;
     }
     
@@ -160,6 +163,38 @@ public class GeneratePreAndPostEmails {
 				addStep(step);
 			}
 		}
+
+        @Override
+        public void addCheckpoint(Step arg0, Delta arg1) {
+        }
+
+        @Override
+        public void addCheckpoint(Step arg0, Iterable<Delta> arg1) {
+        }
+
+        @Override
+        public void addCheckpoint(Step arg0, Delta arg1, Operation arg2) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void addStepWithCheckpoint(Step arg0, Delta arg1) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void addStepWithCheckpoint(Step arg0, Iterable<Delta> arg1) {
+            // TODO Auto-generated method stub
+            
+        }
+
+        @Override
+        public void addStepWithCheckpoint(Step arg0, Delta arg1, Operation arg2) {
+            // TODO Auto-generated method stub
+            
+        }
         
     }
 }

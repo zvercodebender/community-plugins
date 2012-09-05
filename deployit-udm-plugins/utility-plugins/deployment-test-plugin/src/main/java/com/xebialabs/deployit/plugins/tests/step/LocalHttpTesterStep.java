@@ -10,7 +10,8 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 
-import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentExecutionContext;
+import com.xebialabs.deployit.plugin.api.flow.ExecutionContext;
+import com.xebialabs.deployit.plugin.api.flow.StepExitCode;
 import com.xebialabs.deployit.plugin.generic.step.GenericBaseStep;
 import com.xebialabs.deployit.plugin.overthere.HostContainer;
 
@@ -35,7 +36,7 @@ public class LocalHttpTesterStep extends GenericBaseStep {
 	}
 
 	@Override
-	protected Result doExecute() throws Exception {
+	protected StepExitCode doExecute() throws Exception {
 		HttpClient client = new HttpClient();
 		GetMethod method = new GetMethod(url);
 		try {
@@ -48,10 +49,10 @@ public class LocalHttpTesterStep extends GenericBaseStep {
 			method.releaseConnection();
 		}
 
-		return Result.Fail;
+		return StepExitCode.FAIL;
 	}
 
-	private Result verifyContentWithRetryAttempts(DeploymentExecutionContext ctx, HttpClient client, GetMethod method) throws InterruptedException {
+	private StepExitCode verifyContentWithRetryAttempts(ExecutionContext ctx, HttpClient client, GetMethod method) throws InterruptedException {
 		for (int i = 0; i < noOfRetries; i++) {
 			try {
 				int statusCode = client.executeMethod(method);
@@ -67,35 +68,35 @@ public class LocalHttpTesterStep extends GenericBaseStep {
 			waitFor(retryWaitInterval);
 		}
 
-		return Result.Fail;
+		return StepExitCode.FAIL;
 	}
 
-	private Result verifyContent(DeploymentExecutionContext ctx, GetMethod method) throws IOException {
+	private StepExitCode verifyContent(ExecutionContext ctx, GetMethod method) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(method.getResponseBodyAsStream()));
 		Pattern pattern = Pattern.compile(expectedResponseText);
 		String line;
-		Result result = Result.Fail;
+		StepExitCode result = StepExitCode.FAIL;
 		while ((line = reader.readLine()) != null) {
 			if (showPageInConsole) {
 				ctx.logOutput(line);
 			}
-			if (result == Result.Fail)
+			if (result == StepExitCode.FAIL)
 				result = matchLine(ctx, pattern, line);
 		}
 
-		if (result == Result.Fail)
+		if (result == StepExitCode.FAIL)
 			ctx.logError("Failed to find content '" + expectedResponseText + "' in page.");
 
-		return Result.Success;
+		return StepExitCode.SUCCESS;
 	}
 
-	private Result matchLine(DeploymentExecutionContext ctx, Pattern pattern, String line) {
+	private StepExitCode matchLine(ExecutionContext ctx, Pattern pattern, String line) {
 		Matcher matcher = pattern.matcher(line);
 		if (matcher.find()) {
 			ctx.logOutput("Successfully found content '" + expectedResponseText + "' in page.");
-			return Result.Success;
+			return StepExitCode.SUCCESS;
 		}
-		return Result.Fail;
+		return StepExitCode.FAIL;
 	}
 
 	private void waitFor(int seconds) throws InterruptedException {

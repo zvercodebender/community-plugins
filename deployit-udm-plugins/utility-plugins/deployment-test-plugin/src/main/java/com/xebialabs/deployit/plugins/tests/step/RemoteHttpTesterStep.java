@@ -1,20 +1,21 @@
 package com.xebialabs.deployit.plugins.tests.step;
 
-import static com.google.common.collect.Maps.newHashMap;
-
 import java.util.Map;
 
 import org.slf4j.MDC;
 
+import com.xebialabs.deployit.plugin.api.flow.StepExitCode;
 import com.xebialabs.deployit.plugin.generic.freemarker.FileUploader;
 import com.xebialabs.deployit.plugin.generic.step.ScriptExecutionStep;
-import com.xebialabs.deployit.plugin.overthere.ExecutionContextOverthereProcessOutputHandler;
+import com.xebialabs.deployit.plugin.overthere.DefaultProcessOutputHandler;
 import com.xebialabs.deployit.plugin.overthere.HostContainer;
 import com.xebialabs.overthere.CmdLine;
 import com.xebialabs.overthere.OperatingSystemFamily;
 import com.xebialabs.overthere.OverthereFile;
 import com.xebialabs.overthere.OverthereProcessOutputHandler;
 import com.xebialabs.overthere.util.OverthereUtils;
+
+import static com.google.common.collect.Maps.newHashMap;
 
 @SuppressWarnings("serial")
 public class RemoteHttpTesterStep extends ScriptExecutionStep {
@@ -43,7 +44,7 @@ public class RemoteHttpTesterStep extends ScriptExecutionStep {
 	 */
 
 	@Override
-	public Result doExecute() throws Exception {
+	public StepExitCode doExecute() throws Exception {
 		MDC.put(MDC_KEY_SCRIPT_PATH, scriptTemplatePath);
 		try {
 			String osSpecificTemplate = resolveOsSpecificTemplate();
@@ -56,9 +57,9 @@ public class RemoteHttpTesterStep extends ScriptExecutionStep {
 		}
 	}
 
-	protected Result executeScript(OverthereFile executable) {
+	protected StepExitCode executeScript(OverthereFile executable) {
 		CmdLine cmdLine = CmdLine.build(executable.getPath());
-		OverthereProcessOutputHandler handle = new ExecutionContextOverthereProcessOutputHandler(getCtx());
+		OverthereProcessOutputHandler handle = new DefaultProcessOutputHandler(getCtx());
 		getCtx().logOutput("Waiting for " + startDelay + " secs before executing step");
 		waitFor(startDelay);
 		int rc = execute(executable, cmdLine, handle);
@@ -75,7 +76,7 @@ public class RemoteHttpTesterStep extends ScriptExecutionStep {
 				}
 			}
 		}
-		return rc == 0 ? Result.Success : Result.Fail;
+		return rc == 0 ? StepExitCode.SUCCESS : StepExitCode.FAIL;
 	}
 
 	private int execute(OverthereFile executable, CmdLine cmdLine, OverthereProcessOutputHandler handle) {

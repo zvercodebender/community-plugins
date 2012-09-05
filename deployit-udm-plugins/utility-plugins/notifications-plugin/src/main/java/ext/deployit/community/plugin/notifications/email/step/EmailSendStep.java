@@ -1,22 +1,22 @@
 package ext.deployit.community.plugin.notifications.email.step;
 
-import static com.xebialabs.deployit.plugin.api.execution.Step.Result.Success;
+import java.util.List;
+
+import org.codemonkey.simplejavamail.Email;
+
+import com.xebialabs.deployit.plugin.api.flow.StepExitCode;
+import com.xebialabs.deployit.plugin.generic.step.GenericBaseStep;
+
+import ext.deployit.community.plugin.notifications.email.ci.MailServer;
+import ext.deployit.community.plugin.notifications.email.util.Addresses.NameAndAddress;
+import ext.deployit.community.plugin.notifications.email.util.Addresses.Recipient;
+
 import static ext.deployit.community.plugin.notifications.email.util.Addresses.toRecipients;
 import static ext.deployit.community.plugin.notifications.email.util.Addresses.NameAndAddress.toNameAndAddress;
 import static java.lang.String.format;
 import static javax.mail.Message.RecipientType.BCC;
 import static javax.mail.Message.RecipientType.CC;
 import static javax.mail.Message.RecipientType.TO;
-
-import java.util.List;
-
-import org.codemonkey.simplejavamail.Email;
-
-import com.xebialabs.deployit.plugin.generic.step.GenericBaseStep;
-
-import ext.deployit.community.plugin.notifications.email.ci.MailServer;
-import ext.deployit.community.plugin.notifications.email.util.Addresses.NameAndAddress;
-import ext.deployit.community.plugin.notifications.email.util.Addresses.Recipient;
 
 @SuppressWarnings("serial")
 public abstract class EmailSendStep extends GenericBaseStep {
@@ -39,13 +39,13 @@ public abstract class EmailSendStep extends GenericBaseStep {
     protected abstract String getBody();
     
     @Override
-    public Result doExecute() throws Exception {
+    public StepExitCode doExecute() throws Exception {
         String body = getBody();
         getCtx().logOutput(format("Sending email...%nFrom: %s%nTo: %s%nCc: %s%nBcc: %s%nSubject: %s%n%n%s%n",
                 fromAddress, toAddresses, ccAddresses, bccAddresses, subject, body));
         ((MailServer) getContainer()).getMailer().sendMail(getEmail(body));
         getCtx().logOutput("Email sent successfully");
-        return Success;
+        return StepExitCode.SUCCESS;
     }
     
     protected Email getEmail(String body) {
