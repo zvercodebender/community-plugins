@@ -3,7 +3,7 @@
            xmlns="http://www.xebialabs.com/deployit/synthetic"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
     
-    <type type="cmd2.DeployedCommandFolder" extends="generic.ExecutedScriptWithDerivedArtifact" deployable-type="cmd2.CommandFolder">
+    <type type="cmd2.DeployedCommandFolder" extends="generic.ExecutedScriptWithDerivedArtifact" deployable-type="cmd2.CommandFolder" container-type="overthere.Host">
       <generate-deployable type="cmd2.CommandFolder" extends="generic.Folder" />
 
       <!-- allow multi-line commands -->
@@ -21,7 +21,7 @@
       <property name="executionFlagPattern" hidden="true" default="*.sh"/>
     </type>
 
-    <type type="cmd2.DeployedCommand" extends="generic.ExecutedScript" deployable-type="cmd2.Command">
+    <type type="cmd2.DeployedCommand" extends="generic.ExecutedScript" deployable-type="cmd2.Command" container-type="overthere.Host">
       <generate-deployable type="cmd2.Command" extends="generic.Resource" />
 
       <!-- allow multi-line commands -->
