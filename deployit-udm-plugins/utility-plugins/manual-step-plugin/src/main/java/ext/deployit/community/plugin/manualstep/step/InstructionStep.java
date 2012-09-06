@@ -48,12 +48,7 @@ public class InstructionStep implements Step {
     public StepExitCode execute(ExecutionContext ctx) throws Exception {
         String instructions = renderInstructionsTemplate();
         if (paused) {
-            ctx.logOutput("Assuming manual process performed. Continuing...");
-            ctx.logOutput("------------");
-            ctx.logOutput("Instructions");
-            ctx.logOutput("------------");
             ctx.logOutput(instructions);
-
             return StepExitCode.SUCCESS;
         }
         mailInstructions(instructions, ctx);
@@ -65,11 +60,11 @@ public class InstructionStep implements Step {
     private String renderInstructionsTemplate() throws IOException, TemplateException {
         Configuration cfg = ConfigurationHolder.getConfiguration();
         Template loadedTemplate;
-        if (isNullOrEmpty(stepConfig.getInlineScript()) && !isNullOrEmpty(stepConfig.getScriptPath())) {
-            loadedTemplate = cfg.getTemplate(stepConfig.getScriptPath());
+        if (isNullOrEmpty(stepConfig.getInstructions()) && !isNullOrEmpty(stepConfig.getInstructions())) {
+            loadedTemplate = cfg.getTemplate(stepConfig.getInstructionsScriptPath());
         } else {
-            Preconditions.checkNotNull(Strings.emptyToNull(stepConfig.getInlineScript()),"Either inlineScript or scriptPath must be specified.");
-            loadedTemplate = new Template("name", new StringReader(stepConfig.getInlineScript()),cfg);
+            Preconditions.checkNotNull(Strings.emptyToNull(stepConfig.getInstructions()),"Either instructions or instructionsScriptPath must be specified.");
+            loadedTemplate = new Template("name", new StringReader(stepConfig.getInstructions()),cfg);
         }
         StringWriter sw = new StringWriter();
         loadedTemplate.process(vars, sw);

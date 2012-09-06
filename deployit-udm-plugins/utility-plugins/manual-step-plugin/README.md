@@ -38,7 +38,8 @@ Under the *Configuration* root, define a [ManualStep](#manualstep.ManualStep) co
 	step.mailServer = "Infrastructure/MailServer"
 	step.contributorType = "ONCE_AT_THE_START"
 	step.description = "Inform monitoring department of start of ${deployedApplication.version.application.name} deployment."
-	step.inlineScript="Turn monitoring for application ${deployedApplication.version.application.name}"
+	step.instructions="Turn monitoring for application ${deployedApplication.version.application.name}"
+	step.operation="ANY"
 	
 	#Optional sending of mail
 	step.toAddresses = ["monitor@mycompany.com"]

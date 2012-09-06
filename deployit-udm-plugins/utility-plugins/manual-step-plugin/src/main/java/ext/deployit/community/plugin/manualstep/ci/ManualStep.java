@@ -17,8 +17,8 @@ public class ManualStep extends BaseConfigurationItem {
     @Property(description = "The type of contributor or processor used to insert the manual step")
     private ContributorType contributorType;
 
-    @Property(required = false, description = "The operation that should trigger the insertion of the step. When empty, will trigger for all deployment operations.")
-    private Operation operation;
+    @Property(required = true, description = "The operation that should trigger the insertion of the step.")
+    private DeploymentOperation operation;
 
     @Property(defaultValue = "1", description = "The order the step will appear in the step list.")
     private int order;
@@ -26,11 +26,14 @@ public class ManualStep extends BaseConfigurationItem {
     @Property(description = "The description for the step in the step list.")
     private String description;
 
-    @Property(required = false, description = "The inline template used to generate the instructions. When empty, scriptPath must be entered.")
-    private String inlineScript;
+    @Property(required = false, size = Property.Size.LARGE ,description = "The inline template used to generate the instructions. When empty, scriptPath must be entered.")
+    private String instructions;
 
     @Property(required = false, description = "The classpath to the template used to generate the instructions.")
-    private String scriptPath;
+    private String instructionsScriptPath;
+
+    @Property(required = false, description = "The mail server used to send the email.",category = "Mail")
+    private SMTPServer mailServer;
 
     @Property(required = false, description = "Mail addresses of recepients.", category = "Mail")
     private List<String> toAddresses = newArrayList();
@@ -41,10 +44,6 @@ public class ManualStep extends BaseConfigurationItem {
     @Property(required = false, description = "From mail address. Defaults to SMTPServer fromAddress.", category = "Mail")
     private String fromAddress;
 
-    @Property(required = false, description = "The mail server used to send the email.")
-    private SMTPServer mailServer;
-
-
     public ContributorType getContributorType() {
         return contributorType;
     }
@@ -53,11 +52,11 @@ public class ManualStep extends BaseConfigurationItem {
         this.contributorType = contributorType;
     }
 
-    public Operation getOperation() {
+    public DeploymentOperation getOperation() {
         return operation;
     }
 
-    public void setOperation(Operation operation) {
+    public void setOperation(DeploymentOperation operation) {
         this.operation = operation;
     }
 
@@ -69,20 +68,20 @@ public class ManualStep extends BaseConfigurationItem {
         this.order = order;
     }
 
-    public String getInlineScript() {
-        return inlineScript;
+    public String getInstructions() {
+        return instructions;
     }
 
-    public void setInlineScript(String inlineScript) {
-        this.inlineScript = inlineScript;
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
     }
 
-    public String getScriptPath() {
-        return scriptPath;
+    public String getInstructionsScriptPath() {
+        return instructionsScriptPath;
     }
 
-    public void setScriptPath(String scriptPath) {
-        this.scriptPath = scriptPath;
+    public void setInstructionsScriptPath(String instructionsScriptPath) {
+        this.instructionsScriptPath = instructionsScriptPath;
     }
 
     public String getDescription() {

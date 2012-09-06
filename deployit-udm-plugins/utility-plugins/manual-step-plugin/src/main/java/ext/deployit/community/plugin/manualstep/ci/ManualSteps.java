@@ -19,6 +19,7 @@ import static com.google.common.collect.Lists.transform;
 @Metadata(root = Metadata.ConfigurationItemRoot.CONFIGURATION, description = "Contains a list of ManualStep configurations.")
 public class ManualSteps extends BaseConfigurationItem {
 
+    public static final String MANUAL_STEPS = "manualSteps";
     @Property(description = "List of ManualStep configurations")
     private List<ManualStep> steps = newArrayList();
 
@@ -31,10 +32,10 @@ public class ManualSteps extends BaseConfigurationItem {
     }
 
     public static Iterable<ManualStep> getSteps(Environment environment, final ContributorType contributorType, final Operation operation) {
-        if (!environment.hasProperty("manualSteps")) {
+        if (!environment.hasProperty(MANUAL_STEPS)) {
             return Collections.emptyList();
         }
-        List<ManualSteps> manualStepSets = environment.getProperty("manualSteps");
+        List<ManualSteps> manualStepSets = environment.getProperty(MANUAL_STEPS);
         Iterable<ManualStep> manualSteps = concat(transform(manualStepSets, new Function<ManualSteps, Iterable<ManualStep>>() {
             @Override
             public Iterable<ManualStep> apply(ManualSteps input) {
@@ -42,7 +43,7 @@ public class ManualSteps extends BaseConfigurationItem {
                     @Override
                     public boolean apply(ManualStep input) {
                         return (input.getContributorType() == contributorType) &&
-                                ((input.getOperation() == null) || (input.getOperation() == operation));
+                                ((input.getOperation() == DeploymentOperation.ANY) || (input.getOperation().getOperation() == operation));
                     }
                 });
             }
