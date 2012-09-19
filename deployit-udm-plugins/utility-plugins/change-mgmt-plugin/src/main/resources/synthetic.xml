@@ -2,11 +2,11 @@
 <synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xmlns="http://www.xebialabs.com/deployit/synthetic"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
-    
-    <type type="chg.ChangeRequest" extends="generic.Resource" />
-    
+
     <type type="chg.ChangeTicket" extends="generic.ExecutedScript" 
           deployable-type="chg.ChangeRequest" container-type="chg.ChangeManager" virtual="true">
+        <generate-deployable type="chg.ChangeRequest" extends="generic.Resource" />
+
         <property name="requestId" description="The ID or number of the change request" />
 
         <!-- admin properties -->
@@ -21,11 +21,10 @@
 
     <!-- keep for backwards-compatibility -->
     <type type="chg.ChangeTicket2" extends="chg.ChangeTicket" />
-    
+
     <type type="chg.ChangeManager" extends="generic.Container" description="A Change Management system">
         <property name="updateChangeTicketAfterDeployment" kind="boolean" required="false" />
-        <!-- The suffix of the calculated checklist item to use for change ticket validation.
-          Should be hidden and not match the name of any visible deployment checklist item administered by users -->
+        <!-- The suffix of the calculated checklist item to use for change ticket validation. Should be hidden and not match the name of any visible deployment checklist item administered by users -->
         <property name="changeTicketChecklistItemSuffix" default="ChangeTicket" />
     </type>
 </synthetic>
