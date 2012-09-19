@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.xebialabs.deployit.community.changemgmt.OverrideTestSynthetics;
 import com.xebialabs.deployit.deployment.planner.DeltaSpecificationBuilder;
 import com.xebialabs.deployit.plugin.api.boot.PluginBooter;
 import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecification;
@@ -28,7 +27,6 @@ import com.xebialabs.deployit.plugin.test.yak.ci.YakServer;
 import com.xebialabs.deployit.test.support.TestUtils;
 
 import ext.deployit.community.plugin.changemgmt.OverrideTestSynthetics;
-import ext.deployit.community.plugin.changemgmt.deployed.ChangeTicket;
 import ext.deployit.community.plugin.changemgmt.planning.SetChangeTicketChecklistItem;
 
 /**
