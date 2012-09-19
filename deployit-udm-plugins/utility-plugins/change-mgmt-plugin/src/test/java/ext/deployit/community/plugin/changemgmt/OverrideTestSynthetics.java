@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.junit.rules.MethodRule;
-import org.junit.runners.model.FrameworkMethod;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 import com.google.common.collect.Multimap;
@@ -22,7 +22,7 @@ import com.xebialabs.deployit.plugin.api.reflect.Descriptor;
 import com.xebialabs.deployit.plugin.api.reflect.DescriptorRegistry;
 import com.xebialabs.deployit.plugin.api.reflect.Type;
 
-public class OverrideTestSynthetics implements MethodRule {
+public class OverrideTestSynthetics implements TestRule {
 	// format strings for String.format
 	private static final String SYNTHETIC_OVERRIDE_FILENAME_FORMAT = "synthetic-%s.xml";
 	private final String syntheticOverridePathFormat;
@@ -33,15 +33,15 @@ public class OverrideTestSynthetics implements MethodRule {
 			+ SYNTHETIC_OVERRIDE_FILENAME_FORMAT; 
 	}
 
-	@Override
-	public Statement apply(final Statement base, final FrameworkMethod method, Object target) {
+        @Override
+        public Statement apply(final Statement base, final Description description) {
 		final ClassLoader originalContextClassLoader = 
 			Thread.currentThread().getContextClassLoader();
 		return new Statement() {
 			@Override
 			public void evaluate() throws Throwable {
 				final boolean overrideApplied = 
-					overrideTestSynthetic(method.getName(), originalContextClassLoader);
+					overrideTestSynthetic(description.getMethodName(), originalContextClassLoader);
 				try {
 					base.evaluate();
 				} finally {
