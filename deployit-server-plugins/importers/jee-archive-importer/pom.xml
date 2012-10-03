@@ -17,7 +17,7 @@
     <dependency>
       <groupId>org.xebialabs.deployit</groupId>
       <artifactId>single-file-importer</artifactId>
-      <version>${deployit.api.version}-3-SNAPSHOT</version>
+      <version>${deployit.api.version}-4-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
