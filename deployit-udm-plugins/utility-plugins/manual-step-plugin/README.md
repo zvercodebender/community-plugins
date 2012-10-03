@@ -61,6 +61,8 @@ The *description*, *subject*, *toAddresses*, *fromAddress* properties can contai
 * **operation**: The deployment operation.
 * **step**: Contains a ManualStep object.
 
+External script can be specified (related to the _classpath_ of Deployit) as *instructionsScriptPath*.
+
 
 ## Grouping Manual Steps and associating with an Environment ##
 

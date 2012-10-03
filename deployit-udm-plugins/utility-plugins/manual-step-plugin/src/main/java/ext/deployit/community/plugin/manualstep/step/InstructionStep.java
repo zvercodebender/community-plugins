@@ -60,7 +60,7 @@ public class InstructionStep implements Step {
     private String renderInstructionsTemplate() throws IOException, TemplateException {
         Configuration cfg = ConfigurationHolder.getConfiguration();
         Template loadedTemplate;
-        if (isNullOrEmpty(stepConfig.getInstructions()) && !isNullOrEmpty(stepConfig.getInstructions())) {
+        if (isNullOrEmpty(stepConfig.getInstructions()) && !isNullOrEmpty(stepConfig.getInstructionsScriptPath())) {
             loadedTemplate = cfg.getTemplate(stepConfig.getInstructionsScriptPath());
         } else {
             Preconditions.checkNotNull(Strings.emptyToNull(stepConfig.getInstructions()),"Either instructions or instructionsScriptPath must be specified.");
