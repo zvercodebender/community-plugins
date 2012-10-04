@@ -17,12 +17,28 @@
     <dependency>
       <groupId>com.xebialabs.deployit</groupId>
       <artifactId>server-core</artifactId>
-      <version>${deployit.servercli.version}</version>
     </dependency>
     <dependency>
       <groupId>org.xebialabs.deployit</groupId>
       <artifactId>plain-archive-converter</artifactId>
       <version>${deployit.api.version}-2-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+          <groupId>com.google.code.findbugs</groupId>
+          <artifactId>findbugs</artifactId>
+    </dependency>
+	<dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>1.4</version>
     </dependency>
     <dependency>
       <groupId>commons-httpclient</groupId>

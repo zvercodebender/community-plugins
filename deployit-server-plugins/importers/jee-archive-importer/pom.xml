@@ -23,6 +23,30 @@
       <groupId>com.xebialabs.deployit.engine</groupId>
       <artifactId>local-booter</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
+		<groupId>com.google.code.findbugs</groupId>
+		<artifactId>findbugs</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.xebialabs.deployit</groupId>
+        <artifactId>jee-plugin</artifactId>
+    </dependency>
+    <dependency>
+	  <groupId>de.schlichtherle.truezip</groupId>
+	  <artifactId>truezip-file</artifactId>
+	</dependency>
+    <dependency>
+        <groupId>com.xebialabs.overthere</groupId>
+        <artifactId>overthere</artifactId>
+	</dependency>
   </dependencies>
 </project>
 
