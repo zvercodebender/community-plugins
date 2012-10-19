@@ -2,7 +2,7 @@
 
 # Overview #
 
-The personal credentials plugin allows you to specify overthere.Host credentials (username & password) that would be used only for a deployed application.
+The personal credentials plugin allows you to specify overthere.Host credentials (username & password) that are used only for a particular deployment.
 
 # Requirements #
 
@@ -14,15 +14,17 @@ The personal credentials plugin allows you to specify overthere.Host credentials
 Place the plugin JAR file into your `SERVER_HOME/plugins` directory.
 
 # Configuration #
-The activation of the personal credential is trigggered per environment using the *overrideHostCredentials* propery.
-Two kind of configuration are actually supported
-	* unique credential for all hosts
-	* per Os credential
+
+The activation of the personal credential is trigggered per environment using the *overrideHostCredentials* property.
+Two kinds of configuration are actually supported:
+	* unique credentials for all hosts
+	* per OS credential
 	
 ## Single credential ##
-This configuration allows the user to supply a username and a password on the deployed application level. This credential will be used each time Deployit needs to create a new remote connection to a a host during the execution of the deployment plan.
 
-The synthetic.xml file need to be modified by adding this:
+This configuration allows the user to supply a username and a password on the deployed application level. These credentials will be used each time Deployit needs to create a new remote connection to a host during the execution of the deployment plan.
+
+Enable single personal credentials by adding the following in the synthetic.xml:
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -42,11 +44,12 @@ The synthetic.xml file need to be modified by adding this:
 </synthetic>
 ```
 
-## Per OS credential ##
-This configuration allows the user to supply a username and a password on the deployed application level. These credentials will be used each time Deployit needs to create a new remote connection during the execution of the deployment plan. If the host operating system is *Windows*, windowsUsername and windowsPassword will be used for username and password.
-If the host operating system is *Unix*, unixUsername and unixPassword will be used for username and password.
+## Per OS credentials ##
 
-The synthetic.xml file need to be modified by adding this:
+This configuration allows the user to supply a username and a password on the deployed application level. These credentials will be used each time Deployit needs to create a new remote connection during the execution of the deployment plan. If the host operating system is *Windows*, _windowsUsername_ and _windowsPassword_ will be used for username and password.
+If the host operating system is *Unix*, _unixUsername_ and _unixPassword_ will be used for username and password.
+
+To enable per OS credentials, modify your synthetic.xml file in the following way:
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -68,12 +71,5 @@ The synthetic.xml file need to be modified by adding this:
 </synthetic>
 ```
 
-Note: the transient attribute equals 'true' implies the values will not be saved during 2 deployment. If you want to make it persitent, set the attribute value to 'false'
-
-
-
-
-
-
-
+Note: the transient attribute equals 'true' implies the values will not be persisted after the deployment. If you want to make it persistent, set the attribute value to 'false'.
 
