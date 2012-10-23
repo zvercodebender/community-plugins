@@ -19,11 +19,14 @@
     <module>deployment-test-plugin</module>
     <module>deployment-test2-plugin</module>
     <module>lock-plugin</module>
+	<!--
     <module>notifications-plugin</module>
+	-->
     <module>pause-plugin</module>
     <module>per-container-dictionaries-plugin</module>
     <module>precheck-plugin</module>
     <module>release-auth-plugin</module>
     <module>rpm-plugin</module>
+    <module>scheduler-plugin</module>
   </modules>
 </project>

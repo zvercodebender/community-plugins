@@ -1,0 +1,14 @@
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+
+    <type-modification type="udm.DeployedApplication">
+        <property name="date"  transient="true" required="false" category="Scheduler" description="dd/MM/yyyy"/>
+        <property name="time"  transient="true" required="false" category="Scheduler" description="HH:mm:ss"/>
+        <property name="datePattern" hidden="true" default="dd/MM/yyyy" />
+        <property name="timePattern" hidden="true" default="HH:mm:ss" />
+    </type-modification>
+
+
+</synthetic>
