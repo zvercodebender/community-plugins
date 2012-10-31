@@ -9,7 +9,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>notifications-plugin</artifactId>
-  <version>${deployit.api.version}-2-SNAPSHOT</version>
+  <version>${deployit.api.version}-2</version>
   <properties>
     <maven.test.skip>true</maven.test.skip>
   </properties>
