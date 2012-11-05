@@ -23,9 +23,6 @@ import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
 import com.xebialabs.deployit.plugin.api.udm.DeploymentPackage;
 import com.xebialabs.deployit.plugin.api.udm.Version;
 
-import ext.deployit.community.plugin.changemgmt.deployed.ChangeTicket;
-import ext.deployit.community.plugin.changemgmt.reflect.Types;
-
 public class SetChangeTicketChecklistItem {
     @VisibleForTesting
     static final String CHANGE_TICKET_CHECKLIST_ITEM_NAME_PROPERTY = "changeTicketChecklistItemSuffix";
