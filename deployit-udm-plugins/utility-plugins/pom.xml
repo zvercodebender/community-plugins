@@ -9,7 +9,10 @@
   </parent>
   <artifactId>utility-plugins</artifactId>
   <packaging>pom</packaging>
-
+  <scm>
+    <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
+    <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
+  </scm>
   <modules>
     <module>change-mgmt-plugin</module>
     <module>command2-plugin</module>

@@ -19,6 +19,10 @@
     <maven.compile.source>1.6</maven.compile.source>
     <maven.compile.target>1.6</maven.compile.target>
   </properties>
+  <scm>
+    <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
+    <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
+  </scm>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>

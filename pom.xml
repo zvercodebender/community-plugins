@@ -9,6 +9,10 @@
   </parent>
   <artifactId>community-plugins</artifactId>
   <packaging>pom</packaging>
+  <scm>
+    <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
+    <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
+  </scm>
   <modules>
     <module>deployit-cli-plugins</module>
     <module>deployit-server-plugins</module>
