@@ -29,5 +29,9 @@
       <groupId>com.xebialabs.deployit</groupId>
       <artifactId>udm-plugin-api</artifactId>
     </dependency>
+      <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+      </dependency>
   </dependencies>
 </project>

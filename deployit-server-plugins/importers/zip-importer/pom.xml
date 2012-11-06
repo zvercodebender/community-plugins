@@ -8,7 +8,7 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <artifactId>zip-importer</artifactId>
-  <version>${deployit.api.version}-3-SNAPSHOT</version>
+  <version>${deployit.api.version}</version>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
@@ -21,7 +21,7 @@
     <dependency>
       <groupId>org.xebialabs.deployit</groupId>
       <artifactId>plain-archive-converter</artifactId>
-      <version>${deployit.api.version}-2-SNAPSHOT</version>
+      <version>${deployit.api.version}</version>
     </dependency>
     <dependency>
           <groupId>com.google.code.findbugs</groupId>

@@ -8,16 +8,22 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <artifactId>jee-archive-importer</artifactId>
-  <version>${deployit.api.version}-3-SNAPSHOT</version>
+  <version>${deployit.api.version}</version>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
   </scm>
   <dependencies>
-    <dependency>
+
+      <dependency>
+          <groupId>com.sun.xml.parsers</groupId>
+          <artifactId>jaxp-ri</artifactId>
+          <version>1.4.5</version>
+      </dependency>
+      <dependency>
       <groupId>org.xebialabs.deployit</groupId>
       <artifactId>single-file-importer</artifactId>
-      <version>${deployit.api.version}-3-SNAPSHOT</version>
+      <version>${deployit.api.version}</version>
     </dependency>
     <dependency>
       <groupId>com.xebialabs.deployit.engine</groupId>
