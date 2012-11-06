@@ -23,6 +23,6 @@
     <module>release-auth-plugin</module>
     <module>rpm-plugin</module>
     <module>application-configuration-plugin</module>
-    <!-- This plugin doesn't contain a POM - module>scheduler-plugin</module -->
+    <module>scheduler-plugin</module>
   </modules>
 </project>
