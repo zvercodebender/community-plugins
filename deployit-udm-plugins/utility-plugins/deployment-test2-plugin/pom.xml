@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.xebialabs.deployit</groupId>
     <artifactId>utility-plugins</artifactId>
-    <version>3.7.0</version>
+    <version>3.8.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>deployment-test2-plugin</artifactId>
-  <version>${deployit.api.version}-3-SNAPSHOT</version>
+  <version>${deployit.api.version}</version>
   <properties>
     <maven.test.skip>true</maven.test.skip>
   </properties>
@@ -49,7 +49,7 @@
         <dependency>
           <groupId>com.xebialabs.deployit</groupId>
           <artifactId>udm-test-support</artifactId>
-          <version>3.7.0</version>
+          <version>3.8.0</version>
           <scope>test</scope>
         </dependency>
         <dependency>

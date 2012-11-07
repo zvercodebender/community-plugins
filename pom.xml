@@ -4,11 +4,15 @@
   <parent>
     <groupId>org.xebialabs.deployit</groupId>
     <artifactId>community-plugins-project</artifactId>
-    <version>3.7.0</version>
+    <version>3.8.0</version>
     <relativePath>project/pom.xml</relativePath>
   </parent>
   <artifactId>community-plugins</artifactId>
   <packaging>pom</packaging>
+  <scm>
+    <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
+    <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
+  </scm>
   <modules>
     <module>deployit-cli-plugins</module>
     <module>deployit-server-plugins</module>

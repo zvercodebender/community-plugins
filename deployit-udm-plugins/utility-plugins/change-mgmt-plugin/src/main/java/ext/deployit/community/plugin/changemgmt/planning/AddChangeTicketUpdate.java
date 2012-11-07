@@ -1,5 +1,19 @@
 package ext.deployit.community.plugin.changemgmt.planning;
 
+import java.util.List;
+
+import com.google.common.base.Predicate;
+
+import com.xebialabs.deployit.plugin.api.deployment.planning.PostPlanProcessor;
+import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecification;
+import com.xebialabs.deployit.plugin.api.flow.Step;
+import com.xebialabs.deployit.plugin.api.reflect.Type;
+import com.xebialabs.deployit.plugin.api.udm.ConfigurationItem;
+import com.xebialabs.deployit.plugin.api.udm.Deployed;
+import com.xebialabs.deployit.plugin.generic.ci.Container;
+import com.xebialabs.deployit.plugin.generic.deployed.ExecutedScript;
+import com.xebialabs.deployit.plugin.generic.step.ScriptExecutionStep;
+
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
@@ -7,19 +21,6 @@ import static ext.deployit.community.plugin.changemgmt.util.Predicates2.extractD
 import static ext.deployit.community.plugin.changemgmt.util.Predicates2.instanceOf;
 import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
-
-import java.util.List;
-
-import com.google.common.base.Predicate;
-import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
-import com.xebialabs.deployit.plugin.api.deployment.planning.PostPlanProcessor;
-import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecification;
-import com.xebialabs.deployit.plugin.api.reflect.Type;
-import com.xebialabs.deployit.plugin.api.udm.ConfigurationItem;
-import com.xebialabs.deployit.plugin.api.udm.Deployed;
-import com.xebialabs.deployit.plugin.generic.ci.Container;
-import com.xebialabs.deployit.plugin.generic.deployed.ExecutedScript;
-import com.xebialabs.deployit.plugin.generic.step.ScriptExecutionStep;
 
 public class AddChangeTicketUpdate {
     protected static final Predicate<ConfigurationItem> IS_CHANGE_TICKET = 
@@ -30,8 +31,8 @@ public class AddChangeTicketUpdate {
     protected static final String CHANGE_TICKET_UPDATE_ORDER_PROPERTY = "updateOrder";
 
     @PostPlanProcessor
-    public static List<DeploymentStep> addUpdateStep(DeltaSpecification specification) {
-        List<DeploymentStep> additionalSteps = newArrayList();
+    public static List<Step> addUpdateStep(DeltaSpecification specification) {
+        List<Step> additionalSteps = newArrayList();
         Iterable<Deployed<?, ?>> changeTickets = filter(
                 transform(specification.getDeltas(), extractDeployed()), 
                 IS_CHANGE_TICKET);

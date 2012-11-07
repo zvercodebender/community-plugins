@@ -1,12 +1,11 @@
 package ext.deployit.community.importer.composite;
 
-import com.google.common.io.Files;
-import com.xebialabs.deployit.server.api.importer.ImportSource;
+import java.io.File;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
+import com.xebialabs.deployit.server.api.importer.ImportSource;
 
 public class FileSource implements ImportSource {
 
@@ -37,14 +36,10 @@ public class FileSource implements ImportSource {
 	}
 
 	@SuppressWarnings("deprecation")
-    @Override
+    @Override	
 	public void cleanUp() {
 		if (isTempFile()) {
-			try {
-				Files.deleteRecursively(getFile());
-			} catch (IOException e) {
-				logger.error("Could not clean up temporary file {}", location);
-			}
+			getFile().delete();
 		}
 	}
 

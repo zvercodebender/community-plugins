@@ -6,13 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 
 import com.xebialabs.deployit.plugin.api.deployment.planning.PrePlanProcessor;
 import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecification;
-import com.xebialabs.deployit.plugin.api.execution.Step;
+import com.xebialabs.deployit.plugin.api.flow.Step;
 import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
-import com.xebialabs.deployit.plugin.api.utils.Strings;
 
 import ext.deployit.community.plugin.scheduler.step.AtDateWaitStep;
 
@@ -29,10 +29,10 @@ public class SchedulerContributor {
         final String datePattern = deployedApplication.getProperty("datePattern");
         final String timePattern = deployedApplication.getProperty("timePattern");
 
-        if (Strings.isEmpty(date) && Strings.isBlank(time)) {
+        if (Strings.isNullOrEmpty(date) && Strings.isNullOrEmpty(time)) {
             return null;
         }
-        if (Strings.isEmpty(date) || Strings.isBlank(time)) {
+        if (Strings.isNullOrEmpty(date) || Strings.isNullOrEmpty(time)) {
             logger.warn("date {} or time {} is empty", date, time);
             return null;
         }

@@ -5,11 +5,11 @@
   <parent>
     <groupId>org.xebialabs.deployit</groupId>
     <artifactId>utility-plugins</artifactId>
-    <version>3.7.0</version>
+    <version>3.8.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>per-container-dictionaries-plugin</artifactId>
-  <version>${deployit.api.version}-1-SNAPSHOT</version>
+  <version>${deployit.api.version}</version>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>

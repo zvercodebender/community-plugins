@@ -24,10 +24,10 @@ import static com.xebialabs.deployit.plugin.api.deployment.specification.Operati
 import static com.xebialabs.deployit.plugin.api.reflect.DescriptorRegistry.getSubtypes;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Sets;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Operation;
 import com.xebialabs.deployit.plugin.api.reflect.Type;
@@ -80,7 +80,7 @@ public class Predicates {
         private final Collection<Type> subtypes;
         
         public IsSubtypeOf(Type typeToMatch) {
-            subtypes = Sets.newHashSet(getSubtypes(typeToMatch));
+            subtypes = new HashSet<Type>(getSubtypes(typeToMatch));
             subtypes.add(typeToMatch);
         }
 

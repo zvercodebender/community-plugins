@@ -4,29 +4,28 @@
   <parent>
     <groupId>org.xebialabs.deployit</groupId>
     <artifactId>udm-plugins</artifactId>
-    <version>3.7.0</version>
+    <version>3.8.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>utility-plugins</artifactId>
   <packaging>pom</packaging>
-
+  <scm>
+    <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
+    <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
+  </scm>
   <modules>
-    <module>application-configuration-plugin</module>
     <module>change-mgmt-plugin</module>
-    <module>clear-workdirs-plugin</module>
     <module>command2-plugin</module>
     <module>demo-plugin</module>
     <module>deployment-test-plugin</module>
     <module>deployment-test2-plugin</module>
     <module>lock-plugin</module>
-	<!--
     <module>notifications-plugin</module>
-	-->
-    <module>pause-plugin</module>
     <module>per-container-dictionaries-plugin</module>
     <module>precheck-plugin</module>
     <module>release-auth-plugin</module>
     <module>rpm-plugin</module>
+    <module>application-configuration-plugin</module>
     <module>scheduler-plugin</module>
   </modules>
 </project>

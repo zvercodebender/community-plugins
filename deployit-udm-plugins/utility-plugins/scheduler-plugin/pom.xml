@@ -8,13 +8,13 @@
         <version>3.8.0</version>
     </parent>
     <artifactId>scheduler-plugin</artifactId>
-    <version>${deployit.api.version}-1-SNAPSHOT</version>
+    <version>${deployit.api.version}</version>
     <scm>
         <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
         <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
     </scm>
     <properties>
-        <overthere.version>2.0.0</overthere.version>
+        <overthere.version>2.1.0</overthere.version>
     </properties>
 
     <dependencies>

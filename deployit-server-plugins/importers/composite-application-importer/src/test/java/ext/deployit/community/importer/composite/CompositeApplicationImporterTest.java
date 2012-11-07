@@ -1,30 +1,34 @@
 package ext.deployit.community.importer.composite;
 
-import com.google.common.collect.Maps;
-import com.xebialabs.deployit.plugin.api.boot.PluginBooter;
-import com.xebialabs.deployit.plugin.api.udm.CompositePackage;
-import com.xebialabs.deployit.plugin.api.udm.Version;
-import com.xebialabs.deployit.server.api.importer.*;
-
-import ext.deployit.community.importer.composite.CompositeApplicationImporter;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static com.google.common.io.Resources.getResource;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-import static com.google.common.io.Resources.getResource;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.google.common.collect.Maps;
+import com.xebialabs.deployit.booter.local.LocalBooter;
+import com.xebialabs.deployit.plugin.api.udm.CompositePackage;
+import com.xebialabs.deployit.plugin.api.udm.Version;
+import com.xebialabs.deployit.server.api.importer.ImportSource;
+import com.xebialabs.deployit.server.api.importer.ImportedPackage;
+import com.xebialabs.deployit.server.api.importer.Importer;
+import com.xebialabs.deployit.server.api.importer.ImportingContext;
+import com.xebialabs.deployit.server.api.importer.PackageInfo;
 
 public class CompositeApplicationImporterTest {
 
 	@BeforeClass
 	public static void boot() {
-		PluginBooter.bootWithoutGlobalContext();
+		LocalBooter.bootWithoutGlobalContext();
 	}
 
 	private Importer importer = new CompositeApplicationImporter();

@@ -4,11 +4,11 @@
   <parent>
     <groupId>org.xebialabs.deployit</groupId>
     <artifactId>server-plugins</artifactId>
-    <version>3.7.0</version>
+    <version>3.8.0</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <artifactId>zip-importer</artifactId>
-  <version>${deployit.api.version}-3-SNAPSHOT</version>
+  <version>${deployit.api.version}</version>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
@@ -21,11 +21,34 @@
     <dependency>
       <groupId>org.xebialabs.deployit</groupId>
       <artifactId>plain-archive-converter</artifactId>
-      <version>${deployit.api.version}-2-SNAPSHOT</version>
+      <version>${deployit.api.version}</version>
+    </dependency>
+    <dependency>
+          <groupId>com.google.code.findbugs</groupId>
+          <artifactId>findbugs</artifactId>
+    </dependency>
+	<dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>1.4</version>
     </dependency>
     <dependency>
       <groupId>commons-httpclient</groupId>
       <artifactId>commons-httpclient</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.10</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

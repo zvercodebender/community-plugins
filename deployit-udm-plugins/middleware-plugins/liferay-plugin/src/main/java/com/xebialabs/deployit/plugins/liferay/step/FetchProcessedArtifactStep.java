@@ -3,6 +3,9 @@ package com.xebialabs.deployit.plugins.liferay.step;
 import com.google.common.io.Closeables;
 import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentExecutionContext;
 import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
+import com.xebialabs.deployit.plugin.api.flow.ExecutionContext;
+import com.xebialabs.deployit.plugin.api.flow.Step;
+import com.xebialabs.deployit.plugin.api.flow.StepExitCode;
 import com.xebialabs.deployit.plugin.api.udm.artifact.Artifact;
 import com.xebialabs.deployit.plugin.overthere.Host;
 import com.xebialabs.overthere.OverthereConnection;
@@ -10,7 +13,7 @@ import com.xebialabs.overthere.OverthereFile;
 
 import static java.lang.String.format;
 
-public class FetchProcessedArtifactStep implements DeploymentStep {
+public class FetchProcessedArtifactStep implements Step {
 
 	private final int order;
 	private final Artifact artifact;
@@ -31,32 +34,32 @@ public class FetchProcessedArtifactStep implements DeploymentStep {
 		return format("Fetch the processed artifact %s from %s", artifact, host);
 	}
 
-	@Override
-	public Result execute(DeploymentExecutionContext ctx) throws Exception {
-		OverthereConnection connection = null;
-		try {
-			connection = host.getConnection();
-			final OverthereFile remoteFile = connection.getFile(remoteLocation);
-			if (!remoteFile.exists()) {
-				ctx.logError(format("The remote file does not exist %s", remoteFile));
-				return Result.Fail;
-			}
-			if (fetch) {
-				final OverthereFile artifactOrginalFile = artifact.getFile();
-				ctx.logOutput(format("Copy the processed file %s back to the deployit server %s", remoteFile, artifactOrginalFile));
-				remoteFile.copyTo(artifactOrginalFile);
-			} else {
-				ctx.logOutput(format("Change the file property of %s: from %s to %s", artifact.getName(), artifact.getFile(), remoteFile));
-				artifact.setFile(remoteFile);
-			}
+    @Override
+    public StepExitCode execute(final ExecutionContext executionContext) throws Exception {
+        OverthereConnection connection = null;
+        try {
+            connection = host.getConnection();
+            final OverthereFile remoteFile = connection.getFile(remoteLocation);
+            if (!remoteFile.exists()) {
+                executionContext.logError(format("The remote file does not exist %s", remoteFile));
+                return StepExitCode.FAIL;
+            }
+            if (fetch) {
+                final OverthereFile artifactOrginalFile = artifact.getFile();
+                executionContext.logOutput(format("Copy the processed file %s back to the deployit server %s", remoteFile, artifactOrginalFile));
+                remoteFile.copyTo(artifactOrginalFile);
+            } else {
+                executionContext.logOutput(format("Change the file property of %s: from %s to %s", artifact.getName(), artifact.getFile(), remoteFile));
+                artifact.setFile(remoteFile);
+            }
 
-			return Result.Success;
-		} finally {
-			Closeables.closeQuietly(connection);
-		}
-	}
+            return StepExitCode.SUCCESS;
+        } finally {
+            Closeables.closeQuietly(connection);
+        }
+    }
 
-	public int getOrder() {
+    public int getOrder() {
 		return order;
 	}
 }

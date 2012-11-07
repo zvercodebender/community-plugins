@@ -22,13 +22,13 @@ package ext.deployit.community.importer.jeearchive;
 
 import org.junit.BeforeClass;
 
-import com.xebialabs.deployit.plugin.api.boot.PluginBooter;
+import com.xebialabs.deployit.booter.local.LocalBooter;
 
 // must be public for @BeforeClass to be called!
 public abstract class TestBase {
     
     @BeforeClass
     public static void boot() {
-        PluginBooter.bootWithoutGlobalContext();
+        LocalBooter.bootWithoutGlobalContext();
     }
 }

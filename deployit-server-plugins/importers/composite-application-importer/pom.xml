@@ -4,19 +4,35 @@
   <parent>
     <groupId>org.xebialabs.deployit</groupId>
     <artifactId>server-plugins</artifactId>
-    <version>3.7.0</version>
+    <version>3.8.0</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <artifactId>composite-application-importer</artifactId>
-  <version>${deployit.api.version}-2-SNAPSHOT</version>
+  <version>${deployit.api.version}</version>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
   </scm>
   <dependencies>
     <dependency>
+      <groupId>com.xebialabs.deployit.engine</groupId>
+      <artifactId>local-booter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>nl.javadude.scannit</groupId>
+      <artifactId>scannit</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.xebialabs.overthere</groupId>
       <artifactId>overthere</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+	<dependency>
+	  <groupId>com.google.code.findbugs</groupId>
+	  <artifactId>findbugs</artifactId>
     </dependency>
   </dependencies>
 </project>

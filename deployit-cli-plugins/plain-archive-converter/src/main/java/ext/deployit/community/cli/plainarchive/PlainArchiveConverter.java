@@ -28,17 +28,17 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.io.Files;
 import com.xebialabs.deployit.cli.CliObject;
-import com.xebialabs.deployit.cli.api.Proxies;
+import com.xebialabs.deployit.cli.api.ProxiesInstance;
 
 import de.schlichtherle.truezip.file.TFile;
 import ext.deployit.community.cli.plainarchive.config.ConfigParser;
 import ext.deployit.community.cli.plainarchive.config.RuleParser;
 import ext.deployit.community.cli.plainarchive.dar.DarManifestBuilder;
-import ext.deployit.community.cli.plainarchive.dar.DarWriter;
 import ext.deployit.community.cli.plainarchive.dar.DarManifestBuilder.DarEntry;
+import ext.deployit.community.cli.plainarchive.dar.DarWriter;
 import ext.deployit.community.cli.plainarchive.io.Filenames.VersionedFilename;
-import ext.deployit.community.cli.plainarchive.matcher.ConfigurationItemMatcher;
 import ext.deployit.community.cli.plainarchive.matcher.CarMatcher.CarMatcherFactory;
+import ext.deployit.community.cli.plainarchive.matcher.ConfigurationItemMatcher;
 import ext.deployit.community.cli.plainarchive.matcher.ConfigurationItemMatcher.MatchResult;
 import ext.deployit.community.cli.plainarchive.matcher.ConfigurationItemMatcher.MatcherFactory;
 import ext.deployit.community.cli.plainarchive.matcher.PathMatcher.PathMatcherFactory;
@@ -72,7 +72,7 @@ public class PlainArchiveConverter {
 
     private final List<ConfigurationItemMatcher> matchers;
     
-    public PlainArchiveConverter(Proxies ignored) {
+    public PlainArchiveConverter(ProxiesInstance ignored) {
         this(new ConfigParser(CONFIG, new RuleParser(MATCHER_FACTORIES)).get());
     }
     

@@ -1,0 +1,9 @@
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+    <type-modification type="udm.Environment">
+        <property name="manualSteps" kind="list_of_ci" referenced-type="manualstep.ManualSteps" required="false" category="Manual Steps"/>
+    </type-modification>
+
+</synthetic>

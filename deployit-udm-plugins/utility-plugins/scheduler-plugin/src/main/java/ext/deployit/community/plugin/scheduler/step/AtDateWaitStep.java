@@ -4,13 +4,14 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentExecutionContext;
-import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
+import com.xebialabs.deployit.plugin.api.flow.ExecutionContext;
+import com.xebialabs.deployit.plugin.api.flow.Step;
+import com.xebialabs.deployit.plugin.api.flow.StepExitCode;
 
 import static java.lang.String.format;
 
 @SuppressWarnings("serial")
-public class AtDateWaitStep implements DeploymentStep {
+public class AtDateWaitStep implements Step {
 
     private static final long SECONDS_TO_SLEEP = 60 * 10;
 
@@ -33,11 +34,11 @@ public class AtDateWaitStep implements DeploymentStep {
     }
 
     @Override
-    public Result execute(final DeploymentExecutionContext ctx) throws Exception {
+    public StepExitCode execute(final ExecutionContext ctx) throws Exception {
         final long waitTimeInSeconds = (scheduledDate.getTime() - new Date().getTime()) / 1000L;
         if (waitTimeInSeconds < 0) {
             ctx.logOutput(String.format("%s has been already reached", scheduledDate));
-            return Result.Success;
+            return StepExitCode.SUCCESS;
         }
         long sleepIntervals = waitTimeInSeconds / SECONDS_TO_SLEEP;
         long remainingSeconds = waitTimeInSeconds % SECONDS_TO_SLEEP;
@@ -58,9 +59,9 @@ public class AtDateWaitStep implements DeploymentStep {
         } catch (InterruptedException ignored) {
             ctx.logOutput("Wait interupted.");
             Thread.currentThread().interrupt();
-            return Result.Fail;
+            return StepExitCode.FAIL;
         }
-        return Result.Success;
+        return StepExitCode.SUCCESS;
 
     }
 

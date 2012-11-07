@@ -4,12 +4,15 @@
   <parent>
     <groupId>org.xebialabs.deployit</groupId>
     <artifactId>udm-plugins</artifactId>
-    <version>3.7.0</version>
+    <version>3.8.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>middleware-plugins</artifactId>
   <packaging>pom</packaging>
-
+  <scm>
+    <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
+    <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
+  </scm>
   <modules>
     <module>apache-modjk-plugin</module>
     <module>apache-weblogic-plugin</module>
