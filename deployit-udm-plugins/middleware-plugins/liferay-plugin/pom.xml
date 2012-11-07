@@ -8,7 +8,7 @@
         <version>3.8.0</version>
     </parent>
     <artifactId>liferay-plugin</artifactId>
-    <version>${deployit.api.version}</version>
+    <version>${deployit.api.version}-1-SNAPSHOT</version>
     <scm>
         <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
         <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>

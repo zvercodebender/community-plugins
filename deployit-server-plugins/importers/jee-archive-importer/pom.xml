@@ -8,7 +8,7 @@
     <relativePath>../../pom.xml</relativePath>
   </parent>
   <artifactId>jee-archive-importer</artifactId>
-  <version>${deployit.api.version}</version>
+  <version>${deployit.api.version}-1-SNAPSHOT</version>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
@@ -23,7 +23,7 @@
       <dependency>
       <groupId>org.xebialabs.deployit</groupId>
       <artifactId>single-file-importer</artifactId>
-      <version>${deployit.api.version}</version>
+      <version>${deployit.api.version}-1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.xebialabs.deployit.engine</groupId>

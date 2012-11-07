@@ -9,7 +9,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>release-auth-plugin</artifactId>
-  <version>${deployit.api.version}</version>
+  <version>${deployit.api.version}-1-SNAPSHOT</version>
   <properties>
     <maven.test.skip>true</maven.test.skip>
   </properties>
