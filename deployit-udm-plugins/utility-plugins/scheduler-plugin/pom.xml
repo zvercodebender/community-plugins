@@ -13,37 +13,15 @@
         <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
         <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
     </scm>
-    <properties>
-        <overthere.version>2.1.0</overthere.version>
-    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.xebialabs.deployit</groupId>
-            <artifactId>udm-plugin-api</artifactId>
+          <groupId>com.xebialabs.deployit</groupId>
+          <artifactId>udm-plugin-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.xebialabs.deployit.plugins</groupId>
-            <artifactId>generic-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xebialabs.deployit.plugins</groupId>
-            <artifactId>remoting-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xebialabs.deployit</groupId>
-            <artifactId>jee-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xebialabs.overthere</groupId>
-            <artifactId>overthere</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>0.9.24</version>
-            <scope>test</scope>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
         </dependency>
     </dependencies>
-
 </project>

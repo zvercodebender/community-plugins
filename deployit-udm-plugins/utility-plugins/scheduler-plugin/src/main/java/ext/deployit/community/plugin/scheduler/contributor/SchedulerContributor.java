@@ -14,14 +14,14 @@ import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecifica
 import com.xebialabs.deployit.plugin.api.flow.Step;
 import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
 
-import ext.deployit.community.plugin.scheduler.step.AtDateWaitStep;
+import ext.deployit.community.plugin.scheduler.step.WaitUntilDateTimeStep;
 
 import static java.lang.String.format;
 
 public class SchedulerContributor {
 
     @PrePlanProcessor
-    public Step injectPersonalCredentials(DeltaSpecification specification) {
+    public Step generateWaitStep(DeltaSpecification specification) {
         final DeployedApplication deployedApplication = specification.getDeployedApplication();
 
         final String date = deployedApplication.getProperty("date");
@@ -39,8 +39,8 @@ public class SchedulerContributor {
 
         final DateFormat dateFormat = new SimpleDateFormat(format("%s %s", datePattern, timePattern));
         try {
-            final Date parsed = dateFormat.parse(format("%s %s", date, time));
-            return new AtDateWaitStep(parsed);
+            final Date parsedDate = dateFormat.parse(format("%s %s", date, time));
+            return new WaitUntilDateTimeStep(parsedDate);
         } catch (ParseException e) {
             throw Throwables.propagate(e);
         }

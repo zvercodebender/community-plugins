@@ -11,14 +11,14 @@ import com.xebialabs.deployit.plugin.api.flow.StepExitCode;
 import static java.lang.String.format;
 
 @SuppressWarnings("serial")
-public class AtDateWaitStep implements Step {
+public class WaitUntilDateTimeStep implements Step {
 
     private static final long SECONDS_TO_SLEEP = 60 * 10;
 
     private final Date scheduledDate;
     private final String description;
 
-    public AtDateWaitStep(final Date date) {
+    public WaitUntilDateTimeStep(final Date date) {
         this.scheduledDate = date;
         this.description = format("Execute task at '%s'", scheduledDate);
     }
@@ -65,5 +65,5 @@ public class AtDateWaitStep implements Step {
 
     }
 
-    protected static final Logger logger = LoggerFactory.getLogger(AtDateWaitStep.class);
+    protected static final Logger logger = LoggerFactory.getLogger(WaitUntilDateTimeStep.class);
 }
