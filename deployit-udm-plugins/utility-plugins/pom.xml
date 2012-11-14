@@ -27,5 +27,6 @@
     <module>rpm-plugin</module>
     <module>application-configuration-plugin</module>
     <module>scheduler-plugin</module>
+    <module>sla-plugin</module>
   </modules>
 </project>
