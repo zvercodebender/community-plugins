@@ -8,7 +8,7 @@
         <version>3.8.0</version>
     </parent>
     <artifactId>sla-plugin</artifactId>
-    <version>${deployit.api.version}-1-SNAPSHOT</version>
+    <version>${deployit.api.version}-1</version>
     <scm>
         <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
         <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
@@ -23,26 +23,9 @@
             <artifactId>udm-plugin-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.xebialabs.deployit.plugins</groupId>
-            <artifactId>generic-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xebialabs.deployit.plugins</groupId>
-            <artifactId>remoting-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xebialabs.deployit</groupId>
-            <artifactId>jee-plugin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.xebialabs.overthere</groupId>
-            <artifactId>overthere</artifactId>
-        </dependency>
-        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>0.9.24</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
