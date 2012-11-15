@@ -4,10 +4,14 @@
 
 
     <type-modification type="udm.Environment">
-        <property label="SLA Starts At Time" name="slaStartsAtTime" transient="true" required="false" category="SLA"
+        <property label="SLA Starts At Time" name="slaStartsAtTime" required="false" category="SLA"
                   description="enters the hour when the SLA starts (format HH:mm)"/>
-        <property label="SLA Ends At Time" name="slaEndsAtTime" transient="true" required="false" category="SLA"
+        <property name="startFallBackMode" kind="enum" enum-class="ext.deployit.community.plugin.sla.ci.FallbackMode" category="SLA" default="CONTINUE"/>
+
+        <property label="SLA Ends At Time" name="slaEndsAtTime" required="false" category="SLA"
                   description="enters the hour when the SLA ends (format HH:mm)"/>
+        <property name="endFallBackMode" kind="enum" enum-class="ext.deployit.community.plugin.sla.ci.FallbackMode" category="SLA" default="PAUSE"/>
+
         <property name="timePattern" hidden="true" default="HH:mm"/>
     </type-modification>
 
