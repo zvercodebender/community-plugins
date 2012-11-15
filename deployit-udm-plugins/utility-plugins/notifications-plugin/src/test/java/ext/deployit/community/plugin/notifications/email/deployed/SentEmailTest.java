@@ -20,7 +20,7 @@
  */
 package ext.deployit.community.plugin.notifications.email.deployed;
 
-import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Lists.newLinkedList;
 import static com.xebialabs.deployit.test.support.TestUtils.newInstance;
 import static java.util.Arrays.asList;
 import static org.hamcrest.core.Is.is;
@@ -36,13 +36,16 @@ import org.junit.Test;
 import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
 import com.xebialabs.deployit.plugin.api.deployment.planning.DeploymentPlanningContext;
 import com.xebialabs.deployit.plugin.api.deployment.planning.ReadOnlyRepository;
+import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
+import com.xebialabs.deployit.plugin.api.deployment.specification.Operation;
+import com.xebialabs.deployit.plugin.api.flow.Step;
 import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
 import com.xebialabs.deployit.plugin.api.udm.DeploymentPackage;
 import com.xebialabs.deployit.plugin.api.udm.Version;
 
 import ext.deployit.community.plugin.notifications.email.TestBase;
-import ext.deployit.community.plugin.notifications.email.deployed.SentEmail;
 import ext.deployit.community.plugin.notifications.email.step.EmailSendStep;
+import ext.deployit.community.plugin.notifications.util.StepAdapter;
 
 public class SentEmailTest extends TestBase {
 
@@ -96,24 +99,23 @@ public class SentEmailTest extends TestBase {
     
     @Test
     public void supportPlaceholdersInSubject() {
-    	SentEmail newDeployed = newInstance("notify.BasicSentEmail");
-    	
-    	DeployedApplication deployedApplication = newInstance(DeployedApplication.class);
-    	Version version = newInstance(DeploymentPackage.class);
-    	version.setId("/Applications/PetClinic-ear/1.0");
-		deployedApplication.setVersion(version);
-		newDeployed.setDeployedApplication(deployedApplication);
-		
+        SentEmail newDeployed = newInstance("notify.BasicSentEmail");
+
+        DeployedApplication deployedApplication = newInstance(DeployedApplication.class);
+        Version version = newInstance(DeploymentPackage.class);
+        version.setId("/Applications/PetClinic-ear/1.0");
+        deployedApplication.setVersion(version);
+        newDeployed.setDeployedApplication(deployedApplication);
         newDeployed.setProperty("subject", "Deployment of ${deployed.deployedApplication.version.name} started!");
-		assertThat(newDeployed.getSubject(), is("Deployment of 1.0 started!"));
+        assertThat(newDeployed.getSubject(), is("Deployment of 1.0 started!"));
     }
 
     @Test
     public void defaultsToNoAwaitCompletionStep() {
         SentEmail newDeployed = newInstance("notify.BasicSentEmail");
         StubPlanningContext capturingContext = new StubPlanningContext();
-        newDeployed.executeCreate(capturingContext);
-        List<DeploymentStep> steps = capturingContext.steps;
+        newDeployed.executeCreate(capturingContext, null);
+        List<Step> steps = capturingContext.steps;
         assertThat(steps.size(), is(1));
         assertThat(steps.get(0), instanceOf(EmailSendStep.class));
     }
@@ -123,8 +125,8 @@ public class SentEmailTest extends TestBase {
         SentEmail newDeployed = newInstance("notify.BasicSentEmail");
         newDeployed.setProperty("awaitConfirmation", true);
         StubPlanningContext capturingContext = new StubPlanningContext();
-        newDeployed.executeCreate(capturingContext);
-        List<DeploymentStep> steps = capturingContext.steps;
+        newDeployed.executeCreate(capturingContext, null);
+        List<Step> steps = capturingContext.steps;
         assertThat(steps.size(), is(2));
         assertThat(steps.get(0), instanceOf(EmailSendStep.class));
         // also a GenericBaseStep but *not* an EmailSendStep
@@ -132,30 +134,54 @@ public class SentEmailTest extends TestBase {
     }
 
     private static class StubPlanningContext implements DeploymentPlanningContext {
-        public final List<DeploymentStep> steps = newArrayList();
-
+        private final List<Step> steps = newLinkedList();
+        
         @Override
-        public void addStep(DeploymentStep deploymentstep) {
-            addSteps(deploymentstep);
+        public void addStep(Step step) {
+            steps.add(step);
         }
 
         @Override
-        public void addSteps(DeploymentStep... adeploymentstep) {
-            addSteps(asList(adeploymentstep));
+        public void addSteps(Step... steps) {
+            addSteps(asList(steps));
         }
 
         @Override
-        public void addSteps(Collection<DeploymentStep> arg0) {
-            steps.addAll(arg0);
+        public void addSteps(Iterable<Step> steps) {
+            for (Step step : steps) {
+                addStep(step);
+            }
+        }
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public void addStep(DeploymentStep step) {
+            addStep(StepAdapter.wrapIfNeeded(step));
+        }
+        
+        @SuppressWarnings("deprecation")
+        @Override
+        public void addSteps(DeploymentStep... steps) {
+            for (DeploymentStep step : steps) {
+                addStep(step);
+            }
+        }
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public void addSteps(Collection<DeploymentStep> steps) {
+            for (DeploymentStep step : steps) {
+                addStep(step);
+            }
         }
 
         @Override
-        public Object getAttribute(String s) {
+        public Object getAttribute(String name) {
             throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
 
         @Override
-        public void setAttribute(String s, Object obj) {
+        public void setAttribute(String name, Object value) {
             throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
 
@@ -166,6 +192,36 @@ public class SentEmailTest extends TestBase {
 
         @Override
         public ReadOnlyRepository getRepository() {
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");
+        }
+
+        @Override
+        public void addCheckpoint(Step arg0, Delta arg1) {
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");
+        }
+
+        @Override
+        public void addCheckpoint(Step arg0, Iterable<Delta> arg1) {
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");
+        }
+
+        @Override
+        public void addCheckpoint(Step arg0, Delta arg1, Operation arg2) {
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");
+        }
+
+        @Override
+        public void addStepWithCheckpoint(Step arg0, Delta arg1) {
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");
+        }
+
+        @Override
+        public void addStepWithCheckpoint(Step arg0, Iterable<Delta> arg1) {
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");            
+        }
+
+        @Override
+        public void addStepWithCheckpoint(Step arg0, Delta arg1, Operation arg2) {
             throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
     }

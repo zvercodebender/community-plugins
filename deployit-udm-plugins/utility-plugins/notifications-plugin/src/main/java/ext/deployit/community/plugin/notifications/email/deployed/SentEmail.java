@@ -20,14 +20,17 @@
  */
 package ext.deployit.community.plugin.notifications.email.deployed;
 
+import static com.google.common.base.Strings.nullToEmpty;
+import static com.xebialabs.deployit.plugin.api.reflect.DescriptorRegistry.getDescriptor;
+import static java.lang.Boolean.TRUE;
+import static java.lang.String.format;
+
 import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
-
 import com.xebialabs.deployit.plugin.api.deployment.planning.DeploymentPlanningContext;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
-import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
 import com.xebialabs.deployit.plugin.api.udm.Metadata;
 import com.xebialabs.deployit.plugin.generic.ci.Resource;
 import com.xebialabs.deployit.plugin.generic.deployed.ProcessedTemplate;
@@ -38,12 +41,6 @@ import com.xebialabs.overthere.OperatingSystemFamily;
 import ext.deployit.community.plugin.notifications.email.ci.MailServer;
 import ext.deployit.community.plugin.notifications.email.step.EmailSendStep;
 import ext.deployit.community.plugin.notifications.email.step.LiteralEmailSendStep;
-
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.base.Strings.nullToEmpty;
-import static com.xebialabs.deployit.plugin.api.reflect.DescriptorRegistry.getDescriptor;
-import static java.lang.Boolean.TRUE;
-import static java.lang.String.format;
 
 @SuppressWarnings("serial")
 @Metadata(virtual = true, description = "An email sent via a notify.MailServer")

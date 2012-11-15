@@ -28,8 +28,8 @@ import static com.xebialabs.deployit.test.support.TestUtils.newInstance;
 import org.junit.BeforeClass;
 
 import com.google.common.collect.ImmutableSet;
+import com.xebialabs.deployit.booter.local.LocalBooter;
 import com.xebialabs.deployit.deployment.planner.DeltaSpecificationBuilder;
-import com.xebialabs.deployit.plugin.api.boot.PluginBooter;
 import com.xebialabs.deployit.plugin.api.udm.Deployed;
 import com.xebialabs.deployit.plugin.api.udm.Environment;
 import com.xebialabs.deployit.test.support.TestUtils;
@@ -41,7 +41,7 @@ public abstract class TestBase {
 
     @BeforeClass
     public static void boot() {
-        PluginBooter.bootWithoutGlobalContext();
+        LocalBooter.bootWithoutGlobalContext();
     }
     
     protected static Environment newEnvironment() {

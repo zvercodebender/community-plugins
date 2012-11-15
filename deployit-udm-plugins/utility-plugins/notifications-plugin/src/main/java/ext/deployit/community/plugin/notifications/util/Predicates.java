@@ -21,13 +21,9 @@
 package ext.deployit.community.plugin.notifications.util;
 
 import static com.xebialabs.deployit.plugin.api.deployment.specification.Operation.DESTROY;
-import static com.xebialabs.deployit.plugin.api.reflect.DescriptorRegistry.getSubtypes;
-
-import java.util.Collection;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Sets;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Operation;
 import com.xebialabs.deployit.plugin.api.reflect.Type;
@@ -77,16 +73,15 @@ public class Predicates {
     }
     
     private static class IsSubtypeOf implements Predicate<Type> {
-        private final Collection<Type> subtypes;
+        private final Type typeToMatch;
         
         public IsSubtypeOf(Type typeToMatch) {
-            subtypes = Sets.newHashSet(getSubtypes(typeToMatch));
-            subtypes.add(typeToMatch);
+            this.typeToMatch = typeToMatch;
         }
 
         @Override
         public boolean apply(Type input) {
-            return subtypes.contains(input);
+            return input.instanceOf(typeToMatch);
         }
     }
     

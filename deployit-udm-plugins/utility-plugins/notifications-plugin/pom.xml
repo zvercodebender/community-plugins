@@ -55,7 +55,7 @@
 
   <profiles>
     <profile>
-      <id>test-with-udm-test-support</id>
+      <id>test-with-test-engine</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
@@ -64,8 +64,8 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>com.xebialabs.deployit</groupId>
-          <artifactId>udm-test-support</artifactId>
+          <groupId>com.xebialabs.deployit.engine</groupId>
+          <artifactId>test-engine</artifactId>
           <version>3.8.0</version>
           <scope>test</scope>
         </dependency>

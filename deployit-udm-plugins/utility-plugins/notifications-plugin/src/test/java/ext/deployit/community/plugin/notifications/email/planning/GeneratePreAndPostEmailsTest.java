@@ -28,7 +28,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
+import com.xebialabs.deployit.plugin.api.flow.Step;
 import com.xebialabs.deployit.plugin.api.udm.Environment;
 
 import ext.deployit.community.plugin.notifications.email.TestBase;
@@ -43,7 +43,7 @@ public class GeneratePreAndPostEmailsTest extends TestBase {
     public void generatesPreEmail() {
         Environment env = newEnvironment();
         env.setProperty("sendDeploymentStartNotification", true);
-        List<DeploymentStep> steps = GeneratePreAndPostEmails.generatePreEmails(
+        List<Step> steps = GeneratePreAndPostEmails.generatePreEmails(
                 newDeltaSpec(env).build());
         assertThat(steps.size(), is(1));
         assertThat(steps.get(0), instanceOf(LiteralEmailSendStep.class));
@@ -55,7 +55,7 @@ public class GeneratePreAndPostEmailsTest extends TestBase {
     public void generatesPostEmail() {
         Environment env = newEnvironment();
         env.setProperty("sendDeploymentEndNotification", true);
-        List<DeploymentStep> steps = GeneratePreAndPostEmails.generatePostEmails(
+        List<Step> steps = GeneratePreAndPostEmails.generatePostEmails(
                 newDeltaSpec(env).build());
         assertThat(steps.size(), is(1));
         assertThat(steps.get(0), instanceOf(LiteralEmailSendStep.class));

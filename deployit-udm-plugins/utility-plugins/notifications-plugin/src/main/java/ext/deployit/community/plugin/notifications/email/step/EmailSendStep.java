@@ -1,5 +1,12 @@
 package ext.deployit.community.plugin.notifications.email.step;
 
+import static ext.deployit.community.plugin.notifications.email.util.Addresses.toRecipients;
+import static ext.deployit.community.plugin.notifications.email.util.Addresses.NameAndAddress.toNameAndAddress;
+import static java.lang.String.format;
+import static javax.mail.Message.RecipientType.BCC;
+import static javax.mail.Message.RecipientType.CC;
+import static javax.mail.Message.RecipientType.TO;
+
 import java.util.List;
 
 import org.codemonkey.simplejavamail.Email;
@@ -10,13 +17,6 @@ import com.xebialabs.deployit.plugin.generic.step.BaseDeploymentStep;
 import ext.deployit.community.plugin.notifications.email.ci.MailServer;
 import ext.deployit.community.plugin.notifications.email.util.Addresses.NameAndAddress;
 import ext.deployit.community.plugin.notifications.email.util.Addresses.Recipient;
-
-import static ext.deployit.community.plugin.notifications.email.util.Addresses.toRecipients;
-import static ext.deployit.community.plugin.notifications.email.util.Addresses.NameAndAddress.toNameAndAddress;
-import static java.lang.String.format;
-import static javax.mail.Message.RecipientType.BCC;
-import static javax.mail.Message.RecipientType.CC;
-import static javax.mail.Message.RecipientType.TO;
 
 @SuppressWarnings("serial")
 public abstract class EmailSendStep extends BaseDeploymentStep {

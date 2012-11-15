@@ -136,11 +136,33 @@ public class GeneratePreAndPostEmails {
         }
 
         @Override
-		public void addSteps(Iterable<Step> steps) {
-        	for (Step step : steps) {
-				addStep(step);
-			}
-		}
+        public void addSteps(Iterable<Step> steps) {
+            for (Step step : steps) {
+                addStep(step);
+            }
+        }
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public void addStep(DeploymentStep step) {
+            addStep(StepAdapter.wrapIfNeeded(step));
+        }
+        
+        @SuppressWarnings("deprecation")
+        @Override
+        public void addSteps(DeploymentStep... steps) {
+            for (DeploymentStep step : steps) {
+                addStep(step);
+            }
+        }
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public void addSteps(Collection<DeploymentStep> steps) {
+            for (DeploymentStep step : steps) {
+                addStep(step);
+            }
+        }
 
         @Override
         public Object getAttribute(String name) {
@@ -154,64 +176,42 @@ public class GeneratePreAndPostEmails {
 
         @Override
         public DeployedApplication getDeployedApplication() {
-                throw new UnsupportedOperationException("TODO Auto-generated method stub");
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
 
         @Override
         public ReadOnlyRepository getRepository() {
-                throw new UnsupportedOperationException("TODO Auto-generated method stub");
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
-
-		@Override
-		public void addStep(DeploymentStep step) {
-			addStep(StepAdapter.wrapIfNeeded(step));
-		}
-		
-		@Override
-		public void addSteps(DeploymentStep... steps) {
-			for (DeploymentStep step : steps) {
-				addStep(step);
-			}
-		}
-
-		@Override
-		public void addSteps(Collection<DeploymentStep> steps) {
-			for (DeploymentStep step : steps) {
-				addStep(step);
-			}
-		}
 
         @Override
         public void addCheckpoint(Step arg0, Delta arg1) {
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
 
         @Override
         public void addCheckpoint(Step arg0, Iterable<Delta> arg1) {
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
 
         @Override
         public void addCheckpoint(Step arg0, Delta arg1, Operation arg2) {
-            // TODO Auto-generated method stub
-            
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
 
         @Override
         public void addStepWithCheckpoint(Step arg0, Delta arg1) {
-            // TODO Auto-generated method stub
-            
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
 
         @Override
         public void addStepWithCheckpoint(Step arg0, Iterable<Delta> arg1) {
-            // TODO Auto-generated method stub
-            
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");            
         }
 
         @Override
         public void addStepWithCheckpoint(Step arg0, Delta arg1, Operation arg2) {
-            // TODO Auto-generated method stub
-            
+            throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
     }
 }
-

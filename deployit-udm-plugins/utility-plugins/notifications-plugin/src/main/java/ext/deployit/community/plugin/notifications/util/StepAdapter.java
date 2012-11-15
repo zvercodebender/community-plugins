@@ -1,5 +1,7 @@
 package ext.deployit.community.plugin.notifications.util;
 
+import java.util.Map;
+
 import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentExecutionContext;
 import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
 import com.xebialabs.deployit.plugin.api.flow.ExecutionContext;
@@ -8,20 +10,20 @@ import com.xebialabs.deployit.plugin.api.flow.StepExitCode;
 import com.xebialabs.deployit.plugin.api.inspection.InspectionExecutionContext;
 import com.xebialabs.deployit.plugin.api.udm.ConfigurationItem;
 
-import java.util.Map;
-
+@SuppressWarnings({ "serial", "deprecation" })
 public class StepAdapter implements Step {
-	private com.xebialabs.deployit.plugin.api.execution.Step wrapped;
+    private com.xebialabs.deployit.plugin.api.execution.Step<DeploymentExecutionContext> wrapped;
 
-	public static Step wrapIfNeeded(Object s) {
+    @SuppressWarnings("unchecked")
+    public static Step wrapIfNeeded(Object s) {
 		if (s instanceof Step) {
 			return (Step) s;
 		} else if (s instanceof com.xebialabs.deployit.plugin.api.execution.Step) {
-			return new StepAdapter((com.xebialabs.deployit.plugin.api.execution.Step) s);
+			return new StepAdapter((com.xebialabs.deployit.plugin.api.execution.Step<DeploymentExecutionContext>) s);
 		} else throw new IllegalArgumentException("Argument is not a .flow.Step or deprecated Step, but: " + s);
 	}
 
-	private StepAdapter(com.xebialabs.deployit.plugin.api.execution.Step wrapped) {
+	private StepAdapter(com.xebialabs.deployit.plugin.api.execution.Step<DeploymentExecutionContext> wrapped) {
 		this.wrapped = wrapped;
 	}
 
