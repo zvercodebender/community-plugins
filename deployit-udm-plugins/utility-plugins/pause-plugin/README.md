@@ -1,6 +1,6 @@
 ## Description
 
-A Deployit 3.7 plugin that generate pause steps.
+A Deployit 3.8 plugin that generate pause steps.
 
 ## Installation
 
@@ -12,4 +12,4 @@ The udm.Environment ci has 2 new properties:
 * pauseOrder
 ## Usage
 
-if pause property is true, The plugin will generate a pause step a the given order for all deployments targeting this environment.
+If pause property is true, the plugin will add a pause step a the given order for all deployments targeting this environment.

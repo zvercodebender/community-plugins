@@ -27,5 +27,6 @@
     <module>rpm-plugin</module>
     <module>application-configuration-plugin</module>
     <module>scheduler-plugin</module>
+    <module>pause-plugin</module>
   </modules>
 </project>

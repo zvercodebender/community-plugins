@@ -1,33 +1,36 @@
 package com.xebialabs.deployit.community.pause.step;
 
-import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentExecutionContext;
-import com.xebialabs.deployit.plugin.api.deployment.execution.DeploymentStep;
+import com.xebialabs.deployit.plugin.api.flow.ExecutionContext;
+import com.xebialabs.deployit.plugin.api.flow.Step;
+import com.xebialabs.deployit.plugin.api.flow.StepExitCode;
 
-public class PauseStep implements DeploymentStep {
+public class PauseStep implements Step {
 
-	private final int order;
-	private boolean executedOnce = false;
+    private final int order;
+    private boolean executedOnce = false;
 
-	public PauseStep(int order) {
-		this.order = order;
-	}
+    public PauseStep(int order) {
+        this.order = order;
+    }
 
-	@Override
-	public int getOrder() {
-		return order;
-	}
+    @Override
+    public int getOrder() {
+        return order;
+    }
 
-	@Override
-	public String getDescription() {
-		return "Pause the plan";
-	}
+    @Override
+    public String getDescription() {
+        return "Pause the task";
+    }
 
-	@Override
-	public Result execute(DeploymentExecutionContext ctx) throws Exception {
-		if (!executedOnce) {
-			executedOnce = true;
-			return Result.Fail;
-		}
-		return Result.Success;
-	}
+    @Override
+    public StepExitCode execute(final ExecutionContext executionContext) throws Exception {
+        if (!executedOnce) {
+            executedOnce = true;
+            return StepExitCode.PAUSE;
+        }
+        return StepExitCode.SUCCESS;
+
+    }
+
 }

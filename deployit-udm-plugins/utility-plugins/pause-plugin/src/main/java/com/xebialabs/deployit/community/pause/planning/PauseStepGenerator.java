@@ -1,6 +1,9 @@
 package com.xebialabs.deployit.community.pause.planning;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.google.common.base.Predicate;
+
 import com.xebialabs.deployit.community.pause.step.PauseStep;
 import com.xebialabs.deployit.plugin.api.deployment.planning.Contributor;
 import com.xebialabs.deployit.plugin.api.deployment.planning.DeploymentPlanningContext;
@@ -8,8 +11,6 @@ import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Deltas;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Operation;
 import com.xebialabs.deployit.plugin.api.udm.Environment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static com.google.common.collect.Iterables.all;
 
@@ -43,7 +44,7 @@ public class PauseStepGenerator {
 		final Environment environment = context.getDeployedApplication().getEnvironment();
 		if (environment.hasProperty(PAUSABLE_PROPERTY) && environment.<Boolean>getProperty(PAUSABLE_PROPERTY)) {
 			final int order = environment.<Integer>getProperty(PAUSE_ORDER_PROPERTY);
-			logger.info("new PauseStep order {}", order);
+			logger.debug("new PauseStep order {}", order);
 			context.addStep(new PauseStep(order));
 		}
 	}
