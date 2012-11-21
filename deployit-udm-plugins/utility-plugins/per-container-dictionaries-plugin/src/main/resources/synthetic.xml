@@ -3,11 +3,20 @@
            xmlns="http://www.xebialabs.com/deployit/synthetic"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
-  <type-modification type="overthere.Host">
-      <property name="dictionary" kind="ci" referenced-type="udm.Dictionary"  required="false" category="Dictionary" />
-  </type-modification>
+    <type-modification type="overthere.Host">
+        <property name="dictionary" kind="ci" referenced-type="udm.Dictionary" required="false" category="Dictionary"/>
+        <property name="generateContainerDictionary" kind="boolean" default="true" required="false" category="Dictionary"/>
+        <property name="containerDictionaryKeySeparator" hidden="true" default="_"
+                  description="separator used to compute the key in the generated container dictionary"/>
+        <property name="excludePasswords" hidden="true" default="true" kind="boolean" description="if true, do not put the property whose kind is 'password' "/>
+    </type-modification>
 
-  <type-modification type="generic.Container">
-      <property name="dictionary" kind="ci" referenced-type="udm.Dictionary"  required="false" category="Dictionary" />
-  </type-modification>
+    <type-modification type="generic.Container">
+        <property name="dictionary" kind="ci" referenced-type="udm.Dictionary" required="false" category="Dictionary"/>
+        <property name="generateContainerDictionary" kind="boolean" default="true" required="false" category="Dictionary"/>
+        <property name="containerDictionaryKeySeparator" hidden="true" default="_"
+                  description="separator used to compute the key in the generated container dictionary"/>
+        <property name="excludePasswords" hidden="true" default="true" kind="boolean" description="if true, do not put the property whose kind is 'password' "/>
+    </type-modification>
+
 </synthetic>

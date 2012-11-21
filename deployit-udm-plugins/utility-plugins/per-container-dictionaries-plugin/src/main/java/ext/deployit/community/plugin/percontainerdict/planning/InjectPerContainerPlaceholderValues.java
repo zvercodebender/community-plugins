@@ -23,6 +23,8 @@ import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
 import com.xebialabs.deployit.plugin.api.udm.Dictionary;
 import com.xebialabs.deployit.plugin.api.udm.artifact.DerivedArtifact;
 
+import ext.deployit.community.plugin.percontainerdict.util.ContainerDictionaryGenerator;
+
 import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.collect.Iterables.any;
 import static com.google.common.collect.Iterables.filter;
@@ -35,6 +37,7 @@ import static java.lang.String.format;
 
 public class InjectPerContainerPlaceholderValues {
     protected static final String CONTAINER_DICTIONARY_PROPERTY = "dictionary";
+
     // workaround for http://tech.xebialabs.com/jira/browse/DEPLOYITPB-3414
     protected static final Set<String> PER_CONTAINER_PLACEHOLDER_TOKENS =
             ImmutableSet.of("<per-container>", "&lt;per-container&gt;");
@@ -102,17 +105,26 @@ public class InjectPerContainerPlaceholderValues {
         return NO_STEPS;
     }
 
-    private Map<String, String> getContainerPlaceholders(final List<Dictionary> dictionaries, Container value) {
-        if (!value.hasProperty(CONTAINER_DICTIONARY_PROPERTY)) {
+    private Map<String, String> getContainerPlaceholders(final List<Dictionary> dictionaries, Container container) {
+        if (!container.hasProperty(CONTAINER_DICTIONARY_PROPERTY)) {
             return null;
         }
-        Dictionary dictionary = value.<Dictionary>getProperty(CONTAINER_DICTIONARY_PROPERTY);
-        if (dictionary == null)
-            return null;
+
+        Dictionary generatedContainerDictionary = new ContainerDictionaryGenerator().generate(container);
+        LOGGER.debug(" generatedContainerDictionary = {}", generatedContainerDictionary.getEntries());
+
+        Dictionary associatedDictionary = container.getProperty(CONTAINER_DICTIONARY_PROPERTY);
+        if (associatedDictionary == null)
+            associatedDictionary = new Dictionary();
+        LOGGER.debug(" associatedDictionary = {}", associatedDictionary.getEntries());
 
         try {
-            final ImmutableList<Dictionary> allDictionaries = new ImmutableList.Builder<Dictionary>().add(dictionary).addAll(dictionaries).
-                    build();
+            final ImmutableList.Builder<Dictionary> dictionaryBuilder = new ImmutableList.Builder<Dictionary>();
+            final List<Dictionary> allDictionaries = dictionaryBuilder
+                    .add(associatedDictionary)
+                    .add(generatedContainerDictionary)
+                    .addAll(dictionaries)
+                    .build();
             return geEntriesFromTheConsolidatedDictionary(allDictionaries);
         } catch (Exception e) {
             throw Throwables.propagate(e);
@@ -127,7 +139,7 @@ public class InjectPerContainerPlaceholderValues {
                 .append(") to '").append(deployedApplication.getEnvironment().getName())
                 .append("' due to the following errors:");
         for (String validationError : validationErrors) {
-            errorMessage.append("\n- ").append(validationError);
+            errorMessage.append("\n - ").append(validationError);
         }
         return errorMessage.toString();
     }
