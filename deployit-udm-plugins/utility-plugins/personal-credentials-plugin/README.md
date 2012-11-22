@@ -35,6 +35,7 @@ Enable single personal credentials by adding the following in the synthetic.xml:
     <type-modification type="udm.DeployedApplication">
         <property name="username" kind="string" transient="true" required="false" category="Personal Credentials"/>
         <property name="password" password="true" transient="true" required="false" category="Personal Credentials"/>
+        <property name="checkConnection" kind="boolean" default="true" required="false" category="Personal Credentials" />
     </type-modification>
 
     <type-modification type="udm.Environment">
@@ -62,6 +63,7 @@ To enable per OS credentials, modify your synthetic.xml file in the following wa
         <property name="unixPassword" password="true" transient="true" required="false" category="Personal Credentials"/>
         <property name="windowsUsername" kind="string" transient="true" required="false" category="Personal Credentials"/>
         <property name="windowsPassword" password="true" transient="true" required="false" category="Personal Credentials"/>
+        <property name="checkConnection" kind="boolean" default="true" required="false" category="Personal Credentials" />
     </type-modification>
 
     <type-modification type="udm.Environment">
@@ -71,5 +73,6 @@ To enable per OS credentials, modify your synthetic.xml file in the following wa
 </synthetic>
 ```
 
+The 'checkConnection' property allows to generate CheckConnection Step on all the hosts involved in the personal-credentials process.
 Note: the transient attribute equals 'true' implies the values will not be persisted after the deployment. If you want to make it persistent, set the attribute value to 'false'.
 

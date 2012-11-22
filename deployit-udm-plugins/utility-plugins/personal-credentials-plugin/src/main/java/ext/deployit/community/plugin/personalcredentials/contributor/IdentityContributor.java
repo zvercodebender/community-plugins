@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.base.Predicates;
+import com.google.common.collect.*;
 
 import com.xebialabs.deployit.plugin.api.deployment.planning.PrePlanProcessor;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
@@ -22,16 +22,18 @@ import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
 import com.xebialabs.deployit.plugin.api.udm.Environment;
 import com.xebialabs.deployit.plugin.overthere.Host;
 import com.xebialabs.deployit.plugin.overthere.HostContainer;
+import com.xebialabs.deployit.plugin.overthere.step.CheckConnectionStep;
 
 import static com.google.common.base.Predicates.notNull;
 import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.isEmpty;
 import static com.google.common.collect.Iterables.transform;
+import static com.google.common.collect.Lists.newArrayList;
 
 public class IdentityContributor {
 
     @PrePlanProcessor
-    public Step injectPersonalCredentials(DeltaSpecification specification) {
+    public List<Step> injectPersonalCredentials(DeltaSpecification specification) {
         final List<Delta> deltas = specification.getDeltas();
         final DeployedApplication deployedApplication = specification.getDeployedApplication();
         final Environment environment = deployedApplication.getEnvironment();
@@ -58,11 +60,34 @@ public class IdentityContributor {
                 .build();
 
         logger.debug("Hosts {}", hosts);
-        for (Host host : hosts) {
-            override(deployedApplication, host);
-        }
 
-        return null;
+        final Iterable<Step> transform = transform(hosts, new Function<Host, Step>() {
+            @Override
+            public Step apply(final Host host) {
+                Boolean perOsCredential = deployedApplication.getEnvironment().getProperty("perOsCredential");
+                if (perOsCredential) {
+                    switch (host.getOs()) {
+                        case WINDOWS:
+                            logger.debug("IdentityContributor injects credentials in a {} host {}", "WINDOWS", host.getId());
+                            host.setProperty("username", deployedApplication.getProperty("windowsUsername"));
+                            host.setProperty("password", deployedApplication.getProperty("windowsPassword"));
+                        case UNIX:
+                            logger.debug("IdentityContributor injects credentials in a {} host {}", "UNIX", host.getId());
+                            host.setProperty("username", deployedApplication.getProperty("unixUsername"));
+                            host.setProperty("password", deployedApplication.getProperty("unixPassword"));
+                    }
+                } else {
+                    logger.debug("IdentityContributor injects credentials in a host {} ", host.getId());
+                    host.setProperty("username", deployedApplication.getProperty("username"));
+                    host.setProperty("password", deployedApplication.getProperty("password"));
+                }
+
+                final Boolean checkConnection = deployedApplication.getProperty("checkConnection");
+                return (checkConnection ? new CheckConnectionStep(host) : null);
+
+            }
+        });
+        return newArrayList(filter(transform, Predicates.notNull()));
     }
 
     private List<String> getRequiredFieldsForPersonalCredentials(final DeployedApplication deployedApplication) {
@@ -71,28 +96,6 @@ public class IdentityContributor {
             return ImmutableList.of("unixUsername", "unixPassword", "windowsUsername", "windowsPassword");
         else
             return ImmutableList.of("username", "password");
-    }
-
-    private void override(DeployedApplication deployedApplication, Host host) {
-        Boolean perOsCredential = deployedApplication.getEnvironment().getProperty("perOsCredential");
-        if (perOsCredential) {
-            switch (host.getOs()) {
-                case WINDOWS:
-                    logger.debug("IdentityContributor injects credentials in a {} host {}", "WINDOWS", host.getId());
-                    host.setProperty("username", deployedApplication.getProperty("windowsUsername"));
-                    host.setProperty("password", deployedApplication.getProperty("windowsPassword"));
-                    return;
-                case UNIX:
-                    logger.debug("IdentityContributor injects credentials in a {} host {}", "UNIX", host.getId());
-                    host.setProperty("username", deployedApplication.getProperty("unixUsername"));
-                    host.setProperty("password", deployedApplication.getProperty("unixPassword"));
-                    return;
-            }
-        } else {
-            logger.debug("IdentityContributor injects credentials in a host {} ", host.getId());
-            host.setProperty("username", deployedApplication.getProperty("username"));
-            host.setProperty("password", deployedApplication.getProperty("password"));
-        }
     }
 
     private static final Function<Delta, Host> DEPLOYED_TO_HOST = new ToHost() {
