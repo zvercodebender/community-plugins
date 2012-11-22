@@ -3,7 +3,6 @@ package ext.deployit.community.plugin.personalcredentials.contributor;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.common.base.Function;
@@ -14,7 +13,7 @@ import com.google.common.collect.ImmutableSet;
 import com.xebialabs.deployit.plugin.api.deployment.planning.PrePlanProcessor;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
 import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecification;
-import com.xebialabs.deployit.plugin.api.execution.Step;
+import com.xebialabs.deployit.plugin.api.flow.Step;
 import com.xebialabs.deployit.plugin.api.reflect.PropertyDescriptor;
 import com.xebialabs.deployit.plugin.api.reflect.Type;
 import com.xebialabs.deployit.plugin.api.udm.ConfigurationItem;
@@ -44,7 +43,7 @@ public class IdentityContributor {
         final List<String> requiredFieldsForPersonalCredentials = getRequiredFieldsForPersonalCredentials(deployedApplication);
         final Iterable<String> nullCredentialFields = filter(requiredFieldsForPersonalCredentials, new Predicate<String>() {
             @Override
-            public boolean apply(@Nullable final String input) {
+            public boolean apply(final String input) {
                 return deployedApplication.getProperty(input) == null;
             }
         });
