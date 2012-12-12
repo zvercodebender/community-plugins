@@ -31,7 +31,7 @@ This directory contains plugins for external tools that interact with Deployit.
 
 # Downloading a plugin
 
-You can find compiled, ready-to-install binaries in the _Downloads_ section of the repository. If you want, you can clone
+You can find compiled, ready-to-install binaries in the [_Downloads_](https://github.com/xebialabs/community-plugins/downloads) section of the repository. If you want, you can clone
 or fork the repository and compile the plugin from the source code.
 
 # Installing a plugin
