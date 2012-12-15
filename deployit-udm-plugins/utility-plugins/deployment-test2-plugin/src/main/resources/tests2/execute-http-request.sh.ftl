@@ -1,10 +1,12 @@
 #!/bin/bash
 
+<#if deployed.container.envVars??>
 <#assign envVars=deployed.container.envVars />
 <#list envVars?keys as envVar>
 ${envVar}="${envVars[envVar]}"
 export ${envVar}
 </#list>
+</#if>
 
 <#assign wgetCmdLine = ["${deployed.container.wgetExecutable}", "--timeout=${deployed.timeout}"] />
 <#if (deployed.ignoreCertificateWarnings?? && deployed.ignoreCertificateWarnings)>

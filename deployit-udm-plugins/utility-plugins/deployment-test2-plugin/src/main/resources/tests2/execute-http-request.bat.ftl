@@ -1,10 +1,12 @@
 @echo off
 setlocal
 
+<#if deployed.container.envVars??>
 <#assign envVars=deployed.container.envVars />
 <#list envVars?keys as envVar>
 set ${envVar}=${envVars[envVar]}
 </#list>
+</#if>
 
 set START_DELAY_SECS=${deployed.startDelay}
 
