@@ -23,6 +23,12 @@
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
   </scm>
+  <distributionManagement>
+    <repository>
+      <id>nexus-dexter-releases</id>
+      <url>http://nexus.xebialabs.com/nexus/content/repositories/community</url>
+    </repository>
+  </distributionManagement>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -207,17 +213,5 @@
         </plugin>
       </plugins>
     </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>com.github.github</groupId>
-        <artifactId>downloads-maven-plugin</artifactId>
-        <version>0.5</version>
-        <configuration>
-          <description>${project.version} release of ${project.name}</description>
-          <override>true</override>
-          <includeAttached>true</includeAttached>
-        </configuration>
-      </plugin>
-    </plugins>
   </build>
 </project>
