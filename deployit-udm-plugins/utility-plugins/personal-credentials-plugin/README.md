@@ -15,7 +15,7 @@ Place the plugin JAR file into your `SERVER_HOME/plugins` directory.
 
 # Configuration #
 
-The activation of the personal credential is trigggered per environment using the *overrideHostCredentials* property.
+The activation of the personal credential is triggered per environment using the *overrideHostCredentials* property.
 Two kinds of configuration are actually supported:
 	* unique credentials for all hosts
 	* per OS credential
@@ -40,14 +40,15 @@ Enable single personal credentials by adding the following in the synthetic.xml:
 
     <type-modification type="udm.Environment">
         <property name="overrideHostCredentials" kind="boolean" default="false" category="Personal Credentials"/>
-        <property name="perOsCredential" kind="boolean" default="false" category="Personal Credentials" description="use different credentials for Unix and Windows Hosts." hidden="true"/>
     </type-modification>
 </synthetic>
 ```
 
 ## Per OS credentials ##
 
-This configuration allows the user to supply a username and a password on the deployed application level. These credentials will be used each time Deployit needs to create a new remote connection during the execution of the deployment plan. If the host operating system is *Windows*, _windowsUsername_ and _windowsPassword_ will be used for username and password.
+This configuration allows the user to supply a username and a password on the deployed application level.
+These credentials will be used each time Deployit needs to create a new remote connection during the execution of the deployment plan.
+If the host operating system is *Windows*, _windowsUsername_ and _windowsPassword_ will be used for username and password.
 If the host operating system is *Unix*, _unixUsername_ and _unixPassword_ will be used for username and password.
 
 To enable per OS credentials, modify your synthetic.xml file in the following way:
@@ -68,7 +69,6 @@ To enable per OS credentials, modify your synthetic.xml file in the following wa
 
     <type-modification type="udm.Environment">
         <property name="overrideHostCredentials" kind="boolean" default="false" category="Personal Credentials"/>
-        <property name="perOsCredential" kind="boolean" default="true" category="Personal Credentials" description="use different credentials for Unix and Windows Hosts." hidden="true"/>
     </type-modification>
 </synthetic>
 ```

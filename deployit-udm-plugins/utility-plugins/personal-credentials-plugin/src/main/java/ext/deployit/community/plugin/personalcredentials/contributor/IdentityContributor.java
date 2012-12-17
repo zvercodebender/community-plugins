@@ -6,15 +6,15 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.common.base.Function;
-import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.collect.ImmutableList;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 
 import com.xebialabs.deployit.plugin.api.deployment.planning.PrePlanProcessor;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
 import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecification;
 import com.xebialabs.deployit.plugin.api.flow.Step;
+import com.xebialabs.deployit.plugin.api.reflect.Descriptor;
 import com.xebialabs.deployit.plugin.api.reflect.PropertyDescriptor;
 import com.xebialabs.deployit.plugin.api.reflect.Type;
 import com.xebialabs.deployit.plugin.api.udm.ConfigurationItem;
@@ -27,9 +27,9 @@ import com.xebialabs.deployit.plugin.overthere.step.CheckConnectionStep;
 
 import static com.google.common.base.Predicates.notNull;
 import static com.google.common.collect.Iterables.filter;
-import static com.google.common.collect.Iterables.isEmpty;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
+import static java.lang.String.format;
 
 public class IdentityContributor {
 
@@ -43,18 +43,6 @@ public class IdentityContributor {
         if (!override)
             return null;
 
-        final List<String> requiredFieldsForPersonalCredentials = getRequiredFieldsForPersonalCredentials(deployedApplication);
-        final Iterable<String> nullCredentialFields = filter(requiredFieldsForPersonalCredentials, new Predicate<String>() {
-            @Override
-            public boolean apply(final String input) {
-                return deployedApplication.getProperty(input) == null;
-            }
-        });
-
-        if (!isEmpty(nullCredentialFields)) {
-            throw new RuntimeException(String.format("Missing required fields for personal authentication %s", nullCredentialFields));
-        }
-
         final Set<Host> hosts = ImmutableSet.<Host>builder()
                 .addAll(filter(transform(deltas, DEPLOYED_TO_HOST), notNull()))
                 .addAll(filter(transform(deltas, PREVIOUS_TO_HOST), notNull()))
@@ -62,27 +50,25 @@ public class IdentityContributor {
 
         logger.debug("Hosts {}", hosts);
 
+        final Boolean perOsCredential = isPerOsCredential(deployedApplication);
+
         final Iterable<Step> transform = transform(hosts, new Function<Host, Step>() {
             @Override
             public Step apply(final Host host) {
-                Boolean perOsCredential = deployedApplication.getEnvironment().getProperty("perOsCredential");
                 if (perOsCredential) {
                     switch (host.getOs()) {
                         case WINDOWS:
                             logger.debug("IdentityContributor injects credentials in a {} host {}", "WINDOWS", host.getId());
-                            host.setProperty("username", deployedApplication.getProperty("windowsUsername"));
-                            host.setProperty("password", deployedApplication.getProperty("windowsPassword"));
+                            setCredentials(host, "windowsUsername", "windowsPassword");
                             break;
                         case UNIX:
                             logger.debug("IdentityContributor injects credentials in a {} host {}", "UNIX", host.getId());
-                            host.setProperty("username", deployedApplication.getProperty("unixUsername"));
-                            host.setProperty("password", deployedApplication.getProperty("unixPassword"));
+                            setCredentials(host, "unixUsername", "unixPassword");
                             break;
                     }
                 } else {
                     logger.debug("IdentityContributor injects credentials in a host {} ", host.getId());
-                    host.setProperty("username", deployedApplication.getProperty("username"));
-                    host.setProperty("password", deployedApplication.getProperty("password"));
+                    setCredentials(host, "username", "password");
                 }
 
                 if (!deployedApplication.hasProperty("checkConnection")) {
@@ -90,18 +76,40 @@ public class IdentityContributor {
                 }
                 final Boolean checkConnection = deployedApplication.getProperty("checkConnection");
                 return (checkConnection ? new CheckConnectionStep(host) : null);
+            }
 
+            private void setCredentials(final Host host, final String usernamePropertyName, final String passwordPropertyName) {
+                final String username = deployedApplication.getProperty(usernamePropertyName);
+                final String password = deployedApplication.getProperty(passwordPropertyName);
+
+                if (Strings.isNullOrEmpty(username) || Strings.isNullOrEmpty(password)) {
+                    final Descriptor descriptor = deployedApplication.getType().getDescriptor();
+                    final String usernameLabel = descriptor.getPropertyDescriptor(usernamePropertyName).getLabel();
+                    final String passwordLabel = descriptor.getPropertyDescriptor(passwordPropertyName).getLabel();
+                    throw new RuntimeException(format("Cannot find personal credentials for host (%s/%s), please provide values for the '%s' and '%s' properties",
+                            host.getId(),
+                            host.getOs().toString(),
+                            usernameLabel, passwordLabel
+                    ));
+                }
+                host.setProperty("username", username);
+                host.setProperty("password", password);
             }
         });
         return newArrayList(filter(transform, Predicates.notNull()));
     }
 
-    private List<String> getRequiredFieldsForPersonalCredentials(final DeployedApplication deployedApplication) {
-        Boolean perOsCredential = deployedApplication.getEnvironment().getProperty("perOsCredential");
-        if (perOsCredential)
-            return ImmutableList.of("unixUsername", "unixPassword", "windowsUsername", "windowsPassword");
-        else
-            return ImmutableList.of("username", "password");
+    private Boolean isPerOsCredential(final DeployedApplication deployedApplication) {
+        if (deployedApplication.hasProperty("unixUsername") && deployedApplication.hasProperty("unixPassword") &&
+                deployedApplication.hasProperty("windowsUsername") && deployedApplication.hasProperty("windowsPassword")) {
+            return true;
+        }
+        if (deployedApplication.hasProperty("username") && deployedApplication.hasProperty("password")) {
+            return false;
+        }
+        throw new RuntimeException("Invalid configuration on udm.DeployedApplication for personal-credentials plugin"
+                + ", either set 'username' & 'password' properties or "
+                + ", either set 'unixUsername' & 'unixPassword' & 'windowsUsername' & 'windowsPassword' properties.");
     }
 
     private static final Function<Delta, Host> DEPLOYED_TO_HOST = new ToHost() {

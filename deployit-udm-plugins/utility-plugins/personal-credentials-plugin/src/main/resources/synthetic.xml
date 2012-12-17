@@ -21,7 +21,5 @@
 
     <type-modification type="udm.Environment">
         <property name="overrideHostCredentials" kind="boolean" default="false" category="Personal Credentials"/>
-        <property name="perOsCredential" kind="boolean" default="false" category="Personal Credentials"
-                  description="use different credentials for Unix and Windows Hosts."/>
     </type-modification>
 </synthetic>
