@@ -8,7 +8,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.collect.*;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 import com.xebialabs.deployit.plugin.api.deployment.planning.PrePlanProcessor;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
@@ -71,10 +72,12 @@ public class IdentityContributor {
                             logger.debug("IdentityContributor injects credentials in a {} host {}", "WINDOWS", host.getId());
                             host.setProperty("username", deployedApplication.getProperty("windowsUsername"));
                             host.setProperty("password", deployedApplication.getProperty("windowsPassword"));
+                            break;
                         case UNIX:
                             logger.debug("IdentityContributor injects credentials in a {} host {}", "UNIX", host.getId());
                             host.setProperty("username", deployedApplication.getProperty("unixUsername"));
                             host.setProperty("password", deployedApplication.getProperty("unixPassword"));
+                            break;
                     }
                 } else {
                     logger.debug("IdentityContributor injects credentials in a host {} ", host.getId());
@@ -82,6 +85,9 @@ public class IdentityContributor {
                     host.setProperty("password", deployedApplication.getProperty("password"));
                 }
 
+                if (!deployedApplication.hasProperty("checkConnection")) {
+                    return null;
+                }
                 final Boolean checkConnection = deployedApplication.getProperty("checkConnection");
                 return (checkConnection ? new CheckConnectionStep(host) : null);
 
