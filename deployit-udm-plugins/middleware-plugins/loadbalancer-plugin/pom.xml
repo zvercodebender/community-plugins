@@ -7,8 +7,8 @@
     <version>3.8.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>lb-plugin</artifactId>
-  <version>${deployit.api.version}-1-SNAPSHOT</version>
+  <artifactId>loadbalancer-plugin</artifactId>
+  <version>${deployit.api.version}-1</version>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
