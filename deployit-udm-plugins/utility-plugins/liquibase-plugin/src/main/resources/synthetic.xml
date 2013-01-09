@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.xebialabs.com/deployit/synthetic" xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+    <type type="liquibase.ExecutedChangelog" extends="generic.ExecutedScript" deployable-type="liquibase.Changelog" container-type="liquibase.Runner" description="Executed liquibase changelog">
+		<generate-deployable type="liquibase.Changelog" extends="generic.Folder" />
+		<property name="changeLogFile"/>
+		<property name="createScript" default="${deployed.container.updateScript}" hidden="true"/>
+		<property name="modifyScript" default="${deployed.container.updateScript}" hidden="true" />
+		<property name="destroyScript" default="${deployed.container.updateScript}" hidden="true"/>
+		<property name="noopScript" default="${deployed.container.updateScript}" hidden="true"/>   
+    </type>
+
+    <type type="liquibase.Runner" extends="generic.Container" description="Liquibase runner">
+        <property name="updateScript"  hidden="true" default="liquibase/liquibase" />
+		<property name="testScript"  hidden="true" default="liquibase/test" />
+		
+		<property name="liquibaseConfigurationPath" default="${container.name}/liquibase.properties"/>
+		<property name="liquibaseJarPath" default="liquibase.jar"/>
+		<property name="javaCmd" default="java"/>
+		<property name="driverClasspath" required="false"/>
+		
+		 <method name="test" description="Test liquibase installation"/>
+    </type> 
+
+</synthetic>
+   
