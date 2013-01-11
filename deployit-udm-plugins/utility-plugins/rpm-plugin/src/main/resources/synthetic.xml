@@ -5,12 +5,12 @@
 
 	<type type="rpm.AbstractDeployedRPM" extends="generic.ExecutedScriptWithDerivedArtifact" virtual="true">
 		<property name="createScript" kind="string" default="rpm/create-rpm" hidden="true"/>
-		<property name="modifyScript" kind="string" default="rpm/modify-rpm" hidden="true" required="false"/>
-		<property name="destroyScript" kind="string" default="rpm/destroy-rpm" hidden="true" required="false"/>
+		<property name="modifyScript" kind="string" default="rpm/modify-rpm" hidden="true" />
+		<property name="destroyScript" kind="string" default="rpm/destroy-rpm" hidden="true" />
 
-		<property name="createVerb" kind="string" default="Install rpm" hidden="true"/>
-		<property name="modifyVerb" kind="string" default="Upgrade rpm" hidden="true"/>
-		<property name="modifyVerb" kind="string" default="Remove rpm" hidden="true"/>
+		<property name="createVerb" kind="string" default="Install RPM" hidden="true"/>
+		<property name="modifyVerb" kind="string" default="Upgrade RPM" hidden="true"/>
+		<property name="destroyVerb" kind="string" default="Remove RPM" hidden="true"/>
 	</type>
 
 
