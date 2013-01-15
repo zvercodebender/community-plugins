@@ -25,4 +25,14 @@ At each deployment, liquibase "update" command is executed
 
 ## Configuration
 
-TBD
+### liquibase.Runner
+This is the "container" of the liquibase plugin. A liquibase.Runner instance represents a liquibase installation. Below the configuration properties that needs to be set:
+* *liquibaseJarPath*: path to the main liquibase jar file, i.e. liquibase.jar
+* *liquibaseConfigurationPath*: path to the liquibase configuration file, i.e liquibase.properties
+* *javaCmd*: command that will be used to launch liquibase java process. Default is "java"
+* *driverClasspath*: java classpath used to get database drivers.
+
+### liquibase.Changelog and liquibase.ExecutedChangelog
+*liquibase.Changelog* and *liquibase.ExecutedChangelog* are respectively the deployable and deployed types of this plugin. 
+*liquibase.Changelog* extends *generic.Folder* and should contain all the xml liquibase changelog files of the application package.
+There is only one configuration property, *changeLogFile*, which specifies which is the entry point xml changelog file for liquibase.
