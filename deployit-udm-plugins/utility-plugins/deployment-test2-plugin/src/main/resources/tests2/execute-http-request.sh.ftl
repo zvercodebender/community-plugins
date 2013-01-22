@@ -19,8 +19,8 @@ for (( i=1; i<=$MAX_RETRIES; i++ )); do
   RESPONSE_FILE=http-response.$$
   rm -f $RESPONSE_FILE
   
-  echo Executing "${deployed.container.wgetExecutable} <#if (deployed.ignoreCertificateWarnings?? && deployed.ignoreCertificateWarnings)>--no-check-certificate</#if> -O $RESPONSE_FILE ${deployed.url}"
-  ${deployed.container.wgetExecutable} <#if (deployed.ignoreCertificateWarnings?? && deployed.ignoreCertificateWarnings)>--no-check-certificate</#if> -O "$RESPONSE_FILE" ${deployed.url}
+  echo Executing "${deployed.container.wgetExecutable} --timeout=${deployed.container.timeout} <#if (deployed.ignoreCertificateWarnings?? && deployed.ignoreCertificateWarnings)>--no-check-certificate</#if> -O $RESPONSE_FILE ${deployed.url}"
+  ${deployed.container.wgetExecutable} --timeout=${deployed.container.timeout} <#if (deployed.ignoreCertificateWarnings?? && deployed.ignoreCertificateWarnings)>--no-check-certificate</#if> -O "$RESPONSE_FILE" ${deployed.url}
 
   WGET_EXIT_CODE=$?
   if [ $WGET_EXIT_CODE -eq 0 ]; then
