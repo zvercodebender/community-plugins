@@ -7,30 +7,30 @@
     <version>3.8.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>lb-plugin</artifactId>
-  <version>${deployit.api.version}-1-SNAPSHOT</version>
+  <artifactId>loadbalancer-plugin</artifactId>
+  <version>${deployit.api.version}-2-SNAPSHOT</version>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
   </scm>
 	<dependencies>
 		<dependency>
-		    <groupId>com.xebialabs.deployit</groupId>
-		    <artifactId>udm-plugin-api</artifactId>
+			<groupId>com.xebialabs.deployit</groupId>
+			<artifactId>udm-plugin-api</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>com.xebialabs.deployit.plugins</groupId>
-		    <artifactId>generic-plugin</artifactId>
+			<groupId>com.xebialabs.deployit.plugins</groupId>
+			<artifactId>generic-plugin</artifactId>
 		</dependency>
-                <dependency>
-                    <groupId>com.xebialabs.deployit.plugins</groupId>
-                    <artifactId>remoting-plugin</artifactId>
-                </dependency>
 		<dependency>
-		    <groupId>com.google.guava</groupId>
-		    <artifactId>guava</artifactId>
-		    <version>10.0.1</version>
-		    <scope>compile</scope>
+			<groupId>com.xebialabs.deployit.plugins</groupId>
+			<artifactId>remoting-plugin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>10.0.1</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.xebialabs.overthere</groupId>
