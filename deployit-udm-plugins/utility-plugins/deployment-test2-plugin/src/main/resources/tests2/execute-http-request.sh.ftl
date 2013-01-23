@@ -2,7 +2,8 @@
 
 <#assign envVars=deployed.container.envVars />
 <#list envVars?keys as envVar>
-export ${envVar}="${envVars[envVar]}"
+${envVar}="${envVars[envVar]}"
+export ${envVar}
 </#list>
 
 START_DELAY_SECS=${deployed.startDelay}

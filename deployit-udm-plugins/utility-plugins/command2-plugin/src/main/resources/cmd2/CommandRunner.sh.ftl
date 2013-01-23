@@ -2,7 +2,8 @@
 
 <#assign envVars=deployed.envVars />
 <#list envVars?keys as envVar>
-export ${envVar}="${envVars[envVar]}"
+${envVar}="${envVars[envVar]}"
+export ${envVar}
 </#list>
 
 <#if deployed.file??>
