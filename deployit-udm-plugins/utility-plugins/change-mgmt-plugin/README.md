@@ -48,9 +48,9 @@ It is recommended to include a blank `chg.ChangeRequest` of the same name in eac
 
 # Integration with JIRA
 
-The change-mgmt-plugin contains support for integrating with a JIRA change manager via the JIRA [http://docs.atlassian.com/jira/REST/latest/](REST API). The JIRA change manager (`chg.JiraChangeManager`) must be present in the target environment and configured appropriately for accessing your JIRA installation.
+The change-mgmt-plugin contains support for integrating with a JIRA change manager via the JIRA [REST API](http://docs.atlassian.com/jira/REST/latest/). The JIRA change manager (`chg.JiraChangeManager`) must be present in the target environment and configured appropriately for accessing your JIRA installation.
 
 ## Prerequisites
 
-The JIRA integration makes use of the Python [http://docs.python-requests.org/en/latest/user/quickstart/](requests) library to access the JIRA REST API. Python and the requests library must be installed on the system that hosts the JIRA change manager.
+The JIRA integration makes use of the Python [requests](http://docs.python-requests.org/en/latest/user/quickstart/) library to access the JIRA REST API. Python and the requests library must be installed on the system that hosts the JIRA change manager.
 
