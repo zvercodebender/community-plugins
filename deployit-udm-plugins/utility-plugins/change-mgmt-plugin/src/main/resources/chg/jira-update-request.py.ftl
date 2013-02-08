@@ -5,22 +5,22 @@ from requests.auth import HTTPBasicAuth
 import json
 
 restUrl = "${deployed.container.url}/rest/api/2/"
-issueUrl = restUrl + 'issue/${deployed.requestId}'
-userAuth = HTTPBasicAuth('${deployed.container.username}', '${deployed.container.password}')
+issueUrl = restUrl + "issue/${deployed.requestId}"
+userAuth = HTTPBasicAuth("${deployed.container.username}", "${deployed.container.password}")
 
 # Check for ticket
 
 print "Checking for request ${deployed.requestId} in ${deployed.container.name}"
 ticketRequest = requests.get(issueUrl, auth=userAuth)
 if ticketRequest.status_code != 200:
-    print "Error: unable to find request with id ${deployed.requestId}"
+    print "Error: unable to find request ${deployed.requestId}"
     exit(1)
 
 # Find possible transitions
 
-transRequest = requests.get(issueUrl + '/transitions', auth=userAuth)
+transRequest = requests.get(issueUrl + "/transitions", auth=userAuth)
 if transRequest.status_code != 200:
-    print "Error: unable to find transitions for request with id ${deployed.requestId}"
+    print "Error: unable to find transitions for request ${deployed.requestId}"
     exit(1)
 transitions = transRequest.json()['transitions']
 
@@ -32,7 +32,7 @@ for t in transitions:
         wantedTransition = t['id']
 
 if wantedTransition == -1:
-    print "Error: unable to find transition with name ${deployed.container.transitionName} for request with id ${deployed.requestId}"
+    print "Error: unable to find transition '${deployed.container.transitionName}' for request ${deployed.requestId}"
     exit(1)
 
 # Perform transition
@@ -54,10 +54,10 @@ transitionData = {
     }
 }
 
-headers = {'content-type': 'application/json'}
+headers = {"content-type": "application/json"}
 transRequest = requests.post(issueUrl + '/transitions', data=json.dumps(transitionData), auth=userAuth, headers=headers)
 if transRequest.status_code != 204:
-    print "Error: unable to perform transition " + wantedTransition + " for request with id ${deployed.requestId}"
+    print "Error: unable to perform transition " + wantedTransition + " for request ${deployed.requestId}"
     print transRequest
     exit(1)
 
@@ -68,9 +68,9 @@ if "${deployed.container.transitionMessage}" != "":
         "body": "${deployed.container.transitionMessage}"
     }
 
-    commentRequest = requests.post(issueUrl + '/comment', data=json.dumps(commentData), auth=userAuth, headers=headers)
+    commentRequest = requests.post(issueUrl + "/comment", data=json.dumps(commentData), auth=userAuth, headers=headers)
     if commentRequest.status_code != 201:
-        print "Error: unable to post comment to request with id ${deployed.requestId}"
+        print "Error: unable to post comment to request ${deployed.requestId}"
         print transRequest
         exit(1)
 

@@ -52,5 +52,5 @@ The change-mgmt-plugin contains support for integrating with a JIRA change manag
 
 ## Prerequisites
 
-The JIRA integration makes use of the Python [requests](http://docs.python-requests.org/en/latest/user/quickstart/) library to access the JIRA REST API. Python and the requests library must be installed on the system that hosts the JIRA change manager.
+The JIRA integration makes use of the [Python requests](http://docs.python-requests.org/en/latest/user/quickstart/) library to access the JIRA REST API. Python and the requests library must be installed on the system that hosts the JIRA change manager.
 
