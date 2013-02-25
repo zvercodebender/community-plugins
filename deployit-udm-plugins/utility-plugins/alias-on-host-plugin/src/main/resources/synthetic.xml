@@ -10,7 +10,7 @@
         <method name="checkConnection" label="Check connection" delegate="checkConnectionOnAliasHost"/>
     </type>
 
-    <type type="overthere.AliasCifsHost" extends="overthere.SshHost">
+    <type type="overthere.AliasCifsHost" extends="overthere.CifsHost">
         <property name="alias" kind="ci" required="true" referenced-type="overthere.Alias"/>
         <property name="username" kind="string" required="true" default="NOTUSED" hidden="true"/>
         <property name="password" kind="string" password="true" required="false" default="NOTUSED" hidden="true"/>
