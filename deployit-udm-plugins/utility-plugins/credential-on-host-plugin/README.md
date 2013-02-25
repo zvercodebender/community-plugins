@@ -1,8 +1,8 @@
-# Alias on Host plugin #
+# Credential on Host plugin #
 
 # Overview #
 
-The credential on host plugin allows you to define the credentials information in a new type, `overthere.Credential`, in the Configuration node.
+The credential-on-host plugin allows you to define the credentials information in a new type, `overthere.Credential`, in the Configuration node.
 Two new types - `overthere.AliasSshHost` and `overthere.AliasCifsHost`-  provide a new attribute 'credential' and hide the username and password attributes from `overthere.SsHost` and `overthere.CifsHost`.
 # Requirements #
 
