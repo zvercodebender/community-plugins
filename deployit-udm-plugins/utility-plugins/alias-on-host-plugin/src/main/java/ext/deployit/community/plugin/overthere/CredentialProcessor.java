@@ -29,7 +29,7 @@ import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
 
-public class AliasProcessor {
+public class CredentialProcessor {
 
     static final Set<Type> SUPPORTED_TYPES = of(Type.valueOf("overthere.AliasSshHost"), Type.valueOf("overthere.AliasCifsHost"));
 
@@ -41,12 +41,12 @@ public class AliasProcessor {
         hosts.addAll(newHashSet(transform(specification.getDeltas(), PREVIOUS_TO_HOST)));
 
         final Set<Host> aliasHosts = Sets.filter(hosts, IS_SUPPORTED_TYPES);
-        logger.debug("Alias Hosts {}", aliasHosts);
+        logger.debug("Credential Hosts {}", aliasHosts);
 
         final Iterable<Step> transform = transform(aliasHosts, new Function<Host, Step>() {
             @Override
             public Step apply(final Host host) {
-                logger.debug("AliasProcessor injects credentials in a host {} ", host.getId());
+                logger.debug("CredentialProcessor injects credentials in a host {} ", host.getId());
                 setCredentials(host, "username", "password");
                 return (checkConnection ? new CheckConnectionStep(host) : null);
             }
@@ -62,11 +62,11 @@ public class AliasProcessor {
     }
 
     void setCredentials(final Host host, final String usernamePropertyName, final String passwordPropertyName) {
-        final Alias alias = host.getProperty("alias");
+        final Credential credential = host.getProperty("credential");
         logger.debug("set {} property on host {}", usernamePropertyName, host.getId());
-        host.setProperty(usernamePropertyName, alias.getUsername());
+        host.setProperty(usernamePropertyName, credential.getUsername());
         logger.debug("set {} property on host {}", passwordPropertyName, host.getId());
-        host.setProperty(passwordPropertyName, alias.getPassword());
+        host.setProperty(passwordPropertyName, credential.getPassword());
     }
 
     private static final Function<Delta, Host> DEPLOYED_TO_HOST = new ToHost() {
@@ -119,5 +119,5 @@ public class AliasProcessor {
         }
     }
 
-    protected static final Logger logger = LoggerFactory.getLogger(AliasProcessor.class);
+    protected static final Logger logger = LoggerFactory.getLogger(CredentialProcessor.class);
 }

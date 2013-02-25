@@ -6,7 +6,7 @@ import com.xebialabs.deployit.plugin.api.udm.base.BaseConfigurationItem;
 
 @SuppressWarnings("serial")
 @Metadata(root = Metadata.ConfigurationItemRoot.CONFIGURATION, description = "A username & password pair usable in an overthere.AliasHost")
-public class Alias extends BaseConfigurationItem {
+public class Credential extends BaseConfigurationItem {
 
     @Property
     private String username;
