@@ -45,3 +45,12 @@ The change-mgmt-plugin adds the ability to include Change Requests (`chg.ChangeR
 If the deployment checklist item `requiresChangeTicket` is set for an environment, deployments that do *not* create or update a `chg.ChangeTicket` will result in a validation error. Since Change Tickets are validated against `chg.ChangeManager` containers, there needs to be at least one such container in any environment for which `requiresChangeTicket` is set.
 
 It is recommended to include a blank `chg.ChangeRequest` of the same name in each deployment package, and to set or modify, as appropriate, the `requestId` property of the `chg.ChangeTicket` resulting from the request.
+
+# Integration with JIRA
+
+The change-mgmt-plugin contains support for integrating with a JIRA change manager via the JIRA [REST API](http://docs.atlassian.com/jira/REST/latest/). The JIRA change manager (`chg.JiraChangeManager`) must be present in the target environment and configured appropriately for accessing your JIRA installation.
+
+## Prerequisites
+
+The JIRA integration makes use of the [Python requests](http://docs.python-requests.org/en/latest/user/quickstart/) library to access the JIRA REST API. Python and the requests library must be installed on the system that hosts the JIRA change manager.
+

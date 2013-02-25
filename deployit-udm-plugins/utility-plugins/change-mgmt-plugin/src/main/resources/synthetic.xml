@@ -27,4 +27,19 @@
         <!-- The suffix of the calculated checklist item to use for change ticket validation. Should be hidden and not match the name of any visible deployment checklist item administered by users -->
         <property name="changeTicketChecklistItemSuffix" default="ChangeTicket" />
     </type>
+    
+    <!--  JIRA -->
+    <type type="chg.JiraChangeManager" extends="chg.ChangeManager" description="A JIRA Change Management system">
+        <property name="url" kind="string" required="true"/>
+        <property name="username" kind="string" required="true"/>
+        <property name="password" kind="string" password="true" required="true"/>
+        <property name="transitionName" kind="string" required="true" description="The transition to use when updating a change ticket with this manager"/>
+        <property name="transitionMessage" kind="string" description="An optional comment to include when performing the transition"/>
+    </type>
+
+    <type type="chg.JiraChangeTicket" extends="chg.ChangeTicket" container-type="chg.JiraChangeManager">
+        <property name="createScript" hidden="true" default="chg/jira-check-for-request.py.ftl" />
+        <property name="updateScript" hidden="true" default="chg/jira-update-request.py.ftl" />
+    </type>
+    
 </synthetic>
