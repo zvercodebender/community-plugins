@@ -7,5 +7,8 @@
   <#assign options = options + " --classpath=${deployed.container.driverClasspath}"> 
 </#if>
 cd "${step.uploadedArtifactPath}"
-${deployed.container.javaCmd} -jar ${deployed.container.liquibaseJarPath} ${options} --changeLogFile="${deployed.changeLogFile}" update
-
+${deployed.container.javaCmd} -jar ${deployed.container.liquibaseJarPath} ${options} --changeLogFile="${deployed.changeLogFile}" updateSQL
+generateStatus=$?
+if [ $generateStatus == 0 ]; then
+  ${deployed.container.javaCmd} -jar ${deployed.container.liquibaseJarPath} ${options} --changeLogFile="${deployed.changeLogFile}" update
+fi
