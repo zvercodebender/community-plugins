@@ -27,6 +27,7 @@
     <module>personal-credentials-plugin</module>
     <module>precheck-plugin</module>
     <module>release-auth-plugin</module>
+    <module>restrict-placeholders-to-dicts-plugin</module>
     <module>rpm-plugin</module>
     <module>scheduler-plugin</module>
   </modules>
