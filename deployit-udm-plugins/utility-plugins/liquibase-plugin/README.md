@@ -30,7 +30,8 @@ This is the "container" of the liquibase plugin. A liquibase.Runner instance rep
 * *liquibaseJarPath*: path to the main liquibase jar file, i.e. liquibase.jar
 * *liquibaseConfigurationPath*: path to the liquibase configuration file, i.e liquibase.properties
 * *javaCmd*: command that will be used to launch liquibase java process. Default is "java"
-* *driverClasspath*: java classpath used to get database drivers.
+* *driverClasspath*: java classpath used to get database drivers
+* *generatedSqlPath*: optionnal path to a folder where generated sql commands will be logged
 
 ### liquibase.Changelog and liquibase.ExecutedChangelog
 *liquibase.Changelog* and *liquibase.ExecutedChangelog* are respectively the deployable and deployed types of this plugin. 

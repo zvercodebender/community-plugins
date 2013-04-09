@@ -13,13 +13,12 @@
     <type type="liquibase.Runner" extends="generic.Container" description="Liquibase runner">
         <property name="updateScript"  hidden="true" default="liquibase/liquibase" />
 		<property name="testScript"  hidden="true" default="liquibase/test" />
-		
 		<property name="liquibaseConfigurationPath" default="liquibase.properties"/>
 		<property name="liquibaseJarPath" default="liquibase.jar"/>
 		<property name="javaCmd" default="java"/>
 		<property name="driverClasspath" required="false"/>
-		
-		 <method name="test" description="Test liquibase installation"/>          
+		<property name="generatedSqlPath" required="false"/>
+		<method name="test" description="Test liquibase installation"/>          
     </type> 
 
 </synthetic>
