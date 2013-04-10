@@ -1,8 +1,8 @@
 package ext.deployit.community.plugin.restrictplaceholders.planning;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static com.google.common.collect.Lists.reverse;
 import static com.xebialabs.deployit.plugin.api.deployment.specification.Operation.DESTROY;
+import static ext.deployit.community.plugin.restrictplaceholders.util.Dictionaries.consolidatedDictionary;
 import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
 
@@ -11,14 +11,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMap.Builder;
 import com.xebialabs.deployit.plugin.api.deployment.planning.PrePlanProcessor;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
 import com.xebialabs.deployit.plugin.api.deployment.specification.DeltaSpecification;
 import com.xebialabs.deployit.plugin.api.flow.Step;
 import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
-import com.xebialabs.deployit.plugin.api.udm.Dictionary;
 import com.xebialabs.deployit.plugin.api.udm.Environment;
 import com.xebialabs.deployit.plugin.api.udm.artifact.DerivedArtifact;
 
@@ -54,7 +51,7 @@ public class ValidatePlaceholderEntries {
             return NO_STEPS;
         }
 
-        Map<String, String> resolvedDictionary = flattenDictionaries(targetEnvironment);
+        Map<String, String> resolvedDictionary = consolidatedDictionary(targetEnvironment);
         ImmutableList.Builder<String> validationErrors = ImmutableList.builder();
         for (DerivedArtifact<?> artifactWithPlaceholders : artifactsWithPlaceholders) {
             // non-dictionary keys are definitely not allowed
@@ -74,15 +71,6 @@ public class ValidatePlaceholderEntries {
                     specification.getDeployedApplication(), errors));
         }
         return NO_STEPS;
-    }
-
-    protected static Map<String, String> flattenDictionaries(Environment environment) {
-        Builder<String, String> flattenedDictionary = ImmutableMap.builder();
-        // top-most dictionaries *override* lower dictionaries
-        for (Dictionary dictionary : reverse(environment.getDictionaries())) {
-            flattenedDictionary.putAll(dictionary.getEntries());
-        }
-        return flattenedDictionary.build();
     }
 
     protected static String checkPlaceholder(String placeholder, String value,
