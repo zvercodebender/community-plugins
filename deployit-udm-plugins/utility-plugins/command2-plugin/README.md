@@ -32,3 +32,42 @@ CALL batch1.cmd
 CALL batch2.cmd
 ```
 Any temporary resources provided with `CommandFolder` will be uploaded into the same directory in which the commands will be executed.
+
+Placeholders are supported in both the command as well as withing any temporary resources, so you can specify, for example:
+```
+echo {{MESSAGE}}
+call {{BATCH_FILE_NAME}.cmd
+```
+
+# Examples #
+
+### Run a simple one-time command on target systems at order 50
+
+* Type: `cmd2.Command`
+* `command`: `echo Installation complete!`
+* `createOrder`: 50
+
+### Run a command on target systems at order 90 for each deployment
+
+* Type: `cmd2.Command`
+* `command`: `{{UTILS_PATH}}clearCache` (`UTILS_PATH` is different per environment or target system)
+* `createOrder`: 90
+* `alwaysRun`: true
+
+### Install a registry setting on installation and remove it on uninstall
+
+* Type: `cmd2.CommandFolder`
+* `command`: `.\add-reg-key.bat files\settings.reg`
+* `createOrder`: 65
+* `undoCommand`: `.\remove-reg-key.bat`
+* `destroyOrder`: 45
+
+Here, the temporary resources folder for the command contains
+```
+| add-reg-key.bat
+| remove-reg-key.bat
+|
++---files
+      settings.reg
+```
+All three files can contain environment-specific tokens (e.g. if the registry entry is environment-specific) which will be automatically resolved by Deployit before the resources are uploaded to the target system.
