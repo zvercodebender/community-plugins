@@ -33,10 +33,11 @@ public class DictionariesTest {
                 consolidatedDictionary(environment));
     }
 
-    @Test
-    public void consolidatedDictionariesDoesNotCauseInfiniteLoops() {
+    @Test(expected = IllegalStateException.class)
+    public void consolidatedDictionariesThrowsExceptionOnSelfReference() {
         Dictionary dictionary = new Dictionary();
-        dictionary.getEntries().put("FOO", "{{FOO}}");
+        dictionary.getEntries().putAll(
+            ImmutableMap.of("FOO", "{{BOZ}} and {{BAR}}", "BAR", "{{BAZ}} and {{BOZ}}", "BAZ", "baz", "BOZ", "{{BAZ}} and {{FOO}}"));
         Environment environment = new Environment();
         environment.getDictionaries().add(dictionary);
         consolidatedDictionary(environment);

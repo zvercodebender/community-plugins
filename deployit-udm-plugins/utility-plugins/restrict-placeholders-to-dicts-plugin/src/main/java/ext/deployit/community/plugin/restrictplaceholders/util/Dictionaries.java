@@ -1,6 +1,7 @@
 package ext.deployit.community.plugin.restrictplaceholders.util;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Lists.reverse;
 import static com.google.common.collect.Maps.newHashMap;
 
@@ -14,7 +15,6 @@ import com.xebialabs.deployit.plugin.api.udm.Dictionary;
 import com.xebialabs.deployit.plugin.api.udm.Environment;
 
 public class Dictionaries {
-    private static final int MAX_REPLACEMENT_ITERATIONS = 10000;
     // "{{...}}"
     private static Pattern PLACEHOLDER_PATTERN = Pattern.compile("\\{\\{([^\\}]+)\\}\\}");
 
@@ -31,24 +31,25 @@ public class Dictionaries {
     
     // modifies the input map
     private static void resolvePlaceholdersInValues(Map<String, String> entries) {
-        // prevent infinite loops
+        // while (resol...) {} would be shorter but this is easier to read
         boolean replacedPlaceholders;
-        int numIterations = 0;
         do {
             replacedPlaceholders = resolveFirstPlaceholdersInValues(entries);
-            numIterations++;
-        } while (replacedPlaceholders && numIterations < MAX_REPLACEMENT_ITERATIONS);
+        } while (replacedPlaceholders);
     }
     
     // modifies the input map
     private static boolean resolveFirstPlaceholdersInValues(Map<String, String> entries) {
         boolean foundPlaceholder = false;
+        ImmutableMap.Builder<String, String> resolvedEntries = ImmutableMap.builder();
         for (Entry<String, String> entry : entries.entrySet()) {
             String value = entry.getValue();
             Matcher placeholderMatches = PLACEHOLDER_PATTERN.matcher(value);
             if (placeholderMatches.find()) {
                 foundPlaceholder = true;
+                String key = entry.getKey();
                 String placeholder = placeholderMatches.group(1);
+                checkState(!placeholder.equals(key), "Dictionary entry '%s' refers to itself", key);
                 checkArgument(entries.containsKey(placeholder), 
                         "Dictionary entry '%s' refers to non-existent placeholder '%s'", value, placeholder);
                 /*
@@ -56,9 +57,10 @@ public class Dictionaries {
                  * This leads to multiple passes to resolve a value such as 
                  * "{{FOO}} and {{BAR}}", but is much easier than handling all the matching groups
                  */
-                entries.put(entry.getKey(), placeholderMatches.replaceFirst(entries.get(placeholder)));
+                resolvedEntries.put(key, placeholderMatches.replaceFirst(entries.get(placeholder)));
             }
         }
+        entries.putAll(resolvedEntries.build());
         return foundPlaceholder;
     }
 }
