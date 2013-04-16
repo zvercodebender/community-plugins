@@ -35,11 +35,14 @@ public class DictionariesTest {
 
     @Test(expected = IllegalStateException.class)
     public void consolidatedDictionariesThrowsExceptionOnSelfReference() {
-        Dictionary dictionary = new Dictionary();
-        dictionary.getEntries().putAll(
-            ImmutableMap.of("FOO", "{{BOZ}} and {{BAR}}", "BAR", "{{BAZ}} and {{BOZ}}", "BAZ", "baz", "BOZ", "{{BAZ}} and {{FOO}}"));
+        // four-link chain: FOO -> BAR -> BOZ -> FOZ -> FOO
+        Dictionary one = new Dictionary();
+        one.getEntries().putAll(
+            ImmutableMap.of("FOO", "{{BAZ}} and {{BAR}}", "BAR", "{{BAZ}} and {{BOZ}}", "BAZ", "baz", "BOZ", "{{BAZ}} and {{FOZ}}"));
+        Dictionary two = new Dictionary();
+        two.getEntries().putAll(ImmutableMap.of("FOZ", "foz and {{FOO}}"));
         Environment environment = new Environment();
-        environment.getDictionaries().add(dictionary);
+        environment.getDictionaries().addAll(ImmutableList.of(one, two));
         consolidatedDictionary(environment);
     }
 }
