@@ -9,7 +9,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>restrict-placeholders-to-dicts-plugin</artifactId>
-  <version>${deployit.api.version}-1</version>
+  <version>${deployit.api.version}-2-SNAPSHOT</version>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
     <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
