@@ -1,0 +1,65 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="PackageAndDeploy">
+
+	<PropertyGroup>
+		<AssemblyPath>..\XebiaLabs.Deployit.MSbuildTasks\bin\Debug</AssemblyPath>
+	</PropertyGroup>
+	<UsingTask TaskName="XebiaLabs.Deployit.MSbuildTasks.CreatePackage" AssemblyFile="$(AssemblyPath)\XebiaLabs.Deployit.MSbuildTasks.dll" />
+	<UsingTask TaskName="XebiaLabs.Deployit.MSbuildTasks.UploadPackage" AssemblyFile="$(AssemblyPath)\XebiaLabs.Deployit.MSbuildTasks.dll" />
+	<UsingTask TaskName="XebiaLabs.Deployit.MSbuildTasks.GenerateDeploymentTask" AssemblyFile="$(AssemblyPath)\XebiaLabs.Deployit.MSbuildTasks.dll" />
+	<UsingTask TaskName="XebiaLabs.Deployit.MSbuildTasks.TaskControler" AssemblyFile="$(AssemblyPath)\XebiaLabs.Deployit.MSbuildTasks.dll" />
+	<UsingTask TaskName="XebiaLabs.Deployit.MSbuildTasks.WaitForTask" AssemblyFile="$(AssemblyPath)\XebiaLabs.Deployit.MSbuildTasks.dll" />
+	<UsingTask TaskName="XebiaLabs.Deployit.MSbuildTasks.GenerateRollbackTask" AssemblyFile="$(AssemblyPath)\XebiaLabs.Deployit.MSbuildTasks.dll" />
+
+
+
+	<!-- Server configuration -->
+	<PropertyGroup>
+		<DeployitServerURL>http://localhost:4516</DeployitServerURL>
+		<DeployitServerUserName>admin</DeployitServerUserName>
+		<DeployitServerPassword>admin</DeployitServerPassword>
+	</PropertyGroup>
+
+	<!-- Package configuration -->
+	<PropertyGroup>
+		<ApplicationName />
+		<ApplicationVersion>MAIN-1-4</ApplicationVersion>
+		<PackageDataPath>PackageData</PackageDataPath>
+		<ManifestPath>Manifest.MF</ManifestPath>
+		<OutputPath>Output</OutputPath>
+		<PackageId />
+	</PropertyGroup>
+	
+	<!-- Initialize the build output -->
+	<Target Name="InitOutput">
+		<RemoveDir Directories="$(OutputPath)" />
+		<MakeDir Directories="$(OutputPath)" />
+	</Target>
+	
+	<!-- Main Target -->
+	<Target Name="PackageAndDeploy">
+		<CallTarget Targets="InitOutput" />
+		<PropertyGroup>
+			<PackagePath>$(OutputPath)\Package.dar</PackagePath>
+		</PropertyGroup>
+		<CreatePackage
+			ManifestPath="$(ManifestPath)"
+			ApplicationVersion="$(ApplicationVersion)"
+			PackageDataRootDirectory="$(PackageDataPath)"
+			PackagePath="$(PackagePath)">
+			<Output TaskParameter="ApplicationName" PropertyName="ApplicationName" />             
+		</CreatePackage>
+		<Message Text="ApplicationName: '$(ApplicationName)" />
+
+		<UploadPackage
+				DeployitURL="$(DeployitServerURL)"
+				UserName="$(DeployitServerUserName)"
+				Password="$(DeployitServerPassword)"
+				PackagePath="$(PackagePath)">
+			<Output TaskParameter="PackageId" PropertyName="PackageId" />
+		</UploadPackage>
+		
+	
+		<Message Text="PackageId = $(PackageId)" />
+	</Target>
+	
+</Project>
