@@ -49,55 +49,5 @@ namespace XebiaLabs.Deployit.MSbuildTasks
             }
             return true;
         }
-
-#if false
-               [RequiredArgument]
-            public InArgument<DeployitContext> DeployitContext { get; set; }
-
-            [RequiredArgument]
-            public InArgument<string> TaskId { get; set; }
-
-            [RequiredArgument]
-            public InArgument<TaskAction> Action { get; set; }
-
-            protected override void Execute(CodeActivityContext context)
-            {
-                var deployitContext = context.GetValue<DeployitContext>(DeployitContext);
-                var server = deployitContext.Server;
-
-
-                var taskId = context.GetValue<string>(TaskId);
-                var action = context.GetValue<TaskAction>(Action);
-
-                var taskService = server.TaskService;
-
-                switch (action)
-                {
-                    case TaskAction.Start:
-                        taskService.Start(taskId);
-                        break;
-                    case TaskAction.Stop:
-                        taskService.Stop(taskId);
-                        break;
-                    case TaskAction.Abort:
-                        taskService.Stop(taskId);
-                        break;
-                    case TaskAction.Cancel:
-                        taskService.Cancel(taskId);
-                        break;
-                    case TaskAction.Archive:
-                        taskService.Archive(taskId);
-                        break;
-                    default:
-                        throw new InvalidOperationException(String.Format("unknown task action: {0}", action));
-
-                }
-
-            }
-
-        }
-
-#endif
-
     }
 }

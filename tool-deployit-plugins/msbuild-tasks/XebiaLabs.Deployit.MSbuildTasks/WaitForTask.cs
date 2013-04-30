@@ -37,8 +37,10 @@ namespace XebiaLabs.Deployit.MSbuildTasks
 				Thread.Sleep(RefreshIntervalInSeconds * 1000);
 				var info = taskServer.GetTaskInfo(TaskId);
 				taskState = info.State;
+				Log.LogMessage("Task '{0}' state: '{1}'", TaskId, taskState);
+				
 			}
-			while (taskState != "QUEUED" || taskState != "EXECUTING");
+			while (taskState == "QUEUED" || taskState == "EXECUTING");
 
 			FinalState = taskState;
 			return true;
