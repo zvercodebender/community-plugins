@@ -10,10 +10,10 @@ export ${envVar}
 <#if (deployed.ignoreCertificateWarnings?? && deployed.ignoreCertificateWarnings)>
     <#assign wgetCmdLine = wgetCmdLine + ["--no-check-certificate"]/>
 </#if>
-<#if (deployed.xmlRequest??)>
-    <#assign wgetCmdLine = wgetCmdLine + ["--post-file=${step.remoteWorkingDirectory.path}/genedxmlrequest.xml", "--header=\"Content-Type: text/xml\""]/>
+<#if (deployed.postData??)>
+    <#assign wgetCmdLine = wgetCmdLine + ["--post-file=${step.remoteWorkingDirectory.path}/postdata.dat", "--header=\"Content-Type: ${deployed.contentType}\""]/>
 <#elseif (deployed.file??)>
-    <#assign wgetCmdLine = wgetCmdLine + ["--post-file=${deployed.file}", "--header=\"Content-Type: text/xml\""]/>
+    <#assign wgetCmdLine = wgetCmdLine + ["--post-file=${deployed.file}", "--header=\"Content-Type: ${deployed.contentType}\""]/>
 </#if>
 
 <#assign wgetCmdLine = wgetCmdLine + ["-O", "$RESPONSE_FILE", "${deployed.url}"]/>
