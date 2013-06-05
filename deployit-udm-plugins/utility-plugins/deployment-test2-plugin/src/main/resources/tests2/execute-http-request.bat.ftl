@@ -27,12 +27,26 @@ if not ERRORLEVEL 1 (
   )
   cd DEPLOYITPB-2907-workaround
 )
+
+<#assign wgetCmdLine = ["${deployed.container.wgetExecutable}", "--timeout=${deployed.timeout}"] />
+<#if (deployed.ignoreCertificateWarnings?? && deployed.ignoreCertificateWarnings)>
+    <#assign wgetCmdLine = wgetCmdLine + ["--no-check-certificate"]/>
+</#if>
+<#if (deployed.xmlRequest??)>
+    <#assign wgetCmdLine = wgetCmdLine + ["--post-file=${step.remoteWorkingDirectory.path}/genedxmlrequest.xml", "--header=\"Content-Type: text/xml\""]/>
+<#elseif (deployed.file??)>
+    <#assign wgetCmdLine = wgetCmdLine + ["--post-file=${deployed.file}", "--header=\"Content-Type: text/xml\""]/>
+</#if>
+
+
+<#assign wgetCmdLine = wgetCmdLine + ["-O"]/>
+
  
 for /L %%i in (1,1,%MAX_RETRIES%) do (
   del /Q %RESPONSE_FILE_PREFIX%.%%i 2> nul
 
-  echo Executing "${deployed.container.wgetExecutable} --timeout=${deployed.timeout} <#if (deployed.ignoreCertificateWarnings?? && deployed.ignoreCertificateWarnings)>--no-check-certificate</#if> -O %RESPONSE_FILE_PREFIX%.%%i ${deployed.url}"
-  ${deployed.container.wgetExecutable} --timeout=${deployed.timeout} <#if (deployed.ignoreCertificateWarnings?? && deployed.ignoreCertificateWarnings)>--no-check-certificate</#if> -O %RESPONSE_FILE_PREFIX%.%%i "${deployed.url}"
+  echo Executing <#list wgetCmdLine as item>${item} </#list>%RESPONSE_FILE_PREFIX%.%%i ${deployed.url}"
+  <#list wgetCmdLine as item>${item} </#list>%RESPONSE_FILE_PREFIX%.%%i ${deployed.url}"
 
   if ERRORLEVEL 1 (
     set WGET_EXIT_CODE=1
