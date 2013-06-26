@@ -16,6 +16,7 @@
   <modules>
     <module>application-configuration-plugin</module>
     <module>change-mgmt-plugin</module>
+    <module>cli-runner-plugin</module>
     <module>command2-plugin</module>
     <module>demo-plugin</module>
     <module>deployment-test-plugin</module>

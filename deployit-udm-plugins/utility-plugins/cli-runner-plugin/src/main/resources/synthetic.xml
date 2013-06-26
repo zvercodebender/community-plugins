@@ -1,0 +1,30 @@
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+
+    <type-modification type="udm.Application">
+        <property name="deploymentWeight" kind="integer" default="500" description="Order in which application deployments are run when using the CLI batch deployment control task."/>
+    </type-modification>
+
+    <type-modification type="udm.Environment">
+        <method name="cliDeployment" label="Cli Deployment" delegate="cliDeployment">
+            <parameters>
+                <parameter name="packages" kind="list_of_ci" referenced-type="udm.Version"  description="Packages to deploy via the Cli."/>
+                <parameter name="password" password="true" description="The password for the current logged in user name. These credentials will be used to log into the Cli."/>
+            </parameters>
+        </method>
+    </type-modification>
+
+    <type type="cli.Cli" extends="udm.Configuration">
+        <property name="host" kind="ci" description="Host on which the Cli is installed." referenced-type="overthere.Host"/>
+        <property name="home" description="Home directory of the Cli installation."/>
+        <method name="runScript" label="Run Script" delegate="cliScript" script="cli/runner/inlinescript.py" scriptDescription="Run cli script">
+            <parameters>
+                <parameter name="script" size="large" description="Script to run in the Cli."/>
+                <parameter name="password" password="true" description="The password for the current logged in user name. These credentials will be used to log into the Cli."/>
+            </parameters>
+        </method>
+    </type>
+
+</synthetic>
