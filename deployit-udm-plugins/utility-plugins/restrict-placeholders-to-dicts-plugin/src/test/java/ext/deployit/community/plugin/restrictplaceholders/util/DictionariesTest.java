@@ -3,10 +3,13 @@ package ext.deployit.community.plugin.restrictplaceholders.util;
 import static ext.deployit.community.plugin.restrictplaceholders.util.Dictionaries.consolidatedDictionary;
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+
+import com.xebialabs.deployit.booter.local.LocalBooter;
 import com.xebialabs.deployit.plugin.api.udm.Dictionary;
 import com.xebialabs.deployit.plugin.api.udm.Environment;
 
@@ -14,6 +17,11 @@ import com.xebialabs.deployit.plugin.api.udm.Environment;
  * Unit tests for {@link Dictionaries}
  */
 public class DictionariesTest {
+
+    @Before
+    public void setup() {
+        LocalBooter.bootWithoutGlobalContext();
+    }
 
     @Test
     public void consolidatedDictionariesFlattensAndResolves() {

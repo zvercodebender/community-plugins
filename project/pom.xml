@@ -3,16 +3,17 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.xebialabs.deployit</groupId>
   <artifactId>community-plugins-project</artifactId>
-  <version>3.9.0</version>
+  <version>3.9</version>
   <packaging>pom</packaging>
   <properties>
     <deployit.server.home>${env.DEPLOYIT_HOME}</deployit.server.home>
     <deployit.cli.home>${env.DEPLOYIT_CLI_HOME}</deployit.cli.home>
-    <deployit.api.version>3.9.0</deployit.api.version>
-    <deployit.spi.version>3.9.0</deployit.spi.version>
-    <deployit.engine.version>3.9.0</deployit.engine.version>
-    <deployit.servercli.version>3.9.0</deployit.servercli.version>
-    <deployit.bundledplugin.version>3.9.0</deployit.bundledplugin.version>
+    <deployit.api.version>3.9.1</deployit.api.version>
+    <deployit.spi.version>3.9.1</deployit.spi.version>
+    <deployit.engine.version>3.9.1</deployit.engine.version>
+    <deployit.servercli.version>3.9.1</deployit.servercli.version>
+    <deployit.bundledplugin.version>3.9.1</deployit.bundledplugin.version>
+    <deployit.wls.version>3.9.0</deployit.wls.version>
     <overthere.version>2.2.0</overthere.version>
     <scannit.version>1.0.2</scannit.version>
     <github.global.server>github</github.global.server>
@@ -112,7 +113,7 @@
         <artifactId>wls-plugin</artifactId>
         <version>${deployit.api.version}</version>
         <scope>system</scope>
-        <systemPath>${deployit.server.home}/plugins/wls-plugin-${deployit.api.version}.jar</systemPath>
+        <systemPath>${deployit.server.home}/plugins/wls-plugin-${deployit.wls.version}.jar</systemPath>
       </dependency>
       <dependency>
         <groupId>com.xebialabs.deployit.plugins</groupId>
