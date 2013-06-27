@@ -99,7 +99,7 @@ public class CliScriptDelegate {
         thisVarContext.put("thisCi", item);
         thisVarContext.put("args", args);
         thisVarContext.put("cli", cli);
-        checkArgument(params != null, "Atleast [password] parameter is required.");
+        checkArgument(params != null, "At least [password] parameter is required.");
         thisVarContext.put("params", params);
         thisVarContext.put("cliHome",cli.getProperty("home"));
         thisVarContext.put("cliUser",getAuthenticatedUserName());
