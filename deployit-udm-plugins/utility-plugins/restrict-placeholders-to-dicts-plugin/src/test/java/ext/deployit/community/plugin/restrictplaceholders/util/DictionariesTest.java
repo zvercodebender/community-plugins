@@ -34,10 +34,24 @@ public class DictionariesTest {
         Environment environment = new Environment();
         // earlier items are "higher up in the stack" than later ones
         environment.getDictionaries().addAll(ImmutableList.of(override, base));
-        
-        assertEquals(ImmutableMap.of("FOO", "overridden foo", 
-                "BAR", "overridden foo and bar", 
+
+        assertEquals(ImmutableMap.of("FOO", "overridden foo",
+                "BAR", "overridden foo and bar",
                 "BAZ", "overridden foo and overridden foo and bar and baz"), 
+                consolidatedDictionary(environment));
+    }
+
+    @Test
+    public void handlesValuesWithDollarCharacters() {
+        Dictionary dict = new Dictionary();
+        dict.getEntries().putAll(
+            ImmutableMap.of("FOO", "value-with-$", "BAR", "{{FOO}} and bar"));
+        Environment environment = new Environment();
+        // earlier items are "higher up in the stack" than later ones
+        environment.getDictionaries().addAll(ImmutableList.of(dict));
+
+        assertEquals(ImmutableMap.of("FOO", "value-with-$",
+                "BAR", "value-with-$ and bar"),
                 consolidatedDictionary(environment));
     }
 
@@ -53,4 +67,5 @@ public class DictionariesTest {
         environment.getDictionaries().addAll(ImmutableList.of(one, two));
         consolidatedDictionary(environment);
     }
+
 }

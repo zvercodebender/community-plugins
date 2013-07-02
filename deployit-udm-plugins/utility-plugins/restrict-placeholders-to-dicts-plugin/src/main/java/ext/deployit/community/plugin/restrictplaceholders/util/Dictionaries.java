@@ -1,5 +1,7 @@
 package ext.deployit.community.plugin.restrictplaceholders.util;
 
+import static java.util.regex.Matcher.quoteReplacement;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Lists.reverse;
@@ -57,7 +59,7 @@ public class Dictionaries {
                  * This leads to multiple passes to resolve a value such as 
                  * "{{FOO}} and {{BAR}}", but is much easier than handling all the matching groups
                  */
-                resolvedEntries.put(key, placeholderMatches.replaceFirst(entries.get(placeholder)));
+                resolvedEntries.put(key, placeholderMatches.replaceFirst(quoteReplacement(entries.get(placeholder))));
             }
         }
         entries.putAll(resolvedEntries.build());
