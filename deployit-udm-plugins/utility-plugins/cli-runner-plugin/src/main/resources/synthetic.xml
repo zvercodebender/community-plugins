@@ -2,7 +2,6 @@
            xmlns="http://www.xebialabs.com/deployit/synthetic"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
-
     <type-modification type="udm.Application">
         <property name="deploymentWeight" kind="integer" default="500" description="Order in which application deployments are run when using the CLI batch deployment control task."/>
     </type-modification>
@@ -22,6 +21,15 @@
         <method name="runScript" label="Run Script" delegate="cliScript" script="cli/runner/inlinescript.py" scriptDescription="Run cli script">
             <parameters>
                 <parameter name="script" size="large" description="Script to run in the Cli."/>
+                <parameter name="password" password="true" description="The password for the current logged in user name. These credentials will be used to log into the Cli."/>
+            </parameters>
+        </method>
+        <method name="cleanPackages" label="Clean deployment packages" delegate="cliScript" script="cli/cleanup/cleanup.py" scriptDescription="Clean deployment packages">
+            <parameters>
+                <parameter name="days" kind="integer" default="90" description="Delete deployment packages older than x days."/>
+                <parameter name="versionMarker" kind="string" default="SNAPSHOT" description="Delete deployment packages whose name contains this marker."/>
+                <parameter name="applications" kind="list_of_ci" referenced-type="udm.Application" required="false" description="Delete deployment packages from these applications."/>
+                <parameter name="dryRun" kind="boolean" default="false" required="false" description="Perform a dry run."/>
                 <parameter name="password" password="true" description="The password for the current logged in user name. These credentials will be used to log into the Cli."/>
             </parameters>
         </method>
