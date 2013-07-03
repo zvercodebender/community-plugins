@@ -34,62 +34,43 @@ A _cliScript_ delegate has the capability of executing a cli script. The delegat
 
 <table class="ci-table">
     <tbody><tr class="odd ci-prop-header">
-        <th></th>
-        <th>Arguments</th>
+        <th>Argument</th>
+        <th>Description</th>
     </tr>
         <tr class="even">
-            <td class="icon-cell"><div class="icon required" title="Required property">&nbsp;</div></td>
-            <td style="width: 100%">
+            <td>
                 <div class="ci-property-info"><span class="ci-property-name">script</span><span>: </span>
                     <span class="ci-property-kind">STRING</span></div>
             </td>
-        </tr>
-        <tr class="even">
-            <td></td>
-            <td>
                 <div class="ci-property-desc">Required. The classpath to the python cli script.</div>
             </td>
         </tr>
         <tr class="odd">
-            <td class="icon-cell"><div class="icon">&nbsp;</div></td>
-            <td style="width: 100%">
+            <td>
                 <div class="ci-property-info"><span class="ci-property-name">scriptDescription</span><span>: </span>
                     <span class="ci-property-kind">STRING</span></div>
             </td>
-        </tr>
-        <tr class="odd">
-            <td></td>
-            <td>
+            </td>
                 <div class="ci-property-desc">The description of the script as it appears in Deployit's control task step list.</div>
             </td>
         </tr>
         <tr class="even">
-             <td class="icon-cell"><div class="icon">&nbsp;</div></td>
-            <td style="width: 100%">
+            <td>
                 <div class="ci-property-info"><span class="ci-property-name">classpathResources</span><span>: </span>
                     <span class="ci-property-kind">LIST_OF_STRING</span></div>
             </td>
-        </tr>
-        <tr class="even">
-            <td></td>
             <td>
                 <div class="ci-property-desc">Comma separated string of additional classpath resources that should be uploaded to the working directory before executing the script.</div>
             </td>
         </tr>
         <tr class="odd">
-            <td class="icon-cell">
-                <div class="icon">&nbsp;</div>
-            </td>
-            <td style="width: 100%">
+            <td>
                 <div class="ci-property-info">
                     <span class="ci-property-name">templateClasspathResources</span>
                     <span>: </span>
                     <span class="ci-property-kind">LIST_OF_STRING</span>
                 </div>
             </td>
-        </tr>
-        <tr class="odd">
-            <td></td>
             <td>
                 <div class="ci-property-desc">Comma separated string of additional template classpath resources that should be uploaded to the working directory before executing the script.The template is first rendered and the rendered content copied to a file, with the same name as the template, in the working directory.</div>
             </td>
@@ -99,30 +80,22 @@ A _cliScript_ delegate has the capability of executing a cli script. The delegat
 
 <table class="ci-table">
     <tbody><tr class="odd ci-prop-header">
-        <th></th>
-        <th>Parameters</th>
+        <th>Parameter</th>
+        <th>Description</th>
     </tr>
         <tr class="even">
-            <td class="icon-cell"><div class="icon required" title="Required property">&nbsp;</div></td>
-            <td style="width: 100%">
+            <td>
                 <div class="ci-property-info"><span class="ci-property-name">password</span><span>: </span>
                     <span class="ci-property-kind">STRING</span></div>
             </td>
-        </tr>
-        <tr class="even">
-            <td></td>
             <td>
                 <div class="ci-property-desc">Required. The password for the current logged in user name. These credentials will be used to log into the Cli.</div>
             </td>
         </tr>
         <tr class="odd">
-            <td class="icon-cell"><div class="icon">&nbsp;</div></td>
-            <td style="width: 100%">
+            <td>
                 <div class="ci-property-info"><span class="ci-property-name">…</span></div>
             </td>
-        </tr>
-        <tr class="odd">
-            <td></td>
             <td>
                 <div class="ci-property-desc">Any other parameters that your script may need</div>
             </td>
@@ -132,52 +105,38 @@ A _cliScript_ delegate has the capability of executing a cli script. The delegat
 
 <table class="ci-table">
     <tbody><tr class="odd ci-prop-header">
-        <th></th>
-        <th>Python Variables</th>
+        <th>Python Variable</th>
+        <th>Description</th>
     </tr>
         <tr class="even">
-            <td class="icon-cell"><div class="icon required" title="Required property">&nbsp;</div></td>
-            <td style="width: 100%">
+            <td>
                 <div class="ci-property-info"><span class="ci-property-name">thisCi</span><span>: </span>
                     <span class="ci-property-kind">CI</span></div>
             </td>
-        </tr>
-        <tr class="even">
-            <td></td>
             <td>
                 <div class="ci-property-desc">The configuration item on which the control task is executed.</div>
             </td>
         </tr>
         <tr class="odd">
-            <td class="icon-cell"><div class="icon">&nbsp;</div></td>
-            <td style="width: 100%">
+            <td>
                 <div class="ci-property-info"><span class="ci-property-name">params</span><span>: </span>
                     <span class="ci-property-kind">CI</span></div>
             </td>
-        </tr>
-        <tr class="even">
-            <td></td>
             <td>
                 <div class="ci-property-desc">The parameters defined for the control task.</div>
             </td>
         </tr>
         <tr class="even">
-            <td class="icon-cell"><div class="icon">&nbsp;</div></td>
-            <td style="width: 100%">
+            <td>
                 <div class="ci-property-info"><span class="ci-property-name">args</span><span>: </span>
                     <span class="ci-property-kind">String</span></div>
             </td>
-        </tr>
-        <tr class="odd">
-            <td></td>
             <td>
                 <div class="ci-property-desc">The arguments defined for the control task.</div>
             </td>
         </tr>
-
-                </tbody>
+    </tbody>
 </table>
-
 
 Example :
 
@@ -185,6 +144,7 @@ Example :
 	<type-modification type="overthere.Host">
 	    <method name="echo" delegate="cliScript" script="sample/echo.py" scriptDescription="Pretty print">
             <parameters>
+                <parameter name="cli" kind="ci" referenced-type="cli.Cli" />
                 <parameter name="password" password="true"/>
             </parameters>
         </method>
