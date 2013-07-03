@@ -145,7 +145,6 @@ Example :
 	<type-modification type="overthere.Host">
 	    <method name="echo" delegate="cliScript" script="sample/echo.py" scriptDescription="Pretty print">
             <parameters>
-                <parameter name="cli" kind="ci" referenced-type="cli.Cli" />
                 <parameter name="password" password="true"/>
             </parameters>
         </method>
