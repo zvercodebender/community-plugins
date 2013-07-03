@@ -42,6 +42,7 @@ A _cliScript_ delegate has the capability of executing a cli script. The delegat
                 <div class="ci-property-info"><span class="ci-property-name">script</span><span>: </span>
                     <span class="ci-property-kind">STRING</span></div>
             </td>
+            <td>
                 <div class="ci-property-desc">Required. The classpath to the python cli script.</div>
             </td>
         </tr>
@@ -50,7 +51,7 @@ A _cliScript_ delegate has the capability of executing a cli script. The delegat
                 <div class="ci-property-info"><span class="ci-property-name">scriptDescription</span><span>: </span>
                     <span class="ci-property-kind">STRING</span></div>
             </td>
-            </td>
+            <td>
                 <div class="ci-property-desc">The description of the script as it appears in Deployit's control task step list.</div>
             </td>
         </tr>
