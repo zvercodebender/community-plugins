@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.xebialabs.deployit.plugin.api.deployment.planning.Contributor;
 import com.xebialabs.deployit.plugin.api.deployment.planning.DeploymentPlanningContext;
-import com.xebialabs.deployit.plugin.api.deployment.specification.Delta;
 import com.xebialabs.deployit.plugin.api.deployment.specification.Deltas;
 import com.xebialabs.deployit.plugin.api.udm.CompositePackage;
 import com.xebialabs.deployit.plugin.api.udm.DeployedApplication;
