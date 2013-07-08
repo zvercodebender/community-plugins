@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>stored-procedures-plugin</artifactId>
-    <version>${deployit.api.version}-0</version>
+    <version>${deployit.api.version}-1-SNAPSHOT</version>
 
     <scm>
         <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
