@@ -1,0 +1,1 @@
+echo "Execute an after operation on ${container.id}"

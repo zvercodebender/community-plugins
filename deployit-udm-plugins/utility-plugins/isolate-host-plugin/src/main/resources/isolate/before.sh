@@ -1,0 +1,1 @@
+echo "Execute a before operation on ${container.id}"
