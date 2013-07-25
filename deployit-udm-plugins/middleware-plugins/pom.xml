@@ -18,7 +18,7 @@
         <module>apache-modjk-plugin</module>
         <module>apache-weblogic-plugin</module>
         <module>loadbalancer-plugin</module>
-		<module>liquibase-plugin</module>
+        <module>liquibase-plugin</module>
         <module>liferay-plugin</module>
         <module>stored-procedures-plugin</module>
     </modules>
