@@ -32,4 +32,4 @@ else
    exit $generateStatus
 fi
 
-exit 0
+exit $?

@@ -14,7 +14,7 @@ cd "${step.uploadedArtifactPath}"
 <#assign outputfile = "">
 <#if deployed.container.generatedSqlPath??>
   for /f "tokens=1-3 delims=/ " %%a in ('date /t') do (set CURRENT_DATE=%%c-%%b-%%a)
-  for /f "tokens=1-2 delims=/:" %%a in ('time /t') do (set CURRENT_TIME=%%a%%b)
+  for /f "tokens=1-2 delims=/:" %%a in ("%TIME%") do (set CURRENT_TIME=%%a%%b)
   set GENERATED_SQL_DIR=${deployed.container.generatedSqlPath}\%CURRENT_DATE%_%CURRENT_TIME%
   if not exist %GENERATED_SQL_DIR% mkdir %GENERATED_SQL_DIR%
   set GENERATED_SQL_FILE=%GENERATED_SQL_DIR%\update.sql
@@ -29,3 +29,4 @@ ${deployed.container.javaCmd} -jar ${deployed.container.liquibaseJarPath} ${opti
 if %errorlevel%==-1 goto :done
 ${deployed.container.javaCmd} -jar ${deployed.container.liquibaseJarPath} ${options} --changeLogFile="${deployed.changeLogFile}" update
 :done
+%errorlevel%
