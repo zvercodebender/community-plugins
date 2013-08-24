@@ -38,3 +38,10 @@ atlassian-ide-plugin.xml
 #tests working folders
 integration-test
 ui-integration-test
+
+#msbuild & .net stuffs
+tool-deployit-plugins/msbuild-tasks/Lib
+*.suo
+obj/
+bin/
+
