@@ -4,7 +4,7 @@ import sys, re
 print sys.argv
 
 id = sys.argv[1]
-type = sys.argv[2]
+ciType = sys.argv[2]
 
 values = {}
 for i in range(3, len(sys.argv)):
@@ -13,13 +13,13 @@ for i in range(3, len(sys.argv)):
 	if match != None:
 		values[match.group(1)] = match.group(2)
 
-print "Creating CI with id ",id," and type", type, " values ", values
+print "Creating CI '%s' of type '%s' with values: %s" % (id, ciType, values)
 
 try:
 	ci = repository.read(id)
 
 except:
-	ci = factory.configurationItem(id, type, values)
+	ci = factory.configurationItem(id, ciType, values)
 	print "Created CI:", ci
 
 	repository.create(ci)
