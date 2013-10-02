@@ -43,6 +43,13 @@ The command-line commands are executed as part of a [shell script](https://githu
 * `command`: `echo Installation complete!`
 * `createOrder`: 50
 
+### Run a simple one-time command on target systems with a secret value
+
+* Type: `cmd2.Command`
+* `command`: `run.bat -username test -password ${deployed.secret}`
+* `createOrder`: 50
+* `secret`: {{CMD_SECRET}}
+
 ### Run multiple commands to invoke two batch files at order 85
 
 * Type: `cmd2.Command`

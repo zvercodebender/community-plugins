@@ -32,6 +32,7 @@
 
       <!-- allow multi-line commands -->
       <property name="command" size="large" description="The command(s) to run. Needs to be correctly formatted and escaped for the target platform. On Windows, the commands entered will be executed within a batch file. Use 'call' to invoke other batch files" />
+      <property name="secret" password="true" required="false" description="Can be used within command and undoCommand using ${deployed.secret}"/>
       <!-- DefaultOrders.CREATE_RESOURCES -->
       <property name="createOrder" kind="integer" hidden="false" default="60" label="Run Order" category="Deployment" />
       <property name="undoCommand" required="false" size="large" description="If set, the command(s) to run to undo the execution of the command. May reference the same files as 'command'. On Windows, the commands entered will be executed within a batch file. Use 'call' to invoke other batch files" />
@@ -49,4 +50,5 @@
       <property name="destroyScript" hidden="true" default="&lt;#if deployed.undoCommand??&gt;cmd2/UndoCommandRunner&lt;/#if&gt;" />
       <property name="destroyVerb" hidden="true" default="Undo" />
     </type>
+  
 </synthetic>
