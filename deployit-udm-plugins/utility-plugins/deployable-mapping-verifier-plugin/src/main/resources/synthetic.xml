@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+  <type-modification type="udm.BaseDeployable">
+    <property name="requiredInstancesPerEnvironment" kind="enum" enum-class="com.xebialabs.deployit.community.verifier.RequiredInstancesPerEnvironment"
+      required="false" description="specifies how many Deployeds a valid deployment should map from this Deployable" default="AT_LEAST_ONE" category="Deployment"/>
+  </type-modification>
+
+  <type-modification type="udm.Environment">
+    <property name="requiredInstancesEnforcement" kind="enum" enum-class="com.xebialabs.deployit.community.verifier.RequiredInstancesEnforcement"
+      required="false" description="specifies the level of enforcement of requiredInstancesPerEnvironment properties" default="NONE" category="Deployment" />
+  </type-modification>
+
+</synthetic>
