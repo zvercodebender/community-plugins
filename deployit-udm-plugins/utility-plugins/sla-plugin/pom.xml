@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.xebialabs.deployit</groupId>
+        <artifactId>utility-plugins</artifactId>
+        <version>3.9.0</version>
+    </parent>
+    <artifactId>sla-plugin</artifactId>
+    <version>${deployit.api.version}-1-SNAPSHOT</version>
+    <scm>
+        <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
+        <url>scm:git:git://github.com/xebialabs/community-plugins.git</url>
+    </scm>
+    <properties>
+        <overthere.version>2.1.0</overthere.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.xebialabs.deployit</groupId>
+            <artifactId>udm-plugin-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>0.9.24</version>
+        </dependency>
+    </dependencies>
+
+</project>
