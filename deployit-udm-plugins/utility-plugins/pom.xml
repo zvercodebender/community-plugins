@@ -32,5 +32,6 @@
     <module>scheduler-plugin</module>
     <module>credential-on-host-plugin</module>
     <module>deployable-mapping-verifier-plugin</module>
+    <module>sla-plugin</module>
   </modules>
 </project>
