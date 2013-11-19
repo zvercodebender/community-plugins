@@ -22,9 +22,9 @@
 
 	<!-- Package configuration -->
 	<PropertyGroup>
-		<ApplicationVersion>MAIN-1-20</ApplicationVersion>
+		<ApplicationVersion>MAIN-1-21</ApplicationVersion>
 		<PackageDataPath>PackageData</PackageDataPath>
-		<ManifestPath>Manifest.MF</ManifestPath>
+		<ManifestPath>deployit-manifest.xml</ManifestPath>
 		<OutputPath>Output</OutputPath>
 	</PropertyGroup>
 

@@ -85,8 +85,8 @@ namespace XebiaLabs.Deployit.MSbuildTasks
 
             ApplicationName = manifest.ApplicationName;
 
-            var packageBuilder = new PackageGenerator();
-            packageBuilder.GeneratePackage(manifest, PackageDataRootDirectory, PackagePath);
+            var packageBuilder = new PackageBuilder();
+			packageBuilder.Build(manifest, PackageDataRootDirectory, PackagePath);
             return true;
         }          
     }
