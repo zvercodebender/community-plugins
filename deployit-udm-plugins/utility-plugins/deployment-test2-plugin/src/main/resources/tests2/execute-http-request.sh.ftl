@@ -17,6 +17,9 @@ export ${envVar}
 <#elseif (deployed.file??)>
     <#assign wgetCmdLine = wgetCmdLine + ["--post-file=${deployed.file}", "--header=\"Content-Type: ${deployed.contentType}\""]/>
 </#if>
+<#list deployed.headers as header>
+    <#assign wgetCmdLine = wgetCmdLine + ["--header=\"${header}\""]/>
+</#list>
 
 <#assign wgetCmdLine = wgetCmdLine + ["-O", "$RESPONSE_FILE", "${deployed.url}"]/>
 
