@@ -40,8 +40,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="XebiaLabs.Deployit.Client">
-      <HintPath>..\Lib\XebiaLabs.Deployit.Client.dll</HintPath>
+    <Reference Include="XebiaLabs.Deployit.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\XebiaLabs.Deployit.Client.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
