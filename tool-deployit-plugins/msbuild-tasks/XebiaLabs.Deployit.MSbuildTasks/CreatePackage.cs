@@ -12,24 +12,7 @@ namespace XebiaLabs.Deployit.MSbuildTasks
 {
     public class CreatePackage : Task
     {
-        /*
-         * 
-         *     [RequiredArgument]
-        public InArgument<string> ManifestPath { get; set; }
-
-        [RequiredArgument]
-        public InArgument<string> ApplicationVersion { get; set; }
-
-        [RequiredArgument]
-        public InArgument<string> PackageDataRootPath { get; set; }
-
-        [RequiredArgument]
-        public InArgument<string> PackagePath { get; set; }
-
-        public OutArgument<string> ApplicationName { get; set; }
-         * 
-         * 
-         */
+   
         [Required]
         public string ManifestPath { get; set; }
 
@@ -84,9 +67,8 @@ namespace XebiaLabs.Deployit.MSbuildTasks
             manifest.Version = ApplicationVersion;
 
             ApplicationName = manifest.ApplicationName;
-
-            var packageBuilder = new PackageBuilder();
-			packageBuilder.Build(manifest, PackageDataRootDirectory, PackagePath);
+          
+            PackageBuilder.Build(manifest, PackageDataRootDirectory, PackagePath);
             return true;
         }          
     }
