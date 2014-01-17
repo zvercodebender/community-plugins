@@ -8,17 +8,18 @@
   <properties>
     <deployit.server.home>${env.DEPLOYIT_HOME}</deployit.server.home>
     <deployit.cli.home>${env.DEPLOYIT_CLI_HOME}</deployit.cli.home>
-    <deployit.api.version>3.9.1</deployit.api.version>
-    <deployit.spi.version>3.9.1</deployit.spi.version>
-    <deployit.engine.version>3.9.1</deployit.engine.version>
-    <deployit.servercli.version>3.9.1</deployit.servercli.version>
-    <deployit.bundledplugin.version>3.9.1</deployit.bundledplugin.version>
-    <deployit.wls.version>3.9.0</deployit.wls.version>
-    <overthere.version>2.2.0</overthere.version>
+    <deployit.api.version>3.9.4</deployit.api.version>
+    <deployit.spi.version>3.9.4</deployit.spi.version>
+    <deployit.engine.version>3.9.4</deployit.engine.version>
+    <deployit.servercli.version>3.9.4</deployit.servercli.version>
+    <deployit.bundledplugin.version>3.9.4</deployit.bundledplugin.version>
+    <deployit.wls.version>3.9.2</deployit.wls.version>
+    <overthere.version>2.3.1</overthere.version>
     <scannit.version>1.0.2</scannit.version>
     <github.global.server>github</github.global.server>
     <maven.compile.source>1.6</maven.compile.source>
     <maven.compile.target>1.6</maven.compile.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <scm>
     <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
