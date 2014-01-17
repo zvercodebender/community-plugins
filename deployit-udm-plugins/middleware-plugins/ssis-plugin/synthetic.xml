@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<synthetic xmlns="http://www.xebialabs.com/deployit/synthetic" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+	<type type="mssql.DeployedISPackage" deployable-type="mssql.ISPackage" container-type="sql.MsSqlClient" extends="powershell.ExtensiblePowerShellDeployedArtifact"
+            description="Published IIS web content">
+        <generate-deployable type="mssql.ISPackage" extends="powershell.BasePowerShellDeployableFileArtifact"
+            description="Dtsx file containing the MS SSIS package"/>
+
+        <!-- hidden -->
+        <property name="libraryScripts" hidden="true" kind="list_of_string"
+            default="ssis/runtime/ssis-setup.ps1"/>
+        <property name="createScript" default="ssis/deploy-ispackage.ps1" hidden="true"/>
+        <property name="createOrder" kind="integer" default="54" hidden="true"/>
+        <property name="createVerb" default="Copy" hidden="true"/>
+        <property name="modifyScript" default="iis/deploy-ispackage.ps1" hidden="true"/>
+        <property name="modifyOrder" kind="integer" default="54" hidden="true"/>
+        <property name="modifyVerb" default="Copy" hidden="true"/>
+        <property name="destroyScript" default="ssis/destroy-ispackage.ps1" hidden="true"/>
+        <property name="destroyOrder" kind="integer" default="46" hidden="true"/>
+        <property name="destroyVerb" default="Delete" hidden="true"/>
+
+        <!-- public -->
+		<property name="serverInstance" required="true"/>
+		<property name="packageFullName" required="true"/>
+    </type>
+
+</synthetic>
