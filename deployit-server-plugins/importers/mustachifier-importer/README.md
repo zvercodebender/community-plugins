@@ -16,7 +16,7 @@ Especially useful for converting placeholders in configuration files to Deployit
 	
 # Installation #
 
-Place the plugin JAR file into your `SERVER_HOME/plugins` directory. You will also need the following files in `SERVER_HOME/lib`:
+Place the plugin JAR file into your `SERVER_HOME/plugins` directory. You will also need to install the mustachifier CLI plugin JAR file in `SERVER_HOME/lib`:
 
 - mustachifier-&lt;version&gt;.jar
 
