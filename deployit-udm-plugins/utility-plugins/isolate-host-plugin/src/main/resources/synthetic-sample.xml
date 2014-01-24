@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+    <type-modification type="overthere.Host">
+        <property name="isolated" kind="boolean" default="true" required="false" category="Isolation"/>
+
+        <property name="beforeScript" hidden="true" default="isolate/before" category="Isolation"/>
+        <property name="beforeOrder" kind="integer" hidden="true" default="1" category="Isolation"/>
+        <property name="beforeDescription" hidden="true" default="Execute before step on %s" category="Isolation"/>
+
+        <property name="afterScript" hidden="true" default="isolate/after" category="Isolation"/>
+        <property name="afterOrder" kind="integer" hidden="true" default="99" category="Isolation"/>
+        <property name="afterDescription" hidden="true" default="Execute after step on %s" category="Isolation"/>
+
+    </type-modification>
+</synthetic>
