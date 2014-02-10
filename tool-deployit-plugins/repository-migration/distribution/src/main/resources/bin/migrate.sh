@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Shell script to start the Deployit Server
+# Shell script to migrate the Deployit Server
 #
 
 absdirname ()

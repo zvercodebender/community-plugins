@@ -1,6 +1,6 @@
 @echo off
 REM
-REM Batch script to start the Deployit Server
+REM Batch script to migrate the Deployit Server
 REM
 
 setlocal ENABLEDELAYEDEXPANSION

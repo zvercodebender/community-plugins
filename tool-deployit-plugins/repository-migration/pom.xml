@@ -15,9 +15,9 @@
     <artifactId>repository-migration-parent</artifactId>
     <packaging>pom</packaging>
 
-	<modules>
-		<module>script</module>
-		<module>distribution</module>
-	</modules>
+    <modules>
+        <module>script</module>
+        <module>distribution</module>
+    </modules>
 
 </project>

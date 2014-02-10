@@ -16,7 +16,7 @@ public class RepositoryMigrationOptions {
     @Option(name = "-repository-name", required = true, usage = "The name of the folder holding the new repository")
     private String repositoryName;
 
-    @Option(name = "-updateDeployitConfiguration", usage = "Update the deployit configuration", required = false)
+    @Option(name = "-updateDeployitConfiguration", usage = "Update the Deployit configuration", required = false)
     private boolean updateDeployitConfiguration = false;
 
     public static RepositoryMigrationOptions parseCommandLine(String[] args) {
