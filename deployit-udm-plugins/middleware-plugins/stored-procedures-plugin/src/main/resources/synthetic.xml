@@ -28,13 +28,16 @@
     </type>
 
 
-    <type type="sql.OracleStoredProcedures" extends="sql.StoredProcedures" description="Folder containing SQL stored procedures scripts">
+    <type type="sql.OracleStoredProcedures" extends="sql.StoredProcedures" description="Folder containing SQL stored procedures">
         <property name="folderSequence" required="false" kind="list_of_string" default="views,types,packages,procedures,functions" category="Oracle"/>
     </type>
 
-    <type type="sql.MySqlStoredProcedures" extends="sql.StoredProcedures" description="Folder containing SQL stored procedures scripts">
+    <type type="sql.MySqlStoredProcedures" extends="sql.StoredProcedures" description="Folder containing SQL stored procedures">
         <property name="folderSequence" required="false" kind="list_of_string" default="triggers,procedures,functions" category="MySQL"/>
     </type>
 
+    <type type="sql.MSSQLStoredProcedures" extends="sql.StoredProcedures" description="Folder containing SQL stored procedures">
+        <property name="folderSequence" kind="list_of_string" category="MSSQL" default="views,types,procedures,functions,triggers"/>
+    </type>
 
 </synthetic>

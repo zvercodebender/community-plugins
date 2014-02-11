@@ -51,6 +51,8 @@ For Oracle, the default folder sequence is: `views,types,packages,procedures,fun
 
 For MySQL, the default folder sequence is: `triggers,procedures,functions`
 
+For MS SQL Server, the default folder sequence is: `views,types,procedures,functions,triggers`
+
 # Screenshot #
 
 ![image](step-list-oracle.png)
