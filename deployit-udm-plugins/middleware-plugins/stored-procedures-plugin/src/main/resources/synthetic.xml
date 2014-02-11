@@ -33,7 +33,7 @@
     </type>
 
     <type type="sql.MySqlStoredProcedures" extends="sql.StoredProcedures" description="Folder containing SQL stored procedures scripts">
-        <property name="folderSequence" required="false" kind="list_of_string" default="triggers,procedures,functions" category="Oracle"/>
+        <property name="folderSequence" required="false" kind="list_of_string" default="triggers,procedures,functions" category="MySQL"/>
     </type>
 
 
