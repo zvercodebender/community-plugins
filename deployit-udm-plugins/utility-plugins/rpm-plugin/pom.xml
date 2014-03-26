@@ -9,7 +9,7 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>rpm-plugin</artifactId>
-  <version>${deployit.api.version}-1</version>
+  <version>${deployit.api.version}-2-SNAPSHOT</version>
   <properties>
     <maven.test.skip>true</maven.test.skip>
   </properties>
