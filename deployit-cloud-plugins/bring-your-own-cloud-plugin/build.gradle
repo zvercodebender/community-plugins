@@ -1,0 +1,12 @@
+
+version = '3.9.2-SNAPSHOT'
+
+apply plugin: "xl-dependency"
+apply plugin: "deployit-plugin"
+
+dependencies {
+	compile deps.deployit_generic_plugin
+	compile deps.deployit_udm_plugin_api
+	compile "com.xebialabs.deployit.plugins:cloud-plugin:3.9.4"
+	compile deps.commons_io
+}
