@@ -21,14 +21,14 @@ The BYOC ("Bring Your Own Cloud") plugin is a Deployit plugin that builds on the
 
 ## Usage ##
 
-The BYOC plugin extends on the cloud plugin in Deployit and is configured in a similar manner. For information on the cloud plugin, please see the [cloud plugin manual](http://docs.xebialabs.com/releases/3.9/cloud-plugin/cloudPluginManual.html).
+The BYOC plugin extends on the cloud plugin in Deployit and is configured in a similar manner. For information on the cloud plugin, please see the [cloud plugin manual](http://docs.xebialabs.com/releases/latest/cloud-plugin/cloudPluginManual.html).
 
 The BYOC plugin adds the following types:
 
 * `byoc.HostTemplate`, a host template that allows specifying a `createCommand` and `destroyCommand` and a `workingDirectory` where to execute them.
-* `byoc.EnvironmentTemplate`, an environment template that contains, among others, hosts created by a BYOC host template.
+* `byoc.EnvironmentTemplate`, an environment template that contains, among others, hosts created by a BYOC host template. The BYOC environment template also supports other host templates, such as the EC2 or vSphere templates.
 
-The `createCommand` and `destroyCommand` on a host template are executed in the `workingDirectory` **locally on the Deployit server**. Commands are literal strings and do not support OS-specific special characters. To execute multiple commands, create a script, place it on the Deployit server and invoke it from the host template.
+The `createCommand` and `destroyCommand` on a host template are executed in the `workingDirectory` **locally on the Deployit server**. Commands are literal strings and do not support OS-specific special characters such as `&&`. To execute multiple commands, create a script, place it on the Deployit server and invoke it from the host template.
 
 ## Freemarker variables ##
 
@@ -42,7 +42,7 @@ There are some examples in the Examples section.
 
 ## Determining the instance IP address ##
 
-After the `createCommand` creates a new instance of the host template, Deployit will need to find out it's IP address. The BYOC plugin supports this via two properties, namely the `findIpAddressCommand` and the `findIpAddressRegex`.
+After the `createCommand` creates a new instance of the host template, Deployit will need to find out its IP address. The BYOC plugin supports this via two properties, namely the `findIpAddressCommand` and the `findIpAddressRegex`.
 
 The `findIpAddressCommand` is executed (locally on the Deployit server) to determine the IP address and print it to standard output. Deployit captures this output and applies the `findIpAddressRegex` regular expression to the command output to determine the IP address.
 
