@@ -10,10 +10,10 @@ try {
 	Set-DtutilPath -SqlVersion $SqlVersion
 	
 	##Check for existing package
-	#if (test-packagepath $PackageFullName) {
-	#	Write-Host "Removing old package [$PackageFullName] from [$ServerInstance]."
-	#	remove-package -ServerInstance $ServerInstance -PackageFullName $PackageFullName
-	#}
+	if (test-packagepath $PackageFullName) {
+		Write-Host "Removing old package [$PackageFullName] from [$ServerInstance]."
+		remove-package -ServerInstance $ServerInstance -PackageFullName $PackageFullName
+	}
 
 	Write-Host "Deploying package [$PackageFullName] to [$ServerInstance]."
 
