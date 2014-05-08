@@ -1,0 +1,1 @@
+${javax.xml.bind.DatatypeConverter.parseBase64Binary(deployed.key)}

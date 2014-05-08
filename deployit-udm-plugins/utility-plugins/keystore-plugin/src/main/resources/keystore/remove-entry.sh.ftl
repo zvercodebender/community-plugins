@@ -1,0 +1,2 @@
+echo "Removing ${deployed.name} under alias ${deployed.alias} from ${deployed.container.keystore}"
+keytool -delete -keystore ${deployed.container.keystore} -storepass ${deployed.container.passphrase} -alias ${deployed.alias}
