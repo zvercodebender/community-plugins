@@ -11,6 +11,7 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.util.Scanner;
 import javax.xml.bind.DatatypeConverter;
 
 class KeyImporter {
@@ -27,36 +28,33 @@ class KeyImporter {
     String deployedContainerKeystoreType = args[8];
     String deployedContainerPassphrase = args[9];
 
-    System.out.printf("Install certificate %s to target %s", deployedName, deployedContainerName);
+    System.out.printf("Install certificate %s to target %s\n", deployedName, deployedContainerName);
 
     try {
       // Load the keystore
-      System.out.printf("Loading keystore %s", deployedContainerKeystore);
+      System.out.printf("Loading keystore %s\n", deployedContainerKeystore);
       KeyStore ks = KeyStore.getInstance(deployedContainerKeystoreType);
       ks.load(new FileInputStream(deployedContainerKeystore), deployedContainerPassphrase.toCharArray());
 
       // Load certificates (base64 encoded DER/PEM-encoded certificates)
       // http://docs.oracle.com/javase/7/docs/api/java/security/cert/CertificateFactory.html#generateCertificates(java.io.InputStream)
-      System.out.println("Loading the certificate(chain)'");
-      //ByteArrayInputStream inStream = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(deployedCertificate));
-      FileInputStream inStream = new FileInputStream(deployedCertificate);
+      System.out.println("Loading the certificate(chain)");
+      String certificateChainB64 = new Scanner(new File(deployedCertificate)).next();
+      ByteArrayInputStream inStream = new ByteArrayInputStream(DatatypeConverter.parseBase64Binary(certificateChainB64));
       CertificateFactory cf = CertificateFactory.getInstance("X.509");
       Certificate[] chain = cf.generateCertificates(inStream).toArray(new java.security.cert.Certificate[0]);
       inStream.close();
 
       // Save the private key entry (base64 PKCS8 DER encoded)
-      System.out.printf("Storing key/certificate %s (alias=%s) in keystore %s", deployedName, deployedAlias, deployedContainerKeystore);
+      System.out.printf("Storing key/certificate %s (alias=%s) in keystore %s\n", deployedName, deployedAlias, deployedContainerKeystore);
       File keyFile = new File(deployedKey);
-      byte[] encodedKey = new byte[(int)keyFile.length()];
-      FileInputStream keyInputStream = new FileInputStream(keyFile);
-      keyInputStream.read(encodedKey);
-      keyInputStream.close();
+      String encodedKey = new Scanner(keyFile).next();
       KeyFactory kf = KeyFactory.getInstance(deployedKeyAlgorithm);
-      PrivateKey key = kf.generatePrivate(new PKCS8EncodedKeySpec(encodedKey));
+      PrivateKey key = kf.generatePrivate(new PKCS8EncodedKeySpec(DatatypeConverter.parseBase64Binary(encodedKey)));
       ks.setEntry(deployedAlias, new KeyStore.PrivateKeyEntry(key, chain), new KeyStore.PasswordProtection(deployedKeyPassword.toCharArray()));
       ks.store(new FileOutputStream(deployedContainerKeystore), deployedContainerPassphrase.toCharArray());
 
-      System.out.printf("Stored key/certificate %s (alias=%s) in keystore %s", deployedName, deployedAlias, deployedContainerKeystore);
+      System.out.printf("Stored key/certificate %s (alias=%s) in keystore %s\n", deployedName, deployedAlias, deployedContainerKeystore);
     } catch (Exception e) {
       System.err.println("Storing key/cerficate failed, cause: " + e.getMessage());
       System.exit(1);
