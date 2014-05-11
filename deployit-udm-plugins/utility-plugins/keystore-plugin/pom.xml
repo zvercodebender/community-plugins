@@ -22,50 +22,6 @@
       <groupId>com.xebialabs.deployit.plugins</groupId>
       <artifactId>generic-plugin</artifactId>
     </dependency>
-<!--     <dependency>
-      <groupId>com.xebialabs.deployit.plugins</groupId>
-      <artifactId>remoting-plugin</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.xebialabs.deployit.engine</groupId>
-      <artifactId>planner</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.xebialabs.deployit.engine</groupId>
-      <artifactId>local-booter</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.xebialabs.overthere</groupId>
-      <artifactId>overthere</artifactId>
-    </dependency> -->
   </dependencies>
-
-  <profiles>
-    <profile>
-      <id>test-with-udm-test-support</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <properties>
-        <maven.test.skip>false</maven.test.skip>
-      </properties>
-      <dependencies>
-        <dependency>
-          <groupId>com.xebialabs.deployit.plugins</groupId>
-          <artifactId>remoting-plugin</artifactId>
-        </dependency>
-        <dependency>
-          <groupId>com.xebialabs.overthere</groupId>
-          <artifactId>overthere</artifactId>
-          <scope>test</scope>
-        </dependency>
-        <dependency>
-          <groupId>com.xebialabs.deployit</groupId>
-          <artifactId>udm-test-support</artifactId>
-          <version>3.8.0</version>
-          <scope>test</scope>
-        </dependency>
-      </dependencies>
-    </profile>
-  </profiles>
+  <profiles />
 </project>
