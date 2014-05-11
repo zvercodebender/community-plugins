@@ -25,7 +25,7 @@ The plugin works with the standard deployment package of DAR format. Please see 
 compose one. 
 
 The following is a sample deployment-manifest.xml file that can be used to install a certificate.
-
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <udm.DeploymentPackage version="1.0" application="CertificateApp">
   <deployables>
@@ -44,3 +44,4 @@ The following is a sample deployment-manifest.xml file that can be used to insta
     </keystore.PrivateKey>
   </deployables>
 </udm.DeploymentPackage>
+```
