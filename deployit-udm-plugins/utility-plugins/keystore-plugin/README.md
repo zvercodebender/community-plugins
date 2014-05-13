@@ -21,7 +21,7 @@ All certificates/keys are required to be base64 encoded. Suppored formats: certi
 
 # Usage #
 
-The plugin works with the standard deployment package of DAR format. Please see the _Packaging Manual_ for more details about the DAR format and the ways to 
+The plugin works with the standard deployment package of DAR format. Please see the [_Packaging Manual_](http://docs.xebialabs.com/releases/4.0/deployit/packagingmanual.html) for more details about the DAR format and the ways to
 compose one. 
 
 The following is a sample deployment-manifest.xml file that can be used to install a certificate.
