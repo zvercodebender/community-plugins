@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+          <type type="example.Server" extends="udm.BaseContainer" description="Example server">
+            <property name="host" kind="ci" referenced-type="overthere.Host" as-containment="true"/>
+            <property name="home" description="Home directory for the server"/>
+            <property name="startCommand" description="OS specific command used to start the server"/>
+          </type>
+
+          <type type="example.Artifact" extends="udm.BaseDeployed" deployable-type="example.ArtifactSpec"
+            container-type="example.Server" description="Artifact that can be deployed to a example server">
+            <generate-deployable type="example.ArtifactSpec" extends="udm.BaseDeployable"/>
+            <property name="myProperty" required="false"/>
+          </type>
+           
+</synthetic>
+
