@@ -1,25 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="http://www.xebialabs.com/deployit/xl-rules"
        xsi:schemaLocation="http://www.xebialabs.com/deployit/xl-rules xl-rules.xsd">
 
 
     <rule name="startStopServer" scope="plan">
-        <script>
-<![CDATA[
-
-restartRequired = False
-for delta in deltas.getDeltas():
-	if (delta.getOperation() != Operation.NOOP):
-		restartRequired = True
-		break
-
-if(restartRequired):
-	context.addStep(steps.success(description = "Stopping server", order = 10))
-	context.addStep(steps.success(description = "Starting server", order = 90))
-
-]]>
-        </script>
+        <script-ref ref="scripts/start-stop-server.py"/>
     </rule>
+
+
 
     <rule name="deployArtifact" scope="deployed">
         <script>
@@ -27,10 +16,27 @@ if(restartRequired):
 
 if(delta.getOperation() != Operation.NOOP):
 	descr = "Step to " + delta.getOperation().toString() + " artifact with name " + currentDeployed(delta).getName()
-	context.addStep(steps.success(description = descr, order = 90))
+	context.addStep(steps.success(description = descr, order = 70))
 
 ]]>
         </script>
     </rule>
+
+
+
+    <rule name="emailRule" scope="post-plan">
+        <script>
+<![CDATA[
+
+email = currentDeployedApplication(specification).getProperty("email")
+
+if(specification.getOperation() != Operation.NOOP and email is not None):
+	context.addStep(steps.success(description = "Sending an email to " + email + " that deployment is finished"))
+
+]]>
+        </script>
+    </rule>
+
+
 
 </rules>

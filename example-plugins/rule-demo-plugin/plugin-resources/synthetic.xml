@@ -14,6 +14,10 @@
             <generate-deployable type="example.ArtifactSpec" extends="udm.BaseDeployable"/>
             <property name="myProperty" required="false"/>
           </type>
+
+          <type-modification type="udm.DeployedApplication">
+               <property name="email" label="E-mail when finished" required="false"/>
+          </type-modification>
            
 </synthetic>
 
