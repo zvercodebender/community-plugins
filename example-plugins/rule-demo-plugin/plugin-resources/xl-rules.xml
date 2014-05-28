@@ -11,15 +11,27 @@
 
 
     <rule name="deployArtifact" scope="deployed">
-        <script>
-<![CDATA[
+    	
+    	<type>example.Artifact</type>
+    	
+    	<operation>CREATE</operation>
+    	<operation>DESTROY</operation>
+    	<operation>MODIFY</operation>
+    	
+    	<steps>
+    		<execute-remote-os-script>
+    			<description>"Deploy " + deployed.name + " to " + deployed.container.name</description>
+    			<order>60</order>
+    			<container>deployed.getContainer().getProperty("host")</container>
+    			<script-template-path>"scripts/deploy-artifact"</script-template-path>
+    			<vars>{'deployed': deployed}</vars>
+    		</execute-remote-os-script>
+    		<success>
+    			<description>"Step to " + delta.getOperation().toString() + " artifact with name " + currentDeployed(delta).getName()</description>
+    			<order>70</order>
+    		</success>
+    	</steps>
 
-if(delta.getOperation() != Operation.NOOP):
-	descr = "Step to " + delta.getOperation().toString() + " artifact with name " + currentDeployed(delta).getName()
-	context.addStep(steps.success(description = descr, order = 70))
-
-]]>
-        </script>
     </rule>
 
 
@@ -31,7 +43,7 @@ if(delta.getOperation() != Operation.NOOP):
 email = currentDeployedApplication(specification).getProperty("email")
 
 if(specification.getOperation() != Operation.NOOP and email is not None):
-	context.addStep(steps.success(description = "Sending an email to " + email + " that deployment is finished"))
+	context.addStep(steps.success(description = "Sending an email to " + email + " that deployment is finished", order = 50))
 
 ]]>
         </script>
