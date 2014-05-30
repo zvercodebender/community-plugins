@@ -11,13 +11,9 @@
 
 
     <rule name="deployArtifact" scope="deployed">
-    	
     	<type>example.Artifact</type>
-    	
     	<operation>CREATE</operation>
-    	<operation>DESTROY</operation>
     	<operation>MODIFY</operation>
-    	
     	<steps>
     		<execute-remote-os-script>
     			<description>"Deploy " + deployed.name + " to " + deployed.container.name</description>
@@ -32,18 +28,46 @@
     			<order>70</order>
     		</success>
     	</steps>
-
     </rule>
 
 
-    <rule name="deployDatasource" scope="deployed">
-    	
-    	<type>example.Datasource</type>
-    	
+
+    <rule name="deployResource" scope="deployed">
+    	<type>example.Resource</type>
     	<operation>CREATE</operation>
-    	<operation>DESTROY</operation>
     	<operation>MODIFY</operation>
-    	
+    	<steps>
+            <copy-artifact>
+                <description>"Create Resource"</description>
+                <order>50</order>
+                <source-file>deployed.file</source-file>
+                <container>deployed.container.getProperty("host")</container>
+                <target-path>deployed.container.getProperty("home") + "/resources"</target-path>
+                <target-file-name>deployed.file.name</target-file-name>
+                <create-target-path>True</create-target-path>
+            </copy-artifact>
+    	</steps>
+    </rule>
+    <rule name="destroyResource" scope="deployed">
+    	<type>example.Resource</type>
+    	<operation>DESTROY</operation>
+    	<steps>
+            <delete-artifact>
+                <description>"Delete Resource"</description>
+                <order>50</order>
+                <container>deployed.container.getProperty("host")</container>
+                <target-directory>deployed.container.getProperty("home") + "/resources"</target-directory>
+                <target-file>deployed.file.name</target-file>
+            </delete-artifact>
+    	</steps>
+    </rule>
+
+
+
+    <rule name="deployDatasource" scope="deployed">
+    	<type>example.Datasource</type>
+    	<operation>CREATE</operation>
+    	<operation>MODIFY</operation>
     	<steps>
             <resolve-template>
     			<description>"Deploy " + deployed.name + " to " + deployed.container.name</description>
@@ -56,7 +80,6 @@
                 <vars>{"deployed": deployed, "prop": "myProp"}</vars>
             </resolve-template>
     	</steps>
-
     </rule>
 
 
