@@ -49,17 +49,15 @@
     	</steps>
     </rule>
     <rule name="destroyResource" scope="deployed">
-    	<type>example.Resource</type>
-    	<operation>DESTROY</operation>
-    	<steps>
-            <delete-artifact>
-                <description>"Delete Resource"</description>
-                <order>50</order>
-                <container>deployed.container.getProperty("host")</container>
-                <target-directory>deployed.container.getProperty("home") + "/resources"</target-directory>
-                <target-file>deployed.file.name</target-file>
-            </delete-artifact>
-    	</steps>
+        <script><![CDATA[
+if (deployed.getType().toString() == 'example.Resource' and delta.operation.toString() == 'DESTROY'):
+    context.addStep(steps.delete_artifact(
+        description = "Delete Resource",
+        order = 50,
+        container = deployed.container.getProperty("host"),
+        target_directory = deployed.container.getProperty("home") + "/resources",
+        target_file = deployed.file.name))
+        ]]></script>
     </rule>
 
 
