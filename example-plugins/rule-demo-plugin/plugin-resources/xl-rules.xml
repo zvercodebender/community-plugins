@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.xebialabs.com/deployit/xl-rules"
-       xsi:schemaLocation="http://www.xebialabs.com/deployit/xl-rules xl-rules.xsd">
+<?xml version="1.0"?>
+<rules xmlns="http://www.xebialabs.com/xl-deploy/xl-rules">
 
 
     <rule name="startStopServer" scope="plan">
-        <script-ref ref="scripts/start-stop-server.py"/>
+        <script-ref ref="planning/start-stop-server.py"/>
     </rule>
 
 
@@ -16,18 +14,28 @@
     	<operation>MODIFY</operation>
     	<steps>
     		<execute-remote-os-script>
-    			<description>"Deploy " + deployed.name + " to " + deployed.container.name</description>
+    			<description>"Deploy " + deployed.name + " on " + deployed.container.name</description>
     			<order>60</order>
-    			<container>deployed.container.getProperty("host")</container>
+    			<container>deployed.container.host</container>
     			<script-template-path>"scripts/deploy-artifact"</script-template-path>
     			<derived-artifact>deployed</derived-artifact>
     			<vars>{'deployed': deployed}</vars>
     		</execute-remote-os-script>
-    		<success>
-    			<description>"Step to " + delta.getOperation().toString() + " artifact with name " + currentDeployed(delta).getName()</description>
-    			<order>70</order>
-    		</success>
     	</steps>
+    </rule>
+    <rule name="destroyArtifact" scope="deployed">
+        <type>example.Artifact</type>
+        <operation>DESTROY</operation>
+        <steps>
+            <execute-remote-os-script>
+                <description>"Undeploy " + deployed.name + " on " + deployed.container.name</description>
+                <order>60</order>
+                <container>deployed.container.host</container>
+                <script-template-path>"scripts/undeploy-artifact"</script-template-path>
+                <derived-artifact>deployed</derived-artifact>
+                <vars>{'deployed': deployed}</vars>
+            </execute-remote-os-script>
+        </steps>
     </rule>
 
 
@@ -41,8 +49,8 @@
                 <description>"Create Resource"</description>
                 <order>50</order>
                 <source-file>deployed.file</source-file>
-                <container>deployed.container.getProperty("host")</container>
-                <target-path>deployed.container.getProperty("home") + "/resources"</target-path>
+                <container>deployed.container.host</container>
+                <target-path>deployed.container.home + "/resources"</target-path>
                 <target-file-name>deployed.file.name</target-file-name>
                 <create-target-path>True</create-target-path>
             </copy-artifact>
@@ -70,8 +78,8 @@ if (deployed.getType().toString() == 'example.Resource' and delta.operation.toSt
             <resolve-template>
     			<description>"Deploy " + deployed.name + " to " + deployed.container.name</description>
                 <order>50</order>
-                <container>deployed.container.getProperty("host")</container>
-                <target-path>deployed.container.getProperty("home") + "/conf"</target-path>
+                <container>deployed.container.host</container>
+                <target-path>deployed.container.home + "/conf"</target-path>
                 <target-file-name>deployed.name</target-file-name>
                 <create-target-path>True</create-target-path>
                 <template-path>"templates/datasource.ftl"</template-path>
@@ -86,7 +94,7 @@ if (deployed.getType().toString() == 'example.Resource' and delta.operation.toSt
         <script>
 <![CDATA[
 
-email = currentDeployedApplication(specification).getProperty("email")
+email = specification.relevantDeployed.email
 
 if(specification.getOperation() != Operation.NOOP and email is not None):
 	context.addStep(steps.success(description = "Sending an email to " + email + " that deployment is finished", order = 50))
