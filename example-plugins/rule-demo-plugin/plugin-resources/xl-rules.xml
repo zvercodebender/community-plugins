@@ -15,11 +15,13 @@
     	<steps>
     		<execute-remote-os-script>
     			<description>"Deploy " + deployed.name + " on " + deployed.container.name</description>
-    			<order>60</order>
+    			<order>70</order>
     			<container>deployed.container.host</container>
     			<script-template-path>"scripts/deploy-artifact"</script-template-path>
     			<derived-artifact>deployed</derived-artifact>
-    			<vars>{'deployed': deployed}</vars>
+                <vars>
+                    <deployed>deployed</deployed>
+                </vars>
     		</execute-remote-os-script>
     	</steps>
     </rule>
@@ -29,11 +31,12 @@
         <steps>
             <execute-remote-os-script>
                 <description>"Undeploy " + deployed.name + " on " + deployed.container.name</description>
-                <order>60</order>
+                <order>30</order>
                 <container>deployed.container.host</container>
                 <script-template-path>"scripts/undeploy-artifact"</script-template-path>
-                <derived-artifact>deployed</derived-artifact>
-                <vars>{'deployed': deployed}</vars>
+                <vars>
+                    <deployed>deployed</deployed>
+                </vars>
             </execute-remote-os-script>
         </steps>
     </rule>
@@ -47,7 +50,7 @@
     	<steps>
             <copy-artifact>
                 <description>"Create Resource"</description>
-                <order>50</order>
+                <order>60</order>
                 <source-file>deployed.file</source-file>
                 <container>deployed.container.host</container>
                 <target-path>deployed.container.home + "/resources"</target-path>
@@ -57,15 +60,17 @@
     	</steps>
     </rule>
     <rule name="destroyResource" scope="deployed">
-        <script><![CDATA[
-if (deployed.getType().toString() == 'example.Resource' and delta.operation.toString() == 'DESTROY'):
-    context.addStep(steps.delete_artifact(
-        description = "Delete Resource",
-        order = 50,
-        container = deployed.container.getProperty("host"),
-        target_directory = deployed.container.getProperty("home") + "/resources",
-        target_file = deployed.file.name))
-        ]]></script>
+        <type>example.Resource</type>
+        <operation>DESTROY</operation>
+        <steps>
+            <delete-artifact>
+                <description>"Delete Resource"</description>
+                <order>40</order>
+                <container>deployed.container.host</container>
+                <target-directory>deployed.container.home + "/resources"</target-directory>
+                <target-file>deployed.file.name</target-file>
+            </delete-artifact>
+        </steps>
     </rule>
 
 
@@ -77,13 +82,16 @@ if (deployed.getType().toString() == 'example.Resource' and delta.operation.toSt
     	<steps>
             <resolve-template>
     			<description>"Deploy " + deployed.name + " to " + deployed.container.name</description>
-                <order>50</order>
+                <order>60</order>
                 <container>deployed.container.host</container>
                 <target-path>deployed.container.home + "/conf"</target-path>
                 <target-file-name>deployed.name</target-file-name>
                 <create-target-path>True</create-target-path>
                 <template-path>"templates/datasource.ftl"</template-path>
-                <vars>{"deployed": deployed, "prop": "myProp"}</vars>
+                <vars>
+                    <deployed>deployed</deployed>
+                    <prop>"myProp"</prop>
+                </vars>
             </resolve-template>
     	</steps>
     </rule>
@@ -94,10 +102,10 @@ if (deployed.getType().toString() == 'example.Resource' and delta.operation.toSt
         <script>
 <![CDATA[
 
-email = specification.relevantDeployed.email
+email = specification.deployedOrPreviousApplication.email
 
-if(specification.getOperation() != Operation.NOOP and email is not None):
-	context.addStep(steps.success(description = "Sending an email to " + email + " that deployment is finished", order = 50))
+if(specification.operation != "NOOP" and email is not None):
+	context.addStep(steps.success(description = "Sending an email to " + email + " that deployment is finished", order = 99))
 
 ]]>
         </script>

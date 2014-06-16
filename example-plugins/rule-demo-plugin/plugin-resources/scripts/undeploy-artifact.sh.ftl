@@ -1,4 +1,4 @@
-echo "Undeploying file on Unix"
+echo "Undeploying file (Unix)"
 ls ${deployed.file}
 rm ${deployed.file} 
 echo "Done"
