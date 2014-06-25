@@ -53,9 +53,8 @@ Here are the steps you need to build plugins under the community plugins reposit
 
 **NOTE:** If you using mac , for Step 3 you may need to ensure the version for java and java version used by maven using these commands 
 
-Change java version on mac :  **export JAVA_HOME=\`/usr/libexec/java_home -v 1.7\` **
-<br>Change maven’s java version on mac : **echo JAVA_HOME=\`/usr/libexec/java_home -v 1.7\` | sudo tee -a /etc/mavenrc
-**
+Change java version on mac :  **export JAVA_HOME=\`/usr/libexec/java_home -v 1.7\`**
+<br>Change maven’s java version on mac : **echo JAVA_HOME=\`/usr/libexec/java_home -v 1.7\` | sudo tee -a /etc/mavenrc**
 
 # Contributing to a plugin
 
