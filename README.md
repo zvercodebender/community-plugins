@@ -39,15 +39,34 @@ or fork the repository and compile the plugin from the source code.
 Installing a plugin is as simple as copying the plugin jar file into the _plugins_ directory in your Deployit server
 installation directory. See Deployit's *System Administration Manual* for more information.
 
+# Building community plugins
+Here are the steps you need to build plugins under the community plugins repository
+ 
+1.  Checkout the community repo [https://github.com/xebialabs/community-plugins](https://github.com/xebialabs/community-plugins)
+2.  Make sure you have java 1.7 and maven 
+3.  Make sure maven is also using java 1.7 ( since otherwise it would have issues while building) 
+4.  Export an environment variable called **DEPLOYIT_HOME** and point it the deployit home directory on your machine
+5.  Export an environment variable called **DEPLOYIT_CLI_HOME** and point it the CLI home directory on your machine
+6.  You would also need to ensure that you have weblogic plugin in your **DEPLOYIT_HOME/plugins** since one of the liferay plugin requires that. ( Otherwise you may just skip that plugin from build)
+7.  Now once you do all the above, you can run mvn package or mvn clean install to build all the plugins. 
+8.  You will find all the built plugins under each one’s target folder.
+
+**NOTE:** If you using mac , for Step 3 you may need to ensure the version for java and java version used by maven using these commands 
+
+Change java version on mac :  **export JAVA_HOME=\`/usr/libexec/java_home -v 1.7\` **
+<br>Change maven’s java version on mac : **echo JAVA_HOME=\`/usr/libexec/java_home -v 1.7\` | sudo tee -a /etc/mavenrc
+**
+
 # Contributing to a plugin
 
 If you want to add features to a plugin, fix a bug or otherwise contribute, great! Fork the community-plugins repository,
 make your changes, test them and submit a pull request to us so we can incorporate your changes and make them available
-to other Deployit users.
+to other Deployit users. 
 
 # Discussing plugins
 
 The [Deployit user forum](http://support.xebialabs.com/forums/20273366-deployit-users) is a place where you can discuss these community plugins (or other Deployit installation and configuration topics) with fellow Deployit users.
+
 
 # Enjoy!
 
