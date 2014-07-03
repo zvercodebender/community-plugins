@@ -29,6 +29,10 @@ This directory contains Deployit CLI plugins that influence CLI behavior.
 
 This directory contains plugins for external tools that interact with Deployit.
 
+## example-plugins
+
+This directory contains example plugins which can be used for tutorials and also a starting off point for new plugins
+
 # Downloading a plugin
 
 You can find compiled, ready-to-install binaries in the [_Downloads_](http://tech.xebialabs.com/download/community-archive/) location. If you want, you can clone
