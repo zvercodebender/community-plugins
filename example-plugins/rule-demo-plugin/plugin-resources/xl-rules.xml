@@ -1,102 +1,110 @@
 <?xml version="1.0"?>
 <rules xmlns="http://www.xebialabs.com/xl-deploy/xl-rules">
 
-
     <rule name="startStopServer" scope="plan">
         <script-ref ref="planning/start-stop-server.py"/>
     </rule>
 
-
-
     <rule name="deployArtifact" scope="deployed">
-    	<type>example.Artifact</type>
-    	<operation>CREATE</operation>
-    	<operation>MODIFY</operation>
-    	<steps>
+        <coditions>
+            <type>example.Artifact</type>
+            <operation>CREATE</operation>
+            <operation>MODIFY</operation>
+        </coditions>
+
+        <steps>
     		<execute-remote-os-script>
-    			<description>"Deploy " + deployed.name + " on " + deployed.container.name</description>
+    			<description expression="true">"Deploy " + deployed.name + " on " + deployed.container.name</description>
     			<order>70</order>
-    			<container>deployed.container.host</container>
-    			<script-template-path>"scripts/deploy-artifact"</script-template-path>
-    			<derived-artifact>deployed</derived-artifact>
+    			<container expression="true">deployed.container.host</container>
+    			<script-template-path>scripts/deploy-artifact</script-template-path>
+    			<derived-artifact expression="true">deployed</derived-artifact>
                 <vars>
-                    <deployed>deployed</deployed>
+                    <deployed expression="true">deployed</deployed>
                 </vars>
     		</execute-remote-os-script>
     	</steps>
     </rule>
+
     <rule name="destroyArtifact" scope="deployed">
-        <type>example.Artifact</type>
-        <operation>DESTROY</operation>
+        <conditions>
+            <type>example.Artifact</type>
+            <operation>DESTROY</operation>
+        </conditions>
+
         <steps>
             <execute-remote-os-script>
-                <description>"Undeploy " + deployed.name + " on " + deployed.container.name</description>
+                <description expression="true">"Destroy " + deployed.name + " on " + deployed.container.name</description>
                 <order>30</order>
-                <container>deployed.container.host</container>
-                <script-template-path>"scripts/undeploy-artifact"</script-template-path>
+                <container expression="true">deployed.container.host</container>
+                <script-template-path>scripts/undeploy-artifact</script-template-path>
                 <vars>
-                    <deployed>deployed</deployed>
+                    <deployed expression="true">deployed</deployed>
                 </vars>
             </execute-remote-os-script>
         </steps>
     </rule>
 
-
-
     <rule name="deployResource" scope="deployed">
-    	<type>example.Resource</type>
-    	<operation>CREATE</operation>
-    	<operation>MODIFY</operation>
-    	<steps>
+        <conditions>
+            <type>example.Resource</type>
+            <operation>CREATE</operation>
+            <operation>MODIFY</operation>
+        </conditions>
+
+        <steps>
             <copy-artifact>
-                <description>"Create Resource"</description>
+                <description>Create Resource</description>
                 <order>60</order>
-                <source-file>deployed.file</source-file>
-                <container>deployed.container.host</container>
-                <target-path>deployed.container.home + "/resources"</target-path>
-                <target-file-name>deployed.file.name</target-file-name>
-                <create-target-path>True</create-target-path>
+                <source-file expression="true">deployed.file</source-file>
+                <container expression="true">deployed.container.host</container>
+                <target-path expression="true">deployed.container.home + "/resources"</target-path>
+                <target-file-name expression="true">deployed.file.name</target-file-name>
+                <create-target-path>true</create-target-path>
             </copy-artifact>
     	</steps>
     </rule>
+
     <rule name="destroyResource" scope="deployed">
-        <type>example.Resource</type>
-        <operation>DESTROY</operation>
+        <conditions>
+            <type>example.Resource</type>
+            <operation>DESTROY</operation>
+        </conditions>
+
         <steps>
             <delete-artifact>
-                <description>"Delete Resource"</description>
+                <description>Delete Resource</description>
                 <order>40</order>
-                <container>deployed.container.host</container>
-                <target-directory>deployed.container.home + "/resources"</target-directory>
-                <target-file>deployed.file.name</target-file>
+                <container expression="true">deployed.container.host</container>
+                <target-directory expression="true">deployed.container.home + "/resources"</target-directory>
+                <target-file expression="true">deployed.file.name</target-file>
             </delete-artifact>
         </steps>
     </rule>
 
-
-
     <rule name="deployDatasource" scope="deployed">
-    	<type>example.Datasource</type>
-    	<operation>CREATE</operation>
-    	<operation>MODIFY</operation>
-    	<steps>
+        <conditions>
+            <type>example.Datasource</type>
+            <operation>CREATE</operation>
+            <operation>MODIFY</operation>
+        </conditions>
+
+        <steps>
             <resolve-template>
-    			<description>"Deploy " + deployed.name + " to " + deployed.container.name</description>
+    			<description expression="true">"Deploy " + deployed.name + " to " + deployed.container.name</description>
                 <order>60</order>
-                <container>deployed.container.host</container>
-                <target-path>deployed.container.home + "/conf"</target-path>
-                <target-file-name>deployed.name</target-file-name>
-                <create-target-path>True</create-target-path>
-                <template-path>"templates/datasource.ftl"</template-path>
+                <container expression="true">deployed.container.host</container>
+                <target-path expression="true">deployed.container.home + "/conf"</target-path>
+                <target-file-name expression="true">deployed.name</target-file-name>
+                <create-target-path>true</create-target-path>
+                <template-path>templates/datasource.ftl</template-path>
                 <vars>
-                    <deployed>deployed</deployed>
-                    <prop>"myProp"</prop>
+                    <deployed expression="true">deployed</deployed>
+                    <prop>myProp</prop>
                 </vars>
             </resolve-template>
     	</steps>
     </rule>
-
-
 
     <rule name="emailRule" scope="post-plan">
         <script>
@@ -110,7 +118,4 @@ if(specification.operation != "NOOP" and email is not None):
 ]]>
         </script>
     </rule>
-
-
-
 </rules>
