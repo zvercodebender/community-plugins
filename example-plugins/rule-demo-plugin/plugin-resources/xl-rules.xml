@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.xebialabs.com/deployit/xl-rules"
-       xsi:schemaLocation="http://www.xebialabs.com/deployit/xl-rules xl-rules.xsd">
+       xmlns="http://www.xebialabs.com/xl-deploy/xl-rules" >
 
 
     <rule name="startStopServer" scope="plan">
