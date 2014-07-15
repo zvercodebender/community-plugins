@@ -1,4 +1,4 @@
-# Exmaple XL Deploy plugin
+# Example XL Deploy plugin
 This plugin is based on the Yak example in the XL Delpoy Customization manual. It covers basic items for creating a XLD plugin in Java.
 
 ## Building the plugin
