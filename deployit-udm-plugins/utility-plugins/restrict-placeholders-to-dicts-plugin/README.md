@@ -9,6 +9,12 @@ The Restrict Placeholders to Dictionaries plugin is a Deployit plugin that allow
 * **Deployit requirements**
   * **Deployit**: version 3.8
 
+# Limitations #
+
+* This plugin currently does not support [restricted dictionaries](http://docs.xebialabs.com/releases/latest/deployit/referencemanual.html#dictionaries)
+
+If you are interested in contributing, please submit a pull request!
+
 # Installation #
 
 Place the plugin JAR file into your `SERVER_HOME/plugins` directory.
