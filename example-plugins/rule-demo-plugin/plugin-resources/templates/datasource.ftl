@@ -1,5 +1,5 @@
 
 <datasource>
-	<name>${deployed.getProperty("datasourceName")}</name>
+	<name>${deployed.datasourceName}</name>
 	<property>${prop}</property>
 </datasource>

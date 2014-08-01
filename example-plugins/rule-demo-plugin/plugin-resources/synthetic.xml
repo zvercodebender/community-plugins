@@ -5,7 +5,7 @@
 
           <type type="example.Server" extends="udm.BaseContainer" description="Example server">
             <property name="host" kind="ci" referenced-type="overthere.Host" as-containment="true"/>
-            <property name="home" default="/tmp/test-server" description="Home directory for the server"/>
+            <property name="home" description="Home directory for the server"/>
           </type>
 
           <type type="example.Artifact" extends="udm.BaseDeployedArtifact" deployable-type="example.ArtifactSpec"
