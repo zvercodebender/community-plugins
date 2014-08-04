@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.xebialabs.xlrelease.plugins</groupId>
     <artifactId>xlr-svn-plugin</artifactId>
-    <version>4.0.8-SNAPSHOT</version>
+    <version>4.0.8</version>
 
     <scm>
         <connection>scm:git:git://github.com/xebialabs/community-plugins.git</connection>
