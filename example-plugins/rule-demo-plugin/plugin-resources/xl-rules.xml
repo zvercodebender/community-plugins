@@ -1,102 +1,88 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.xebialabs.com/deployit/xl-rules"
-       xsi:schemaLocation="http://www.xebialabs.com/deployit/xl-rules xl-rules.xsd">
-
+<?xml version="1.0"?>
+<rules xmlns="http://www.xebialabs.com/xl-deploy/xl-rules">
 
     <rule name="startStopServer" scope="plan">
-        <script-ref ref="scripts/start-stop-server.py"/>
+        <planning-script>planning/start-stop-server.py</planning-script>
     </rule>
-
-
 
     <rule name="deployArtifact" scope="deployed">
-    	<type>example.Artifact</type>
-    	<operation>CREATE</operation>
-    	<operation>MODIFY</operation>
-    	<steps>
-    		<execute-remote-os-script>
-    			<description>"Deploy " + deployed.name + " to " + deployed.container.name</description>
-    			<order>60</order>
-    			<container>deployed.container.getProperty("host")</container>
-    			<script-template-path>"scripts/deploy-artifact"</script-template-path>
-    			<derived-artifact>deployed</derived-artifact>
-    			<vars>{'deployed': deployed}</vars>
-    		</execute-remote-os-script>
-    		<success>
-    			<description>"Step to " + delta.getOperation().toString() + " artifact with name " + currentDeployed(delta).getName()</description>
-    			<order>70</order>
-    		</success>
+        <conditions>
+            <type>example.Artifact</type>
+            <operation>CREATE</operation>
+            <operation>MODIFY</operation>
+        </conditions>
+
+        <steps>
+    		<os-script>
+    			<target-host expression="true">deployed.container.host</target-host>
+    			<script>scripts/deploy-artifact</script>
+    		</os-script>
     	</steps>
     </rule>
 
+    <rule name="destroyArtifact" scope="deployed">
+        <conditions>
+            <type>example.Artifact</type>
+            <operation>DESTROY</operation>
+        </conditions>
 
+        <steps>
+            <os-script>
+                <target-host expression="true">deployed.container.host</target-host>
+                <script>scripts/undeploy-artifact</script>
+            </os-script>
+        </steps>
+    </rule>
 
     <rule name="deployResource" scope="deployed">
-    	<type>example.Resource</type>
-    	<operation>CREATE</operation>
-    	<operation>MODIFY</operation>
-    	<steps>
-            <copy-artifact>
-                <description>"Create Resource"</description>
-                <order>50</order>
-                <source-file>deployed.file</source-file>
-                <container>deployed.container.getProperty("host")</container>
-                <target-path>deployed.container.getProperty("home") + "/resources"</target-path>
-                <target-file-name>deployed.file.name</target-file-name>
-                <create-target-path>True</create-target-path>
-            </copy-artifact>
+        <conditions>
+            <type>example.Resource</type>
+            <operation>CREATE</operation>
+            <operation>MODIFY</operation>
+        </conditions>
+
+        <steps>
+            <upload>
+                <target-host expression="true">deployed.container.host</target-host>
+                <target-path expression="true">deployed.container.home + "/resources" + deployed.file.name</target-path>
+            </upload>
     	</steps>
     </rule>
+
     <rule name="destroyResource" scope="deployed">
-    	<type>example.Resource</type>
-    	<operation>DESTROY</operation>
-    	<steps>
-            <delete-artifact>
-                <description>"Delete Resource"</description>
-                <order>50</order>
-                <container>deployed.container.getProperty("host")</container>
-                <target-directory>deployed.container.getProperty("home") + "/resources"</target-directory>
-                <target-file>deployed.file.name</target-file>
-            </delete-artifact>
-    	</steps>
+        <conditions>
+            <type>example.Resource</type>
+            <operation>DESTROY</operation>
+        </conditions>
+
+        <steps>
+            <delete>
+                <target-host expression="true">deployed.container.host</target-host>
+                <target-path expression="true">deployed.container.home + "/resources" + deployed.file.name</target-path>
+            </delete>
+        </steps>
     </rule>
-
-
 
     <rule name="deployDatasource" scope="deployed">
-    	<type>example.Datasource</type>
-    	<operation>CREATE</operation>
-    	<operation>MODIFY</operation>
-    	<steps>
-            <resolve-template>
-    			<description>"Deploy " + deployed.name + " to " + deployed.container.name</description>
-                <order>50</order>
-                <container>deployed.container.getProperty("host")</container>
-                <target-path>deployed.container.getProperty("home") + "/conf"</target-path>
-                <target-file-name>deployed.name</target-file-name>
-                <create-target-path>True</create-target-path>
-                <template-path>"templates/datasource.ftl"</template-path>
-                <vars>{"deployed": deployed, "prop": "myProp"}</vars>
-            </resolve-template>
+        <conditions>
+            <type>example.Datasource</type>
+            <operation>CREATE</operation>
+            <operation>MODIFY</operation>
+        </conditions>
+
+        <steps>
+            <template>
+                <target-host expression="true">deployed.container.host</target-host>
+                <target-path expression="true">deployed.container.home + "/conf" + deployed.name</target-path>
+                <template-path>templates/datasource.ftl</template-path>
+                <freemarker-context>
+                    <prop>myProp</prop>
+                </freemarker-context>
+            </template>
     	</steps>
     </rule>
 
-
-
     <rule name="emailRule" scope="post-plan">
-        <script>
-<![CDATA[
-
-email = currentDeployedApplication(specification).getProperty("email")
-
-if(specification.getOperation() != Operation.NOOP and email is not None):
-	context.addStep(steps.success(description = "Sending an email to " + email + " that deployment is finished", order = 50))
-
-]]>
-        </script>
+        <planning-script>planning/send-email.py</planning-script>
     </rule>
-
-
-
 </rules>
