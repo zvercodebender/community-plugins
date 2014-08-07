@@ -1,17 +1,26 @@
 <?xml version="1.0"?>
 <rules xmlns="http://www.xebialabs.com/xl-deploy/xl-rules">
 
-    <rule name="startStopServer" scope="plan">
-        <planning-script>planning/start-stop-server.py</planning-script>
+    <rule name="example.DeployedApplication.wait" scope="pre-plan">
+        <conditions>
+            <expression>specification.deployedOrPreviousApplication.waitTime is not None</expression>
+        </conditions>
+        <steps>
+            <wait>
+                <order>10</order>
+                <description expression="true">"Waiting " + str(specification.deployedOrPreviousApplication.waitTime) + " seconds before starting the deployment"</description>
+                <seconds expression="true">specification.deployedOrPreviousApplication.waitTime</seconds>
+            </wait>
+        </steps>
     </rule>
 
-    <rule name="deployArtifact" scope="deployed">
+
+    <rule name="example.ArtifactDeployed.CREATE_MODIFY" scope="deployed">
         <conditions>
-            <type>example.Artifact</type>
+            <type>example.ArtifactDeployed</type>
             <operation>CREATE</operation>
             <operation>MODIFY</operation>
         </conditions>
-
         <steps>
     		<os-script>
     			<target-host expression="true">deployed.container.host</target-host>
@@ -19,13 +28,11 @@
     		</os-script>
     	</steps>
     </rule>
-
-    <rule name="destroyArtifact" scope="deployed">
+    <rule name="example.ArtifactDeployed.DESTROY" scope="deployed">
         <conditions>
-            <type>example.Artifact</type>
+            <type>example.ArtifactDeployed</type>
             <operation>DESTROY</operation>
         </conditions>
-
         <steps>
             <os-script>
                 <target-host expression="true">deployed.container.host</target-host>
@@ -34,13 +41,13 @@
         </steps>
     </rule>
 
-    <rule name="deployResource" scope="deployed">
+
+    <rule name="example.ResourceDeployed.CREATE_MODIFY" scope="deployed">
         <conditions>
-            <type>example.Resource</type>
+            <type>example.ResourceDeployed</type>
             <operation>CREATE</operation>
             <operation>MODIFY</operation>
         </conditions>
-
         <steps>
             <upload>
                 <target-host expression="true">deployed.container.host</target-host>
@@ -48,32 +55,31 @@
             </upload>
     	</steps>
     </rule>
-
-    <rule name="destroyResource" scope="deployed">
+    <rule name="example.ResourceDeployed.DESTROY" scope="deployed">
         <conditions>
-            <type>example.Resource</type>
+            <type>example.ResourceDeployed</type>
             <operation>DESTROY</operation>
         </conditions>
-
         <steps>
             <delete>
                 <target-host expression="true">deployed.container.host</target-host>
                 <target-path expression="true">deployed.container.home + "/resources" + deployed.file.name</target-path>
             </delete>
+
         </steps>
     </rule>
 
-    <rule name="deployDatasource" scope="deployed">
+
+    <rule name="example.DatasourceDeployed.CREATE_MODIFY" scope="deployed">
         <conditions>
-            <type>example.Datasource</type>
+            <type>example.DatasourceDeployed</type>
             <operation>CREATE</operation>
             <operation>MODIFY</operation>
         </conditions>
-
         <steps>
             <template>
                 <target-host expression="true">deployed.container.host</target-host>
-                <target-path expression="true">deployed.container.home + "/conf" + deployed.name</target-path>
+                <target-path expression="true">deployed.container.home + "/conf/" + deployed.name</target-path>
                 <template-path>templates/datasource.ftl</template-path>
                 <freemarker-context>
                     <prop>myProp</prop>
@@ -82,7 +88,10 @@
     	</steps>
     </rule>
 
-    <rule name="emailRule" scope="post-plan">
-        <planning-script>planning/send-email.py</planning-script>
+
+    <rule name="example.Server.startStop" scope="plan">
+        <planning-script>planning/start-stop-server.py</planning-script>
     </rule>
+
+
 </rules>

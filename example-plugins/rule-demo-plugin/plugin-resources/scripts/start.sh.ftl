@@ -1,2 +1,3 @@
-echo "Starting server (Unix)"
-${container.home}/bin/start.sh
+echo "Starting server on Unix"
+cd "${container.home}"
+ls
