@@ -1,5 +1,4 @@
 echo "Undeploying file on Unix"
-ls ${deployed.file}
-rm ${deployed.file} 
+rm ${deployed.container.home + "/context/" + deployed.file.name}
 echo "Done"
 

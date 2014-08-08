@@ -3,15 +3,13 @@
            xmlns="http://www.xebialabs.com/deployit/synthetic"
            xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
 
-          <type type="example.Server" extends="udm.BaseContainer" description="Example server">
-            <property name="host" kind="ci" referenced-type="overthere.Host" as-containment="true"/>
+          <type type="example.Server" extends="overthere.BaseHostContainer" description="Example server">
             <property name="home" description="Home directory for the server"/>
           </type>
 
           <type type="example.ArtifactDeployed" extends="udm.BaseDeployedArtifact" deployable-type="example.Artifact"
             container-type="example.Server" description="Artifact that can be deployed to an example server">
             <generate-deployable type="example.Artifact" extends="udm.BaseDeployableFileArtifact"/>
-            <property name="myProperty" required="false"/>
           </type>
 
           <type type="example.ResourceDeployed" extends="udm.BaseDeployedArtifact" deployable-type="example.Resource"
@@ -30,4 +28,3 @@
           </type-modification>
            
 </synthetic>
-

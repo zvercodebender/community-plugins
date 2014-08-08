@@ -8,7 +8,7 @@
         <steps>
             <wait>
                 <order>10</order>
-                <description expression="true">"Waiting " + str(specification.deployedOrPreviousApplication.waitTime) + " seconds before starting the deployment"</description>
+                <description expression="true">"Waiting %i seconds before starting the deployment" % specification.deployedOrPreviousApplication.waitTime</description>
                 <seconds expression="true">specification.deployedOrPreviousApplication.waitTime</seconds>
             </wait>
         </steps>
@@ -23,7 +23,6 @@
         </conditions>
         <steps>
     		<os-script>
-    			<target-host expression="true">deployed.container.host</target-host>
     			<script>scripts/deploy-artifact</script>
     		</os-script>
     	</steps>
@@ -35,7 +34,6 @@
         </conditions>
         <steps>
             <os-script>
-                <target-host expression="true">deployed.container.host</target-host>
                 <script>scripts/undeploy-artifact</script>
             </os-script>
         </steps>
@@ -50,8 +48,8 @@
         </conditions>
         <steps>
             <upload>
-                <target-host expression="true">deployed.container.host</target-host>
-                <target-path expression="true">deployed.container.home + "/resources" + deployed.file.name</target-path>
+                <order>65</order>
+                <target-path expression="true">"%s/resources/%s" % (deployed.container.home, deployed.file.name)</target-path>
             </upload>
     	</steps>
     </rule>
@@ -62,10 +60,9 @@
         </conditions>
         <steps>
             <delete>
-                <target-host expression="true">deployed.container.host</target-host>
-                <target-path expression="true">deployed.container.home + "/resources" + deployed.file.name</target-path>
+                <order>35</order>
+                <target-path expression="true">"%s/resources/%s" % (deployed.container.home, deployed.file.name)</target-path>
             </delete>
-
         </steps>
     </rule>
 
@@ -78,14 +75,24 @@
         </conditions>
         <steps>
             <template>
-                <target-host expression="true">deployed.container.host</target-host>
-                <target-path expression="true">deployed.container.home + "/conf/" + deployed.name</target-path>
+                <target-path expression="true">"%s/conf/%s" % (deployed.container.home, deployed.name)</target-path>
                 <template-path>templates/datasource.ftl</template-path>
                 <freemarker-context>
                     <prop>myProp</prop>
                 </freemarker-context>
             </template>
     	</steps>
+    </rule>
+    <rule name="example.DatasourceDeployed.DESTROY" scope="deployed">
+        <conditions>
+            <type>example.DatasourceDeployed</type>
+            <operation>DESTROY</operation>
+        </conditions>
+        <steps>
+            <delete>
+                <target-path expression="true">"%s/conf/%s" % (deployed.container.home, deployed.name)</target-path>
+            </delete>
+        </steps>
     </rule>
 
 
