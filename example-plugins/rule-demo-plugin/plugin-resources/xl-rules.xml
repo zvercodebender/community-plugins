@@ -14,7 +14,6 @@
         </steps>
     </rule>
 
-
     <rule name="example.ArtifactDeployed.CREATE_MODIFY" scope="deployed">
         <conditions>
             <type>example.ArtifactDeployed</type>
@@ -27,6 +26,7 @@
     		</os-script>
     	</steps>
     </rule>
+
     <rule name="example.ArtifactDeployed.DESTROY" scope="deployed">
         <conditions>
             <type>example.ArtifactDeployed</type>
@@ -38,7 +38,6 @@
             </os-script>
         </steps>
     </rule>
-
 
     <rule name="example.ResourceDeployed.CREATE_MODIFY" scope="deployed">
         <conditions>
@@ -53,6 +52,7 @@
             </upload>
     	</steps>
     </rule>
+
     <rule name="example.ResourceDeployed.DESTROY" scope="deployed">
         <conditions>
             <type>example.ResourceDeployed</type>
@@ -65,7 +65,6 @@
             </delete>
         </steps>
     </rule>
-
 
     <rule name="example.DatasourceDeployed.CREATE_MODIFY" scope="deployed">
         <conditions>
@@ -83,6 +82,7 @@
             </template>
     	</steps>
     </rule>
+
     <rule name="example.DatasourceDeployed.DESTROY" scope="deployed">
         <conditions>
             <type>example.DatasourceDeployed</type>
@@ -95,10 +95,8 @@
         </steps>
     </rule>
 
-
     <rule name="example.Server.startStop" scope="plan">
         <planning-script>planning/start-stop-server.py</planning-script>
     </rule>
-
 
 </rules>
