@@ -1,12 +1,11 @@
-# Deployit Community Plugins #
+# XL Community Plugins #
 
-Welcome to the Deployit community plugin repository on github!
+Welcome to the XL community plugin repository on github!
 
-Here you will find plugins that can be used to add capabilities to your existing [Deployit](http://www.xebialabs.com/tour) installation. The source code
+Here you will find plugins that can be used to add capabilities to your existing [XL product](http://www.xebialabs.com/tour) installation. The source code
 for the plugins is also provided if you are curious to see how a plugin works or want to improve it.
 
-_Note: the plugins here are provided on an as-is basis as a service to Deployit users. Support for these plugins is provided through
-XebiaLabs' professional services department._
+_Note: Community plugins are provided on an as-is basis as a service to XL Deploy users. These plugins are not covered by the XebiaLabs support policy. If you need help with a community plugin, you can post on the XL Deploy user forum or contact XebiaLabs Support to request assistance from the Professional Services department._
 
 # Finding a plugin
 
@@ -15,19 +14,19 @@ the list of plugins and navigate into a plugin directory to find the plugin's do
 
 ## deployit-udm-plugins
 
-This directory contains Deployit plugins that are based on the Unified Deployment Model.
+This directory contains XL Deploy plugins that are based on the Unified Deployment Model.
 
 ## deployit-server-plugins
 
-This directory contains Deployit server plugins that influence server behavior.
+This directory contains XL Deploy server plugins that influence server behavior.
 
 ## deployit-cli-plugins
 
-This directory contains Deployit CLI plugins that influence CLI behavior.
+This directory contains XL Deploy CLI plugins that influence CLI behavior.
 
 ## tool-deployit-plugins
 
-This directory contains plugins for external tools that interact with Deployit.
+This directory contains plugins for external tools that interact with XL Deploy.
 
 ## example-plugins
 
@@ -40,10 +39,11 @@ or fork the repository and compile the plugin from the source code.
 
 # Installing a plugin
 
-Installing a plugin is as simple as copying the plugin jar file into the _plugins_ directory in your Deployit server
-installation directory. See Deployit's *System Administration Manual* for more information.
+Installing a plugin is as simple as copying the plugin jar file into the _plugins_ directory in your XL Deploy server
+installation directory. See XL Deploy's *System Administration Manual* for more information.
 
 # Building community plugins
+
 Here are the steps you need to build plugins under the community plugins repository
  
 1.  Checkout the community repo [https://github.com/xebialabs/community-plugins](https://github.com/xebialabs/community-plugins)
