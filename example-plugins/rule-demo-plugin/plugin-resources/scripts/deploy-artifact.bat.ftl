@@ -1,1 +1,0 @@
-echo "Deploying file on Windows"
