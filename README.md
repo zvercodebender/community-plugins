@@ -1,4 +1,8 @@
-# XL Community Plugins #
+# IMPORTANT INFORMATION #
+
+The new community plugins are hosted on https://github.com/xebialabs-community. Not all plugins have been migrated yet, so if you want to make some changes to a plugin within this repo, please migrate the plugin first. Information on how to do this can be found at: http://xebialabs-community.github.io/
+
+# XL Community Plugins - old structure #
 
 Welcome to the XL community plugin repository on GitHub!
 
