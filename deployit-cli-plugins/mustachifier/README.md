@@ -80,4 +80,4 @@ In the CLI, use the mustachifier as follows:
 	> transformedDar = placeholderformats.convert('~/my/orig/file.dar', '~/my/transformed/file.dar')
 	> print transformedDar.path // should print '~/my/transformed/file.dar'
 
-See [the test](https://github.com/xebialabs/community-plugins/blob/master/importers/mustachifier/src/test/resources/mustachifier.properties) for examples.
+See [the test](https://github.com/xebialabs/community-plugins/blob/master/deployit-cli-plugins/mustachifier/src/test/resources/mustachifier.properties) for examples.
