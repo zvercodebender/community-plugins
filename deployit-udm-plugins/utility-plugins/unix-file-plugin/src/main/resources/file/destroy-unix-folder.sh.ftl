@@ -13,10 +13,12 @@ fi
 echo Deleting from shared path '${deployed.targetPath}'
 for ORIGINAL_FILE in `find . -type f`; do
   FILE_TO_DELETE=${deployed.targetPath}/$ORIGINAL_FILE
+  echo ">> Deleting file $FILE_TO_DELETE"
   rm -rf "$FILE_TO_DELETE"
 done
 for ORIGINAL_FILE in `find . -type d | grep "^\.."`; do
   FILE_TO_DELETE=${deployed.targetPath}/$ORIGINAL_FILE
+  echo ">> Deleting directory $FILE_TO_DELETE"
   rmdir "$FILE_TO_DELETE"
   if [ "$?" = "1" ];
   then

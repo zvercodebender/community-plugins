@@ -13,7 +13,7 @@ else
 fi
 
 echo Creating folder '${deployed.targetPath}'
-cp -r -v . "${deployed.targetPath}"
+cp -r . "${deployed.targetPath}"
 res=$?
 if [ $res != 0 ] ; then
   exit $res

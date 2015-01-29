@@ -19,7 +19,7 @@ TARGET_FILE_NAME=${deployed.name}
 
 TARGET_FILE=${deployed.targetPath}/$TARGET_FILE_NAME
 echo Creating "$TARGET_FILE"
-cp -v "${deployed.file}" "$TARGET_FILE"
+cp "${deployed.file}" "$TARGET_FILE"
 res=$?
 if [ $res != 0 ] ; then
   exit $res
