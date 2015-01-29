@@ -11,9 +11,17 @@ if [ ! -d "${deployed.targetPath}" ]; then
 fi
 <#if deployed.targetPathShared>
 echo Deleting from shared path '${deployed.targetPath}'
-for ORIGINAL_FILE in "./*"; do
-  FILE_TO_DELETE=${deployed.targetPath}/`basename $ORIGINAL_FILE`
+for ORIGINAL_FILE in `find . -type f`; do
+  FILE_TO_DELETE=${deployed.targetPath}/$ORIGINAL_FILE
   rm -rf "$FILE_TO_DELETE"
+done
+for ORIGINAL_FILE in `find . -type d | grep "^\.."`; do
+  FILE_TO_DELETE=${deployed.targetPath}/$ORIGINAL_FILE
+  rmdir "$FILE_TO_DELETE"
+  if [ "$?" = "1" ];
+  then
+     echo "$FILE_TO_DELETE is not empty"
+  fi
 done
 <#else/>
 echo Deleting folder '${deployed.targetPath}'

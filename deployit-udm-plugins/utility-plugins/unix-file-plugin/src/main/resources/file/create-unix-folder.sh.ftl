@@ -21,8 +21,8 @@ fi
 
 <#if deployed.permissions?has_content>
   <#if deployed.targetPathShared>
-  for ORIGINAL_FILE in "./*"; do
-    FILE_TO_CHMOD=${deployed.targetPath}/`basename $ORIGINAL_FILE`
+  for ORIGINAL_FILE in `find . `; do
+    FILE_TO_CHMOD=${deployed.targetPath}/$ORIGINAL_FILE
     echo Setting file permissions on $FILE_TO_CHMOD to ${deployed.permissions}
     chmod -R ${deployed.permissions} "$FILE_TO_CHMOD"
   done
